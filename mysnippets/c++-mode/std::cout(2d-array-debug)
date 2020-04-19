@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: std::cout(2d-array-debug)
+# key: cout2darraydebug
+# --
+for(const auto& vv : ${1:array}) {
+    for(const auto& v : vv) {
+        std::cout << v << " ";
+    }
+    std::cout << std::endl;
+}$0

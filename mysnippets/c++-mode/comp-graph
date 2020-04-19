@@ -1,0 +1,51 @@
+# key: comp
+# name: comp-graph
+# --
+class Graph {
+    using ll = long long;
+public:
+    enum class Type { Directed, Undirected };
+    struct Edge {
+        ll   cost;
+        bool validity;
+        explicit Edge(const ll& _cost) :
+            cost(_cost), validity(true) { }
+        friend std::ostream& operator <<(std::ostream& os, const std::shared_ptr<Edge>& e) {
+            os << "cost : " << e->cost << ", " << "validity : " << e->validity;
+            return os;
+        }
+    };
+    struct Vertex {
+        ll cost;
+        explicit Vertex(const ll& _cost) : cost(_cost) { }
+        friend std::ostream& operator <<(std::ostream& os, const Vertex& v) {
+            os << "cost : " << v.cost;
+            return os;
+        }
+    };
+    const Type edge_type;
+    std::vector<Vertex> vertices;
+    std::vector<std::map<ll, std::shared_ptr<Edge>>> edges;
+    Graph(const ll& nof_vertex, const Type& edge_type, const ll& vertices_initial_cost = (ll)1e9 + 1) :
+        edge_type(edge_type), vertices(nof_vertex, Vertex(vertices_initial_cost)), edges(nof_vertex) { }
+    void setCostToAllVertices(const ll& cost) {
+        std::fill(vertices.begin(), vertices.end(), Vertex(cost));
+    };
+    void addEdge(const ll& src, const ll& dst, const ll& cost = 1) {
+        auto edge = std::make_shared<Edge>(cost);
+        edges[src].emplace(dst, edge);
+        if(edge_type == Type::Undirected) edges[dst].emplace(src, edge);
+    }
+    friend std::ostream& operator <<(std::ostream& os, const Graph& g) {
+        os << std::endl
+           << "--- Vertex Information ---" << std::endl;
+        for(size_t i = 0; i < g.vertices.size(); i++)
+            os << "[[" << i << "] " << g.vertices[i] << "]" << std::endl;
+        os << "---- Edge Information ----" << std::endl;
+        for(size_t i = 0; i < g.vertices.size(); i++)
+            for(const auto& e : g.edges[i])
+                os << "[" << i << " -> " << e.first  << "] " << "[" << e.second << "]" << std::endl;
+        os << "--------------------------";
+        return os;
+    }
+};$0

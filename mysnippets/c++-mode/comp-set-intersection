@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: comp-set-intersection
+# key: comp
+# --
+vector<${1:int}> ${2:dupl};
+set_intersection(ALL(${3:A}), ALL(${4:B}), back_inserter($2));$0

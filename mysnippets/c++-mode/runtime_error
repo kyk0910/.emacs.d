@@ -1,0 +1,4 @@
+# key: runtime
+# name: runtime_error
+# --
+throw std::runtime_error("[" + std::string(__PRETTY_FUNCTION__) + "] ${1:message}");$0

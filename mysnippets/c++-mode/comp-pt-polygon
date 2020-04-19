@@ -1,0 +1,56 @@
+# -*- mode: snippet -*-
+# key: comp
+# name: comp-pt-polygon
+# --
+/**
+ *  多角形を表すクラス
+ *  NOTE: dependencies: comp-pt
+ */
+template<typename T>
+class Polygon {
+public:
+    explicit Polygon(const int& point_num) :
+        vertices_(std::vector<Pt<T>>(point_num)),
+        length_of_edges_(std::vector<double>(point_num)) {
+        calcLengthOfEdges();
+    }
+    Polygon(const std::vector<Pt<T>>& vertices) :
+        vertices_(vertices),
+        length_of_edges_(std::vector<double>(vertices_.size())) {
+        calcLengthOfEdges();
+    }
+    template<typename ... A>
+    Polygon(const A&... pts) :
+        vertices_(std::initializer_list<Pt<T>>{pts...}),
+        length_of_edges_(std::vector<double>(vertices_.size())) {
+        calcLengthOfEdges();
+    }
+
+    const std::vector<Pt<T>>& getVertices() const { return vertices_; }
+    const std::vector<double>& getLengthOfEdges() const { return length_of_edges_; }
+
+    void stdRead() {
+        for(auto& v : vertices_) v.stdRead();
+        calcLengthOfEdges();
+    }
+
+    double calcArea() const {
+        double ret = 0;
+        for(size_t i = 0; i < vertices_.size(); i++) {
+            size_t j = (i != vertices_.size() - 1) ? i + 1 : 0;
+            ret += (vertices_[i].x - vertices_[j].x) * (vertices_[i].y + vertices_[j].y);
+        }
+        return std::abs(ret / 2.0);
+    }
+
+private:
+    std::vector<Pt<T>>  vertices_;         // 頂点は順番に格納
+    std::vector<double> length_of_edges_;  // i番目にvertices_[i]からvertices_[i + 1]の長さを格納
+
+    void calcLengthOfEdges() {
+        for(size_t i = 0; i < vertices_.size(); i++) {
+            size_t j = (i != vertices_.size() - 1) ? i + 1 : 0;
+            length_of_edges_[i] = vertices_[i].distanceFrom(vertices_[j]);
+        }
+    }
+};$0

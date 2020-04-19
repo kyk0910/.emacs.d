@@ -1,0 +1,88 @@
+# -*- mode: snippet -*-
+# name: comp-union-find
+# key: comp
+# --
+class UnionFind {
+    using ll = long long;
+public:
+    struct Node {
+        ll parent, weight, size, rank;
+        Node(const ll& _parent = 0,
+             const ll& _weight = 0,
+             const ll& _size   = 1,
+             const ll& _rank   = 0) :
+            parent(_parent),
+            weight(_weight),
+            size(_size),
+            rank(_rank) { }
+    };
+
+    explicit UnionFind(const ll& num_node) {
+        node_.reserve(num_node);
+        for(ll i = 0; i < num_node; i++) {
+            node_.emplace_back(i);
+        }
+    }
+
+    const std::vector<Node>& getNode() const {
+        return node_;
+    }
+
+    ll searchAndZipRoot(const ll& x) {
+        if(node_[x].parent == x) {
+            return x;
+        }
+        else {
+            node_[x].weight += node_[node_[x].parent].weight;
+            return node_[x].parent = searchAndZipRoot(node_[x].parent);
+        }
+    }
+
+    void unite(const ll& x,
+               const ll& y,
+               const ll& weight = 0) {
+        auto rx = searchAndZipRoot(x);
+        auto ry = searchAndZipRoot(y);
+        if(rx != ry) {
+            auto yw = weight + calcWeight(x) - calcWeight(y);
+            if(node_[rx].rank < node_[ry].rank) {
+                std::swap(rx, ry);
+                yw *= -1;
+            }
+            node_[ry].parent  = rx;
+            node_[ry].weight  = yw;
+            node_[rx].size   += node_[ry].size;
+            if(node_[rx].rank == node_[ry].rank) {
+                node_[rx].rank++;
+            }
+        }
+    }
+
+    ll calcWeight(const ll& x) {
+        searchAndZipRoot(x);
+        return node_[x].weight;
+    }
+
+    ll calcDiff(const ll& x,
+                const ll& y) {
+        return std::abs(calcWeight(x) - calcWeight(y));
+    }
+
+    ll calcSize(const ll& x) {
+        return node_[searchAndZipRoot(x)].size;
+    }
+
+    template<class... A>
+    bool checkWhetherRootIsSame(const A&... nodes) {
+        auto node_list = std::initializer_list<ll>{nodes...};
+        if(node_list.size() < 2) return false;
+        auto v = searchAndZipRoot(*node_list.begin());
+        for(size_t i = 1; i < node_list.size(); i++) {
+            if(v != searchAndZipRoot(*(node_list.begin() + i))) return false;
+        }
+        return true;
+    }
+
+private:
+    std::vector<Node> node_;
+};$0

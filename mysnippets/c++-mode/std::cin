@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: std::cin
+# key: cin
+# --
+std::cin >> ${1:var};$0

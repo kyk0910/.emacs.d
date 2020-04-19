@@ -1,0 +1,17 @@
+# key: comp
+# name: comp-graph-dfs-sample
+# --
+/**
+ *  DFS(例: 木における全ての頂点に対するある頂点からの最短距離)
+ *  NOTE: 計算量O(|V|), Dependencies: comp-graph
+ */
+void DFS(Graph&     g,
+         const int& index,
+         const ll&  inf_val = (ll)1e18 + 1) {
+    for(const auto& e : g.edges[index]) {
+        if(g.vertices[e.first].cost == inf_val) {
+            g.vertices[e.first].cost = g.vertices[index].cost + e.second->cost;
+            DFS(g, e.first, inf_val);
+        }
+    }
+}$0

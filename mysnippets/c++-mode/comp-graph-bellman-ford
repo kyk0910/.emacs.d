@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+# name: comp-graph-bellman-ford
+# key: comp
+# --
+/**
+ *  全ての頂点に対してある頂点からの最短経路を求める(Bellman-Ford法)
+ *  NOTE: 計算量O(|V||E|), Dependencies: comp-graph,
+ *        始点と非連結の頂点は更新しない
+ *  @Return: 解が求まればtrueを返す 負の閉路が存在する場合falseを返す
+ */
+// 使用例
+// g.setCostToAllVertex(inf_val);
+// bellman_ford(g, start_index, inf_val);
+// std::cout << g.vertices[specific_index] << std::endl;
+bool bellman_ford(Graph&     g,
+                  const int& start_index,
+                  const ll&  inf_val = (ll)1e9 + 1) {
+    g.vertices[start_index].cost = 0;
+    size_t cnt = 0;
+    while(true) {
+        bool update = false;
+        for(size_t vi = 0; vi < g.vertices.size(); vi++) {
+            for(const auto& edge : g.edges[vi]) {
+                if(g.vertices[vi].cost != inf_val) {
+                    auto cost = g.vertices[vi].cost + edge.second->cost;
+                    if(cost < g.vertices[edge.first].cost) {
+                        g.vertices[edge.first].cost = cost;
+                        update = true;
+                    }
+                }
+            }
+        }
+        if(!update) break;
+        else if(cnt == g.vertices.size() - 1) return false;
+        else cnt++;
+    }
+    return true;
+}$0

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: gcd
+# key: gcd
+# --
+template<class M, class N>
+constexpr std::common_type_t<M, N> gcd(M m, N n) {
+  return n == 0 ? abs(m) : gcd(n, abs(m) % abs(n));
+}$0

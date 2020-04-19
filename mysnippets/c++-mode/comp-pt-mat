@@ -1,0 +1,66 @@
+# -*- mode: snippet -*-
+# name: comp-pt-mat
+# key: comp
+# --
+/**
+ *  二次元平面を表すクラス
+ *  NOTE: dependencies: comp-pt
+ */
+template<typename T, typename S>
+class MyMat {
+    using EleMap = std::map<T, std::vector<Pt<S>>>;
+public:
+    T* data;
+    uint32_t w, h;
+    MyMat(const uint& _w, const uint& _h, const T& def_val = 0) :
+        w(_w), h(_h) {
+        data = new T[h * w]();
+        if(def_val != 0) for(uint i = 0; i < w * h; i++) data[i] = def_val;
+    }
+
+    MyMat(const uint &_w, const uint &_h, const T*& _data) :
+        w(_w), h(_h), data(_data) {}
+
+    ~MyMat() { delete[] data; }
+
+    MyMat(const MyMat &obj) : data(obj.data), w(obj.w), h(obj,h) {}
+    MyMat &operator=(const MyMat &obj) { data = obj.data; w = obj.w; h = obj,h; return *this; }
+
+    MyMat clone() {
+        T* new_data = new T[h * w];
+        for(int i = 0; i < h * w; i++) new_data[i] = data[i];
+        return MyMat<T, S>(w, h, new_data);
+    }
+
+    void stdRead() {
+        for(uint hi = 0; hi < h; hi++)
+            for(uint wi = 0; wi < w; wi++)
+                std::cin >> data[wi + hi * w];
+    }
+
+    template<typename ... A>
+    EleMap searchElements(const A&... keys) const {
+        auto key_list = std::initializer_list<T>{keys...};
+        EleMap result;
+        for(const auto& key : key_list)
+            result.insert(std::make_pair(key, std::vector<Pt<int>>()));
+        for(uint hi = 0; hi < h; hi++)
+            for(uint wi = 0; wi < w; wi++)
+                for(const auto& key : key_list)
+                    if(data[wi + hi * w] == key)
+                        result[key].push_back(Pt<int>(wi, hi));
+    }
+
+    T& at(const uint& wi, const uint& hi) const { return data[wi + hi * w]; }
+    T& at(const Pt<S>& pt) const { return data[pt.x + pt.y * w]; }
+
+    friend std::ostream& operator <<(std::ostream& os, const MyMat<T, S>& obj) {
+        for(uint hi = 0; hi < obj.h; hi++) {
+            for(uint wi = 0; wi < obj.w; wi++) {
+                os << obj.data[wi + hi * obj.w] << " ";
+            }
+            if(hi != obj.h - 1) os << std::endl;
+        }
+        return os;
+    }
+};$0

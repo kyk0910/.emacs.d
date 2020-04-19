@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: comp-digits-sum
+# key: comp
+# --
+/**
+ *  各桁の和を返す
+ *  @n:      入力
+ *  @Return: 各桁の和
+ */
+int digits_sum(long long n) {
+    int sum = 0;
+    while(n) {
+        sum += n % 10;
+        n /= 10;
+    }
+    return sum;
+}$0

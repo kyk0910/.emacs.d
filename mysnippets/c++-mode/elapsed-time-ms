@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: elapsed-time-ms
+# key: elapsed
+# --
+auto s = chrono::system_clock::now();
+$0
+auto e = chrono::system_clock::now();
+std::cout << "elapsed time(ms) : "
+          << std::chrono::duration_cast<std::chrono::microseconds>(e - s).count() / 1000.0
+          << std::endl;

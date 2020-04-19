@@ -1,0 +1,29 @@
+# key: comp
+# name: comp-graph-kruskal
+# --
+/**
+ *  最小全域木を求める(Kruskal法)
+ *  NOTE: 計算量O(|E|log|V|), Dependencies: comp-Graph, comp-UnionFind
+ *  @Return: 最小全域木を返す グラフが非連結の場合、連結成分ごとに最小全域木を構成する
+ */
+// 使用例
+// auto mst = kruskal(g);
+// std::cout << mst.getTotalCost() << std::endl;
+Graph kruskal(const Graph& g) {
+    if(g.edge_type != Graph::Type::Undirected) throw std::logic_error("Graph type is invalid");
+    std::vector<std::pair<ll, std::pair<int, int>>> mst_e;
+    mst_e.reserve(g.edges.size());
+    for(size_t i = 0; i < g.edges.size(); i++)
+        for(const auto& e : g.edges[i])
+            mst_e.emplace_back(e.second->cost, make_pair(i, e.first));
+    sort(mst_e.begin(), mst_e.end());
+    UnionFind uf(g.vertices.size());
+    Graph mst(g.vertices.size(), Graph::Type::Undirected);
+    for(const auto& e : mst_e) {
+        if(!uf.checkWhetherRootIsSame(e.second.first, e.second.second)) {
+            mst.addEdge(e.second.first, e.second.second, e.first);
+            uf.unite(e.second.first, e.second.second);
+        }
+    }
+    return mst;
+}$0

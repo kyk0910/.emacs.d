@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: export-html-theme-ReadTheOrg
+# key: html
+# --
+#+TITLE:  ${1:title}
+#+AUTHOR: ${2:author}
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+$0

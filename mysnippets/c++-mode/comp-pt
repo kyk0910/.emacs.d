@@ -1,0 +1,46 @@
+# -*- mode: snippet -*-
+# key: comp
+# name: comp-pt
+# --
+/**
+ *  二次元空間における点を表すクラス
+ */
+template<typename T>
+class Pt {
+public:
+    T x, y;
+    constexpr Pt() : x(0), y(0) { }
+    constexpr Pt(const T& _x, const T& _y) : x(_x), y(_y) { }
+    constexpr Pt(const Pt &obj) : x(obj.x), y(obj.y) { }
+    Pt &operator=(const Pt &obj) { x = obj.x; y = obj.y; return *this; }
+
+    double norm() const { return std::sqrt(dot(*this)); }
+    constexpr double dot(const Pt& other) const { return x * other.x + y * other.y; }
+    constexpr double distanceFrom(const Pt& other) const { return (other - *this).norm(); }
+    constexpr Pt normalized() const { return *this / norm(); }
+    constexpr bool isZero() const { return x == 0 && y == 0; }
+    template<typename S>
+    constexpr bool isWithinRange(const S& w, const S& h) const { return 0 <= x && x < w && 0 <= y && y < h; }
+
+    constexpr Pt operator +() const { return *this; }
+    constexpr Pt operator -() const { return{ -x, -y }; }
+    constexpr Pt operator +(const Pt& other) const { return{ x + other.x, y + other.y }; }
+    constexpr Pt operator +=(const Pt& other) { x += other.x;  y += other.y;  return *this; }
+    constexpr Pt operator -(const Pt& other) const { return{ x - other.x, y - other.y }; }
+    constexpr Pt operator -=(const Pt& other) { x -= other.x;  y -= other.y;  return *this; }
+    template<typename S>
+    constexpr Pt operator *(const S& s) const { return{ x * s, y * s }; }
+    constexpr Pt operator *=(const Pt& other) { x *= other.x;  y *= other.y;  return *this; }
+    template<typename S>
+    constexpr Pt operator /(const S& s) const { return{ x / s, y / s }; }
+    constexpr Pt operator /=(const Pt& other) { x /= other.x;  y /= other.y;  return *this; }
+    constexpr bool operator ==(const Pt& other) { return x == other.x && y == other.y; }
+    constexpr bool operator !=(const Pt& other) { return !(x == other.x && y == other.y); }
+
+    void stdRead() { std::cin >> x >> y; }
+
+    friend std::ostream& operator <<(std::ostream& os, const Pt& obj) {
+        os << "(x : " << obj.x << ", " << "y : " << obj.y << ")";
+        return os;
+    }
+};$0

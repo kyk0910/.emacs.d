@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# key: diary
+# name: diary-template
+# --
+#+STARTUP:indent
+#+STARTUP:content
+#+STARTUP:latexpreview
+#+STARTUP:inlineimages
+#+OPTIONS: ^:{}
+
+* 作業予定[0/1]
+- [ ] $0
+
+* 作業ログ

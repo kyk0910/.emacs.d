@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: comp-compression
+# key: comp
+# --
+/**
+ *  1次元座標圧縮
+ *  @v: 元の数列
+ *  @Return: 圧縮後の数列(zero-based index)
+ */
+template<typename T>
+void compression(std::vector<T>& v) {
+    std::vector<T> t = v;
+    std::sort(t.begin(), t.end());
+    t.erase(std::unique(t.begin(), t.end()), t.end());
+    for(size_t i = 0; i < v.size(); i++) {
+        auto itr = std::lower_bound(t.begin(), t.end(), v[i]);
+        v[i]     = std::distance(t.begin(), itr);
+    }
+}$0

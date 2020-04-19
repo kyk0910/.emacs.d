@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: try-catch
+# key: try-catch
+# --
+try {
+    $0
+}
+catch(${1:error_type}) {
+    $2
+}

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: block-html-img
+# key: block
+# --
+#+CAPTION: ${1:name}
+#+NAME: fig:$1
+#+ATTR_HTML: :align ${2:center} :width ${3:75}%
+[[file:./$0]]

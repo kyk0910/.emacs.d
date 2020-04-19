@@ -1,0 +1,52 @@
+# -*- mode: snippet -*-
+# name: comp-LCP
+# key: comp
+# --
+/**
+ *  @brief SとS[i:|S|-1](i=0,1,...,|S|-1)の
+ *         最長共通接頭辞(LCP: Longest Common Prefix)を導出する
+ *  @note  Z-Algorithm 計算量O(|S|)
+ */
+class LCPCalculator {
+public:
+    /**
+     *  @param (S)    対象の文字列
+     *  @param (dupl) falseの場合、max_lcp_length_を
+     *                S[0:i-1]とS[i:|S|-1](i=1,...,|S|-1)の最長共通接頭辞の最大値とする
+     */
+    explicit LCPCalculator(const string& S,
+                           const bool&   dupl = true) :
+        dupl_(dupl), S_(S) { createTable(); }
+    ~LCPCalculator() { }
+
+    const string& getString() const { return S_; }
+    const std::vector<int>& getTable() const { return table_; }
+    const int& getMaxLCPLength() const { return max_lcp_length_; }
+
+    void rerun(const string& S) { S_ = S; createTable(); }
+
+private:
+    const bool       dupl_;
+    std::string      S_;
+    std::vector<int> table_;           // table_[i] : SとS[i:|S|-1]の最長共通接頭辞の長さ
+    int              max_lcp_length_;  // 求まる最長共通接頭辞の最大値
+
+    void createTable() {
+        table_    = std::vector<int>(S_.size(), 0);
+        table_[0] = S_.size();
+        max_lcp_length_  = 0;
+        size_t i = 1, j = 0, k = 0;
+        while(i < S_.size()) {
+            while(i + j < S_.size() && S_[j] == S_[i + j]) j++;
+            table_[i]       = j;
+            max_lcp_length_ = max(max_lcp_length_, (int)(dupl_ ? j : min(j, i)));
+            if(j == 0) { i++; continue; }
+            k = 1;
+            while(i + k < S_.size() && k + table_[k] < j) {
+                table_[i + k] = table_[k];
+                k++;
+            }
+            i += k; j -= k;
+        }
+    }
+};$0

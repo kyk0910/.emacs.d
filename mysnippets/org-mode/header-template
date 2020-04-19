@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# key: header
+# name: header-template
+# --
+#+STARTUP:indent
+#+STARTUP:content
+#+STARTUP:latexpreview
+#+STARTUP:inlineimages
+#+OPTIONS: ^:{}
+$0

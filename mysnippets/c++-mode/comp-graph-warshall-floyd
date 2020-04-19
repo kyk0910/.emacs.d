@@ -1,0 +1,30 @@
+# -*- mode: snippet -*-
+# name: comp-graph-warshall-floyd
+# key: comp
+# --
+/**
+ *  全頂点間の最短距離を求める(Warshall-Floyd法)
+ *  NOTE: 計算量O(|V|^3)
+ *  @Return: array[i][j] :: 頂点iから頂点jまでの最短距離
+ */
+// 使用例(グラフの直径)
+// auto table    = warshall_floyd(g);
+// auto diameter = 0;
+// REP(i, g.vertices.size()) {
+//     REP(j, g.vertices.size()) {
+//         if(j <= i) continue;
+//         chmax(diameter, table[j][i]);
+//     }
+// }
+std::vector<std::vector<ll>> warshall_floyd(const Graph& g,
+                                            const ll& inf_val = (ll)1e18 + 1) {
+    std::vector<std::vector<ll>> dp(g.vertices.size(),std::vector<ll>(g.vertices.size(), inf_val));
+    for(size_t i = 0; i < g.edges.size(); i++)
+        for(const auto& e : g.edges[i])
+            dp[i][e.first] = e.second->cost;
+    for(size_t i = 0; i < g.vertices.size(); i++)
+        for(size_t j = 0; j < g.vertices.size(); j++)
+            for(size_t k = 0; k < g.vertices.size(); k++)
+                dp[j][k] = std::min(dp[j][k], dp[j][i] + dp[i][k]);
+    return dp;
+}$0

@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: class
+# key: class
+# --
+class ${1:ClassName} {
+    public:
+        $1();
+        ~$1();
+
+        $1(const $1& obj) = delete;
+        $1 &operator=(const $1& obj) = delete;
+
+        $1($1&&) = default;
+};

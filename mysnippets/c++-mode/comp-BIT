@@ -1,0 +1,32 @@
+# -*- mode: snippet -*-
+# name: comp-BIT
+# key: comp
+# --
+/**
+ *  Binary indexed tree
+ *  NOTE: 1-based indexing
+ */
+class BIT {
+    using ll = long long;
+public:
+    std::vector<ll> bit;
+
+    BIT(ll M) :
+        bit(std::vector<ll>(M + 1, 0)) { }
+
+    /**
+     *  i番目の要素以下の和を取得する
+     */
+    ll getSum(ll i) {
+        return !i ? 0 : bit[i] + getSum(i - (i & -i));
+    }
+
+    /**
+     *  i番目の要素に値xを加える
+     */
+    void add(ll i, ll x) {
+        if(bit.size() <= i) return;
+        bit[i] += x;
+        add(i + (i & -i), x);
+    }
+};$0

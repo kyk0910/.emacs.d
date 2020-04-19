@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: comp-cin
+# key: comp
+# --
+${1:int} ${2:N};
+std::cin >> ${2:$(replace-regexp-in-string ", " " >> " yas-text)};$0

@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: comp-graph-bipartite-graph
+# key: comp
+# --
+/**
+ *  BFSによる二部グラフ判定
+ *  NOTE: Dependencies: comp-Graph, 0と1で塗り分ける
+ */
+// 使用例
+// g.setCostToAllVertex(INF);
+// judge_bipartite_graph(g, 0, INF);
+bool judge_bipartite_graph(Graph&     g,
+                           const int& start,
+                           const ll&  inf_val = (ll)1e18 + 1) {
+    std::queue<int> q;
+    q.push(start);
+    g.vertices[start].cost = 0;
+    while(!q.empty()) {
+        auto top = q.front(); q.pop();
+        for(const auto& e : g.edges[top]) {
+            if(g.vertices[e.first].cost == inf_val) {
+                g.vertices[e.first].cost = (g.vertices[top].cost == 1) ? 0 : 1;
+                q.push(e.first);
+            }
+            else if(g.vertices[e.first].cost == g.vertices[top].cost) {
+                return false;
+            }
+        }
+    }
+    return true;
+}$0

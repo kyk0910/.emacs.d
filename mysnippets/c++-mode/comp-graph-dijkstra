@@ -1,0 +1,32 @@
+# -*- mode: snippet -*-
+# name: comp-graph-dijkstra
+# key: comp
+# --
+/**
+ *  全ての頂点に対してある頂点からの最短経路を求める(dijkstra法)
+ *  NOTE: 計算量O(|E|log|V|), Dependencies: comp-Graph,
+ *        始点と非連結の頂点は更新しない
+ */
+// 使用例
+// g.setCostToAllVertex(inf_val);
+// dijkstra(g, start_index);
+// std::cout << g.vertex[specific_index] << std::endl;
+void dijkstra(Graph&     g,
+              const int& start_index) {
+    using pll = std::pair<ll, ll>;
+    g.vertices[start_index].cost = 0;
+    std::priority_queue<pll, std::vector<pll>, std::greater<pll>> pq;
+    pq.emplace(0, start_index);
+    while(!pq.empty()) {
+        auto top = pq.top();
+        pq.pop();
+        if(g.vertices[top.second].cost < top.first) continue;
+        for(const auto& e : g.edges[top.second]) {
+            auto cost = g.vertices[top.second].cost + e.second->cost;
+            if(cost < g.vertices[e.first].cost) {
+                g.vertices[e.first].cost = cost;
+                pq.emplace(g.vertices[e.first].cost, e.first);
+            }
+        }
+    }
+}$0

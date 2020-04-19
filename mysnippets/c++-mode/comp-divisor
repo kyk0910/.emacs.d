@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: comp-divisor
+# key: comp
+# --
+/**
+ *  約数を列挙する
+ */
+template<typename T>
+std::vector<T> divisor(T n, bool sort = true) {
+    std::vector<T> ret;
+    for(T i = 1; i * i <= n; i++) {
+        if(n % i == 0) {
+            ret.push_back(i);
+            if(i * i != n) ret.push_back(n / i);
+        }
+    }
+    if(sort) std::sort(ret.begin(), ret.end());
+    return ret;
+}$0

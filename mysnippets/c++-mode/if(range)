@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: if(range)
+# key: if
+# --
+if(${1:lower} <= ${2:variable} && $2 < ${3:upper}) {
+    $0
+}

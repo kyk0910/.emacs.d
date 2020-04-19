@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+# name: comp-combination
+# key: comp
+# --
+class CombinationCalculator {
+    using ull = unsigned long long;
+public:
+    ull mod;
+    std::vector<ull> fact;
+    std::vector<ull> inv_fact;
+    std::vector<ull> inv;
+
+    /**
+     *  組み合わせの数を求めるクラス
+     *  @n_max: $ {}_n C_r $ における $ {}_n $ の最大値
+     *  @mod:   組み合わせの数に対して取るMODの値
+     */
+    explicit CombinationCalculator(const ull& n_max, const ull& mod = (int)1e9 + 7):
+        mod((mod != 0) ? mod : std::numeric_limits<uint>::max()),
+        fact(n_max + 1, 0), inv_fact(n_max + 1, 0), inv(n_max + 1, 0) {
+        std::fill(fact.begin(), fact.begin() + 2, 1);
+        std::fill(inv_fact.begin(), inv_fact.begin() + 2, 1);
+        std::fill(inv.begin(), inv.begin() + 2, 1);
+        for(ull i = 2; i <= n_max; i++) {
+            fact[i]     = (fact[i - 1] * i) % mod;
+            inv[i]      = mod - inv[mod % i] * (mod / i) % mod;
+            inv_fact[i] = inv_fact[i - 1] * inv[i] % mod;
+        }
+    }
+
+    /**
+     *  $ {}_n C_r $ を求める
+     *  @Return: $ {}_n C_r $
+     */
+    ull run(const ull& n, const ull& r) const {
+        return (n < r) ? 0 : fact[n] * (inv_fact[r] * inv_fact[n - r] % mod) % mod;
+    }
+};$0

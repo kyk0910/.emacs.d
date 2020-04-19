@@ -1,0 +1,106 @@
+# -*- mode: snippet -*-
+# name: comp-prime-number-calclator
+# key: comp
+# --
+class PrimeNumberCalculator {
+    using ull = unsigned long long;
+public:
+    PrimeNumberCalculator() = default;
+    explicit PrimeNumberCalculator(const ull& n_max) :
+        list_(generate(std::sqrt(n_max))),
+        n_max_(n_max) { }
+
+    /**
+     *  素数を生成する
+     *  @param (n_max): 値の最大値
+     *  @Return       : n_max以下の素数
+     */
+    std::vector<ull> generate(const ull& n_max) const {
+        std::vector<uint> table(n_max + 1, 0);
+        std::vector<ull>  list;
+        for(ull i = 2; i <= n_max; i++) {
+            if(table[i] == 0) {
+                list.push_back(i);
+                for(uint j = i; j <= n_max; j+=i) table[j] = 1;
+            }
+        }
+        return list;
+    }
+
+    /**
+     *  素数であるかどうかを判定する
+     *  @param (n): 入力
+     *  @Return   : 素数であればtrueを返す
+     */
+    bool check(const ull& n) {
+        validate(n);
+        ull n_max = std::sqrt(n);
+        for(const auto& v : list_) {
+            if(n_max < v) break;
+            else if(n % v == 0) return false;
+        }
+        return true;
+    }
+
+    /**
+     *  素因数分解を行い、底とその冪指数を返す
+     *  @param (n): 入力
+     *  @Return   : key :: 底(素数), value :: 冪指数
+     */
+    std::map<ull, ull> genPFMap(ull n) {
+        validate(n);
+        std::map<ull, ull> map;
+        ull n_max = std::sqrt(n);
+        for(const auto& v : list_) {
+            if(n_max < v) break;
+            while(n % v == 0) { n /= v; map[v]++; }
+        }
+        if(1 < n) map[n]++;
+        return map;
+    }
+
+    /**
+     *  約数の個数を返す
+     *  @param (n): 入力
+     *  @Return   : 約数の個数
+     */
+    ull calcNumOfDivisor(ull n) {
+        ull  num = 1;
+        auto map = genPFMap(n);
+        for(const auto& v : map) num *= (v.second + 1);
+        return num;
+    }
+
+    /**
+     *  約数の総和を返す
+     *  @param (n): 入力
+     *  @Return   : 約数の総和
+     */
+    ull calcSumOfDivisor(ull n) {
+        ull  sum = 1;
+        auto map = genPFMap(n);
+        for(const auto& v : map) {
+            ull t = 1, t_sum = 1;
+            for(ull i = 0; i < v.second; i++) {
+                t     *= v.first;
+                t_sum += t;
+            }
+            sum *= t_sum;
+        }
+        return sum;
+    }
+
+private:
+    std::vector<ull> list_{};
+    ull n_max_{0};
+
+    /**
+     *  前計算で導出しているテーブルのvalidateを行う
+     */
+    void validate(const ull& n) {
+        if(n_max_ < n) {
+            list_  = generate(std::sqrt(n));
+            n_max_ = n;
+        }
+    }
+};$0

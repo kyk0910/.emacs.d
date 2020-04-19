@@ -1,0 +1,66 @@
+# -*- mode: snippet -*-
+# name: comp-segment-tree
+# key: comp
+# --
+template <typename T,typename E>
+class SegmentTree {
+public:
+    size_t n;
+    T      d1;
+    std::vector<T> dat;
+    std::function<T(T,T)> f;
+    std::function<T(T,E)> g;
+    SegmentTree(const size_t& _n,
+                const std::function<T(T,T)>& _f,
+                const std::function<T(T,E)>& _g,
+                const T& _d1,
+                const std::vector<T>& v = vector<T>()) :
+        d1(_d1), f(_f), g(_g) {
+        init(_n);
+        if(_n == v.size()) build(_n, v);
+    }
+
+    void init(const size_t& _n) {
+        n = 1;
+        while(n < _n) n *= 2;
+        dat.clear();
+        dat.resize(2 * n - 1, d1);
+    }
+
+    void build(const int& _n,
+               const std::vector<T>& v) {
+        for(int i = 0; i < _n; i++) {
+            dat[i + n - 1] = v[i];
+        }
+        for(int i = n - 2; i >= 0; i--) {
+            dat[i] = f(dat[i * 2 + 1], dat[i * 2 + 2]);
+        }
+    }
+
+    void update(int k,
+                const E& a) {
+        k += n - 1;
+        dat[k] = g(dat[k], a);
+        while(0 < k) {
+            k = (k - 1) / 2;
+            dat[k] = f(dat[k * 2 + 1], dat[k * 2 + 2]);
+        }
+    }
+
+    T query(const int& a,
+            const int& b,
+            const int& k,
+            const int& l,
+            const int& r) {
+        if(r <= a || b <= l) return d1;
+        if(a <= l && r <= b) return dat[k];
+        T vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
+        T vr = query(a, b, k * 2 + 2, (l + r) / 2, r);
+        return f(vl, vr);
+    }
+
+    T query(const int& a,
+            const int& b) {
+        return query(a, b, 0, 0 ,n);
+    }
+};$0

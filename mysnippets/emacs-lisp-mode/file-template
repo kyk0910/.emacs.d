@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# key: file-template
+# name: file-template
+# --
+;;; $1 --- GNU Emacs Configuration
+;;; (C) Kudo Yuya, $2. $3. All rights reserved.
+;;; Commentary:
+;;; Code:
+
+$0
+
+(provide '$4)
+;;; $1 ends here

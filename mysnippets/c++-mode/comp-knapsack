@@ -1,0 +1,141 @@
+# -*- mode: snippet -*-
+# name: comp-knapsack
+# key: comp
+# --
+#include <bits/stdc++.h>
+
+#define REP(i, n) for(decltype(n) i = 0; i < n; i++)
+
+#define ALL(c)   c.begin(), c.end()
+#define SORT(c)  std::sort(ALL(c))
+#define RSORT(c) std::sort(ALL(c), std::greater<decltype(c)::value_type>())
+
+using namespace std;
+using ll = long long;
+
+const int MOD  = (int)1e9 + 7;
+const int INF  = (int)1e9 + 1;
+const ll  LINF = (long long)1e18 + 1;
+
+struct Baggage {
+    ll w;
+    ll v;
+    bool operator <(const Baggage& other) const {
+        return w < other.w;
+    }
+    bool operator >(const Baggage& other) const {
+        return w > other.w;
+    }
+};
+
+// ナップサック問題
+// 問題 : https://atcoder.jp/contests/abc032/tasks/abc032_d
+// 解説 : https://www.slideshare.net/chokudai/abc032
+int main() {
+    cin.tie(0);
+    ios::sync_with_stdio(false);
+
+    int N, W;
+    std::cin >> N >> W;
+
+    ll max_w = 0;
+    vector<Baggage> baggage(N + 1);
+    REP(i, N) {
+        std::cin >> baggage[i + 1].v >> baggage[i + 1].w;
+        max_w = max(max_w, baggage[i + 1].w);
+    }
+
+    // case1 : 分割してそれぞれで組み合わせを全列挙、
+    //         最も良い対応を二分探索で得る(半分全列挙)
+    if(N <= 30) {
+        const int hN = N / 2;
+
+        vector<Baggage> conb_list(1 << hN);
+        for(int mask = 0; mask < (1 << hN); mask++) {
+            Baggage sum_val{0, 0};
+            for(int i = 0; i < hN; i++) {
+                if(mask & (1 << i)) {
+                    sum_val.v += baggage[i + 1].v;
+                    sum_val.w += baggage[i + 1].w;
+                }
+            }
+
+            conb_list[mask] = sum_val;
+        }
+
+        SORT(conb_list);
+
+        ll left_index = 1;
+        for(auto& conb : conb_list) {
+            if(conb_list[left_index - 1].v < conb.v) {
+                conb_list[left_index] = conb;
+                left_index++;
+            }
+        }
+        conb_list.erase(conb_list.begin() + left_index, conb_list.end());
+
+        ll ans = 0;
+        for(int mask = 0; mask < (1 << (N - hN)); mask++) {
+            Baggage sum_val{0, 0};
+            for(int i = 0; i < (N - hN); i++) {
+                if(mask & (1 << i)) {
+                    sum_val.v += baggage[i + hN + 1].v;
+                    sum_val.w += baggage[i + hN + 1].w;
+                }
+            }
+
+            if(sum_val.w <= W) {
+                auto hnitr = upper_bound(conb_list.begin(), conb_list.end(), Baggage{W - sum_val.w, 0});
+                auto hni   = hnitr - conb_list.begin() - 1;
+                if(0 <= hni && sum_val.w + conb_list[hni].w <= W) {
+                    ans = max(ans, sum_val.v + conb_list[hni].v);
+                }
+            }
+        }
+
+        std::cout << ans << std::endl;
+    }
+    // case2 : 重みに対して価値を最大化するDP
+    else if(max_w <= 1000) {
+        vector<vector<ll>> dp(N + 1, vector<ll>(W + 1, 0));
+        for(int bi = 1; bi <= N; bi++) {
+            for(int wi = 1; wi <= W; wi++) {
+                if(baggage[bi].w <= wi) {
+                    if(dp[bi - 1][wi] < dp[bi - 1][wi - baggage[bi].w] + baggage[bi].v) {
+                        dp[bi][wi] = dp[bi - 1][wi - baggage[bi].w] + baggage[bi].v;
+                    }
+                    else {
+                        dp[bi][wi] = dp[bi - 1][wi];
+                    }
+                }
+                else {
+                    dp[bi][wi] = dp[bi - 1][wi];
+                }
+            }
+        }
+
+        std::cout << dp[N][W] << std::endl;
+    }
+    // case3 : 価値に対して重みを最小化するDP(1次元配列版)
+    else {
+        const int V_MAX = 1000;
+        vector<ll> dp(N * V_MAX + 1, INF);
+        dp[0] = 0;
+        for(int bi = 1; bi <= N; bi++) {
+            for(int vi = N * V_MAX; vi >= baggage[bi].v; vi--) {
+                dp[vi] = min(dp[vi], dp[vi - baggage[bi].v] + baggage[bi].w);
+            }
+        }
+
+        ll ans = 0;
+        for(ll i = 0; i <= N * V_MAX; i++) {
+            if(dp[i] <= W) {
+                ans = max(ans, i);
+            }
+        }
+
+        std::cout << ans << std::endl;
+    }
+
+    return 0;
+}

@@ -1,0 +1,48 @@
+# -*- mode: snippet -*-
+# name: comp-LIS
+# key: comp
+# --
+/**
+ *  最長増加部分列(LIS)を取得する
+ *  @origin:     元の数列
+ *  @continuous: 真の場合、以下の式を満たす最長増加部分列を取る
+ *               LIS_{i} = LIS_{i + 1} - 1, where 1 <= i < n(LIS)
+ *  @Return:     最長増加部分列
+ *
+ *  計算量: O(N) if continuous else O(NlogN)
+ */
+template<typename T>
+std::vector<T> pick_up_LIS(const std::vector<T>& origin,
+                           const bool&           continuous) {
+    if(origin.size() == 0) return std::vector<T>();
+    std::vector<T> lis;
+    if(continuous) {
+        auto max_val = *std::max_element(origin.begin(), origin.end());
+        auto min_val = *std::min_element(origin.begin(), origin.end());
+        auto range   = max_val - min_val + 1;
+        auto offset  = min_val - 1;
+        std::vector<T> dp(range + 1, 0);
+        for(const auto& v : origin) {
+            dp[v - offset] = dp[v - offset - 1] + 1;
+        }
+        auto itr = std::max_element(dp.begin(), dp.end());
+        auto r   = std::distance(dp.begin(), itr) + offset;
+        lis.reserve(*itr);
+        for(T i = *itr - 1; i >= 0; i--) {
+            lis.push_back(r - i);
+        }
+    }
+    else {
+        std::vector<T> dp(origin.size() + 1, std::numeric_limits<T>::max());
+        dp[0] = std::numeric_limits<T>::min();
+        for(const auto& v : origin) {
+            auto itr   = std::lower_bound(dp.begin(), dp.end(), v);
+            auto index = std::distance(dp.begin(), itr);
+            dp[index]  = (v < dp[index]) ? v : dp[index];
+        }
+        auto itr = std::lower_bound(dp.begin(), dp.end(), std::numeric_limits<T>::max());
+        lis.reserve(std::distance(dp.begin() + 1, itr));
+        std::copy(dp.begin() + 1, itr, std::back_inserter(lis));
+    }
+    return lis;
+}

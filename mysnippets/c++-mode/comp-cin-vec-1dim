@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: comp-cin-vec-1dim
+# key: comp
+# --
+std::vector<${1:int}> ${2:A}(${3:N});
+REP(i, $3) {
+    std::cin >> $2[i];
+}$0

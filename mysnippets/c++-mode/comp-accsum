@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: comp-accsum
+# key: comp
+# --
+std::vector<${1:int}> ${2:accsum}(${3:N} + 1, 0);
+REP(acc_i, $3) {
+    accsum[acc_i + 1] = accsum[acc_i] + ${4:Array}[acc_i];
+}$0

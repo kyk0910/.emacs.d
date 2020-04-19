@@ -1,0 +1,6 @@
+# key: next
+# name: next_permutation
+# --
+do {
+    $0
+} while(std::next_permutation(${1:v}.begin(), $1.end()));

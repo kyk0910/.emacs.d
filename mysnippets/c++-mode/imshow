@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: imshow
+# key: imshow
+# --
+cv::namedWindow("${1:window name}", cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+cv::imshow("$1", ${2:cv::Mat});
+cv::waitKey(${3:0});$0
