@@ -1,5 +1,5 @@
 #!/bin/sh
-apt install -y graphviz default-jre
+sudo apt install -y graphviz default-jre
 mkdir -p /opt/plantuml
 cd /opt/plantuml
 curl -JLO http://sourceforge.net/projects/plantuml/files/plantuml.jar/download

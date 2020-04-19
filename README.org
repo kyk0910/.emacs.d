@@ -16,17 +16,22 @@ $ sudo add-apt-repository ppa:kelleyk/emacs
 $ sudo apt update && sudo apt -y install emacs26
 #+END_SRC
 
-*** 2. Clone this repository, deploy configuration, and install dependencies
+*** 2. Clone this repository, setup configuration, and install dependencies
 #+BEGIN_SRC sh
 $ cd $HONE
 $ git clone https://github.com/kyk0910/.emacs.d.git # or git@github.com:kyk0910/.emacs.d.git
-$ sudo sh .emacs.d/scripts/deploy.sh
+$ cd .emacs.d
+$ chmod +x scripts/setup.sh
+$ ./scripts/setup.sh
 #+END_SRC
 
-*** 3. Install dependencies in Emacs
+*** 3. Compile init.el and install dependencies in Emacs
 #+BEGIN_SRC sh
+$ emacs --batch -f batch-byte-compile init.el
 $ emacs
 #+END_SRC
+
+After Emacs launches, execute the following command:
 
 - ~M-x all-the-icons-install-fonts~
 - ~M-x company-tabnine-install-binary~
