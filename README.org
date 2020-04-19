@@ -1,0 +1,32 @@
+#+STARTUP:indent
+#+STARTUP:content
+#+STARTUP:latexpreview
+#+STARTUP:inlineimages
+#+OPTIONS: ^:{}
+
+* .emacs.d
+My Emacs configuration
+
+** Installation
+*This configuration has been confirmed to work only on Ubuntu 18.04 LTS*.
+
+*** 1. Install Emacs 26.03
+#+BEGIN_SRC sh
+$ sudo add-apt-repository ppa:kelleyk/emacs
+$ sudo apt update && sudo apt -y install emacs26
+#+END_SRC
+
+*** 2. Clone this repository, deploy configuration, and install dependencies
+#+BEGIN_SRC sh
+$ cd $HONE
+$ git clone https://github.com/kyk0910/.emacs.d.git # or git@github.com:kyk0910/.emacs.d.git
+$ sudo sh .emacs.d/scripts/deploy.sh
+#+END_SRC
+
+*** 3. Install dependencies in Emacs
+#+BEGIN_SRC sh
+$ emacs
+#+END_SRC
+
+- ~M-x all-the-icons-install-fonts~
+- ~M-x company-tabnine-install-binary~
