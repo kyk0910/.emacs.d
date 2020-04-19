@@ -990,7 +990,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :bind (("C-0" . toggle-input-method))
     :config
     (with-eval-after-load 'mozc
-      (set-language-environment "Japanese")
       (add-hook 'input-method-activate-hook
                 (lambda nil
                   (add-hook 'activate-mark-hook 'mozc-mark-escape)))
@@ -1780,10 +1779,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (leaf global-settings
   :config
   (leaf encoding-and-font
-    :custom
-    (coding-system-for-read  . 'utf-8)
-    (coding-system-for-write . 'utf-8)
-    (default-input-method    . "japanese-mozc")
+    :custom ((coding-system-for-read  . 'utf-8)
+             (coding-system-for-write . 'utf-8))
     :config
     (set-locale-environment nil)
     (set-language-environment "Japanese")
@@ -1792,7 +1789,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (set-buffer-file-coding-system 'utf-8)
     (set-default-coding-systems 'utf-8)
     (prefer-coding-system 'utf-8)
-    (set-face-attribute 'default nil :family "Cica" :height 120))
+    (set-face-attribute 'default nil :family "Cica" :height 120)
+    (setq default-input-method "japanese-mozc"))
 
   (leaf if-window-system
     :when window-system
@@ -1889,16 +1887,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         ("C-q"     nil "quit"    :color blue))))
 
   (leaf others
-    :custom
-    (c-default-style         . '((c++-mode . "stroustrup")))
-    (ring-bell-function      . 'ignore) ;; エラー音を無効化する
-    (inhibit-startup-message . t) ;; スタートアップメッセージを表示しない
-    (kill-whole-line         . t) ;; 行の先頭でC-kを押すとその行ごと削除する
-    (make-backup-files       . nil) ;; バックアップファイルを作成しない
-    (auto-save-default       . nil) ;; オートセーブファイルを作成しない
-    (c-basic-offset          . 4)
-    (tab-width               . 4)
-    (indent-tabs-mode        . nil)
+    :custom ((c-default-style         . '((c++-mode . "stroustrup")))
+             (ring-bell-function      . 'ignore) ;; エラー音を無効化する
+             (inhibit-startup-message . t) ;; スタートアップメッセージを表示しない
+             (kill-whole-line         . t) ;; 行の先頭でC-kを押すとその行ごと削除する
+             (make-backup-files       . nil) ;; バックアップファイルを作成しない
+             (auto-save-default       . nil) ;; オートセーブファイルを作成しない
+             (c-basic-offset          . 4)
+             (tab-width               . 4)
+             (indent-tabs-mode        . nil))
     :config
     (blink-cursor-mode 0) ;; カーソルの点滅を無効化
     (transient-mark-mode t) ;; 選択範囲を強調する
