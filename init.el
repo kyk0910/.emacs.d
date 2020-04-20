@@ -1470,7 +1470,57 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :url "https://github.com/magit/git-modes"
     :ensure t))
 
-(leaf languages
+(leaf docker
+  :config
+  (leaf docker
+    :doc "Emacs interface to Docker"
+    :req "dash-2.14.1" "docker-tramp-0.1" "emacs-24.5" "json-mode-1.7.0" "s-1.12.0" "tablist-0.70" "transient-0.1.0"
+    :tag "convenience" "filename" "emacs>=24.5"
+    :added "2020-04-21"
+    :url "https://github.com/Silex/docker.el"
+    :emacs>= 24.5
+    :ensure t
+    :after docker-tramp json-mode tablist)
+
+  (leaf docker-tramp
+    :doc "TRAMP integration for docker containers"
+    :req "emacs-24" "cl-lib-0.5"
+    :tag "convenience" "docker" "emacs>=24"
+    :added "2020-04-21"
+    :url "https://github.com/emacs-pe/docker-tramp.el"
+    :emacs>= 24
+    :ensure t
+    :custom ((docker-tramp-use-names . t)))
+
+  (leaf tablist
+    :doc "Extended tabulated-list-mode"
+    :req "emacs-24.3"
+    :tag "lisp" "extensions" "emacs>=24.3"
+    :added "2020-04-21"
+    :emacs>= 24.3
+    :ensure t)
+
+  (leaf dockerfile-mode
+    :doc "Major mode for editing Docker's Dockerfiles"
+    :req "emacs-24" "s-1.12"
+    :tag "emacs>=24"
+    :added "2020-04-18"
+    :url "https://github.com/spotify/dockerfile-mode"
+    :emacs>= 24
+    :ensure t
+    :mode ("/Dockerfile/"))
+
+  (leaf docker-compose-mode
+    :doc "Major mode for editing docker-compose files"
+    :req "emacs-24.3" "dash-2.12.0" "yaml-mode-0.0.12"
+    :tag "convenience" "emacs>=24.3"
+    :added "2020-04-21"
+    :url "https://github.com/meqif/docker-compose-mode"
+    :emacs>= 24.3
+    :ensure t
+    :after yaml-mode))
+
+(leaf langage-settings
   :config
   (leaf lsp
   :config
@@ -1704,16 +1754,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :require t
     :bind ((verilog-mode-map
             ("C-;"))))
-
-  (leaf dockerfile-mode
-    :doc "Major mode for editing Docker's Dockerfiles"
-    :req "emacs-24" "s-1.12"
-    :tag "emacs>=24"
-    :added "2020-04-18"
-    :url "https://github.com/spotify/dockerfile-mode"
-    :emacs>= 24
-    :ensure t
-    :mode ("/Dockerfile/"))
 
   (leaf plantuml-mode
     :doc "Major mode for PlantUML"
@@ -1958,16 +1998,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (defhydra hydra-window-ctrl (:color amaranth :hint nil)
 
         "
-                                                                                                                                                    ┳━━━━━━━━┳
-      Move        Action                                                                                                                            ┃ Window ┃
-┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┻
-      ^[_p_]^        [_I_]       zoom-in      [_0_] delete-window          [_C-c_] elscreen-create       [_c_] cfw:open-org-calendar   [_o_] helm-occur
-       ^^↑^^         [_O_]       zoom-out     [_1_] delete-other-windows   [_C-p_] elscreen-previous     [_l_] org-agenda-list         [_m_] helm-mini
- [_b_] ←   → [_f_]   [_<up>_]    v-shrink     [_2_] split-window-below     [_C-k_] elscreen-kill         [_r_] revert-buffer           [_g_] helm-git-grep
-       ^^↓^^         [_<down>_]  v-enlarge    [_3_] split-window-right     [_C-b_] elscreen-find-and-go  [_s_] eshell
-      ^[_n_]^        [_<left>_]  h-shrink     [_4_] kill-buffer-and-window [_C-s_] elscreen-split        [_L_] lsp-treemacs-errors-list
-                 ^^^^[_<right>_] h-enlarge    [_5_] make-frame-command     [_C-m_] magit-status          [_j_] open-junk-file
-┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                                                                               ┳━━━━━━━━┳
+       Move          Action                                                                                                                    ┃ Window ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┻
+      ^[_p_]^        [_I_]       zoom-in   [_0_] delete-window          [_C-c_] elscreen-create      [_c_] cfw:open-org-calendar    [_o_] helm-occur
+       ^^↑^^         [_O_]       zoom-out  [_1_] delete-other-windows   [_C-p_] elscreen-previous    [_l_] org-agenda-list          [_g_] helm-git-grep
+ [_b_] ←   → [_f_]   [_<up>_]    v-shrink  [_2_] split-window-below     [_C-k_] elscreen-kill        [_r_] revert-buffer            [_d_] docker
+       ^^↓^^         [_<down>_]  v-enlarge [_3_] split-window-right     [_C-b_] elscreen-find-and-go [_s_] eshell                   [_m_] magit-status
+      ^[_n_]^        [_<left>_]  h-shrink  [_4_] kill-buffer-and-window [_C-s_] elscreen-split       [_L_] lsp-treemacs-errors-list
+                 ^^^^[_<right>_] h-enlarge [_5_] make-frame-command                                  [_j_] open-junk-file
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
 "
 
         ("f"       windmove-right "right" :color red)
@@ -1991,7 +2031,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         ("C-k"     elscreen-kill)
         ("C-b"     elscreen-find-and-goto-by-buffer)
         ("C-s"     elscreen-split)
-        ("C-m"     magit-status)
         ("c"       cfw:open-org-calendar)
         ("l"       org-agenda-list)
         ("r"       revert-buffer :color blue)
@@ -1999,8 +2038,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         ("L"       lsp-treemacs-errors-list)
         ("j"       open-junk-file)
         ("o"       helm-occur    :color blue)
-        ("m"       helm-mini     :color blue)
         ("g"       helm-git-grep :color blue)
+        ("m"       magit-status  :color blue)
+        ("d"       docker        :color blue)
         ("q"       nil "quit"    :color blue)
         ("C-q"     nil "quit"    :color blue))))
 
