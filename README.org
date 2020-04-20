@@ -35,3 +35,13 @@ After Emacs launches, execute the following command:
 
 - ~M-x all-the-icons-install-fonts~
 - ~M-x company-tabnine-install-binary~
+
+exit Emacs:
+
+- ~C-x C-c~
+
+and recompile init.el:
+
+#+BEGIN_SRC sh
+$ emacs --batch -f batch-byte-compile init.el
+#+END_SRC
