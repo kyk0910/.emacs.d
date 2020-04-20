@@ -1370,7 +1370,77 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :require t))
 
-(leaf lsp
+(leaf git
+  :config
+  (leaf git-gutter
+    :config
+    (leaf git-gutter+
+      :doc "Manage Git hunks straight from the buffer"
+      :req "git-commit-0" "dash-0"
+      :tag "vc" "git"
+      :added "2020-04-18"
+      :url "https://github.com/nonsequitur/git-gutter-plus"
+      :ensure t
+      :require t
+      :unless window-system
+      :bind (("C-M-n" . git-gutter+-next-hunk)
+             ("C-M-p" . git-gutter+-previous-hunk))
+      :config
+      (global-git-gutter+-mode t))
+
+    (leaf git-gutter-fringe+
+      :doc "Fringe version of git-gutter+.el"
+      :req "git-gutter+-0.1" "fringe-helper-1.0.1"
+      :added "2020-04-18"
+      :url "https://github.com/nonsequitur/git-gutter-fringe-plus"
+      :ensure t
+      :require t
+      :when window-system
+      :bind (("C-M-n" . git-gutter+-next-hunk)
+             ("C-M-p" . git-gutter+-previous-hunk))
+      :custom ((git-gutter-fr+-side quote left-fringe))
+      :config
+      (global-git-gutter+-mode t)))
+
+  (leaf magit
+    :doc "A Git porcelain inside Emacs."
+    :req "emacs-25.1" "async-20180527" "dash-20180910" "git-commit-20181104" "transient-20190812" "with-editor-20181103"
+    :tag "vc" "tools" "git" "emacs>=25.1"
+    :added "2020-04-18"
+    :emacs>= 25.1
+    :ensure t
+    :bind (("C-x m" . magit-status))
+    :custom ((magit-auto-revert-mode)
+             (vc-handled-backends quote nil))
+    :config
+    (with-eval-after-load 'magit
+      (eval-after-load "vc"
+        '(remove-hook 'find-file-hooks 'vc-find-file-hook))))
+
+  (leaf gitignore-mode
+    :doc "Major mode for editing .gitignore files"
+    :tag "git" "vc" "convenience"
+    :added "2020-04-18"
+    :url "https://github.com/magit/git-modes"
+    :ensure t)
+
+  (leaf gitattributes-mode
+    :doc "Major mode for editing .gitattributes files"
+    :tag "git" "vc" "convenience"
+    :added "2020-04-18"
+    :url "https://github.com/magit/git-modes"
+    :ensure t)
+
+  (leaf gitconfig-mode
+    :doc "Major mode for editing .gitconfig files"
+    :tag "git" "vc" "convenience"
+    :added "2020-04-18"
+    :url "https://github.com/magit/git-modes"
+    :ensure t))
+
+(leaf languages
+  :config
+  (leaf lsp
   :config
   (leaf lsp-mode
     :doc "LSP mode"
@@ -1499,76 +1569,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
            ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
            ((c-mode c++-mode objc-mode swift) . (lambda () (require 'dap-gdb-lldb))))))
 
-(leaf git
-  :config
-  (leaf git-gutter
-    :config
-    (leaf git-gutter+
-      :doc "Manage Git hunks straight from the buffer"
-      :req "git-commit-0" "dash-0"
-      :tag "vc" "git"
-      :added "2020-04-18"
-      :url "https://github.com/nonsequitur/git-gutter-plus"
-      :ensure t
-      :require t
-      :unless window-system
-      :bind (("C-M-n" . git-gutter+-next-hunk)
-             ("C-M-p" . git-gutter+-previous-hunk))
-      :config
-      (global-git-gutter+-mode t))
-
-    (leaf git-gutter-fringe+
-      :doc "Fringe version of git-gutter+.el"
-      :req "git-gutter+-0.1" "fringe-helper-1.0.1"
-      :added "2020-04-18"
-      :url "https://github.com/nonsequitur/git-gutter-fringe-plus"
-      :ensure t
-      :require t
-      :when window-system
-      :bind (("C-M-n" . git-gutter+-next-hunk)
-             ("C-M-p" . git-gutter+-previous-hunk))
-      :custom ((git-gutter-fr+-side quote left-fringe))
-      :config
-      (global-git-gutter+-mode t)))
-
-  (leaf magit
-    :doc "A Git porcelain inside Emacs."
-    :req "emacs-25.1" "async-20180527" "dash-20180910" "git-commit-20181104" "transient-20190812" "with-editor-20181103"
-    :tag "vc" "tools" "git" "emacs>=25.1"
-    :added "2020-04-18"
-    :emacs>= 25.1
-    :ensure t
-    :bind (("C-x m" . magit-status))
-    :custom ((magit-auto-revert-mode)
-             (vc-handled-backends quote nil))
-    :config
-    (with-eval-after-load 'magit
-      (eval-after-load "vc"
-        '(remove-hook 'find-file-hooks 'vc-find-file-hook))))
-
-  (leaf gitignore-mode
-    :doc "Major mode for editing .gitignore files"
-    :tag "git" "vc" "convenience"
-    :added "2020-04-18"
-    :url "https://github.com/magit/git-modes"
-    :ensure t)
-
-  (leaf gitattributes-mode
-    :doc "Major mode for editing .gitattributes files"
-    :tag "git" "vc" "convenience"
-    :added "2020-04-18"
-    :url "https://github.com/magit/git-modes"
-    :ensure t)
-
-  (leaf gitconfig-mode
-    :doc "Major mode for editing .gitconfig files"
-    :tag "git" "vc" "convenience"
-    :added "2020-04-18"
-    :url "https://github.com/magit/git-modes"
-    :ensure t))
-
-(leaf languages
-  :config
   (leaf web-mode
     :doc "major mode for editing web templates"
     :req "emacs-23.1"
