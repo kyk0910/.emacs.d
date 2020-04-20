@@ -1449,6 +1449,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (eval-after-load "vc"
         '(remove-hook 'find-file-hooks 'vc-find-file-hook))))
 
+  (leaf git-link
+    :doc "Get the GitHub/Bitbucket/GitLab URL for a buffer location"
+    :req "emacs-24.3"
+    :tag "convenience" "sourcehut" "gitlab" "bitbucket" "github" "vc" "git" "emacs>=24.3"
+    :added "2020-04-21"
+    :url "http://github.com/sshaw/git-link"
+    :emacs>= 24.3
+    :ensure t)
+
   (leaf gitignore-mode
     :doc "Major mode for editing .gitignore files"
     :tag "git" "vc" "convenience"
@@ -2005,7 +2014,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
        ^^↑^^         [_O_]       zoom-out  [_1_] delete-other-windows   [_C-p_] elscreen-previous    [_l_] org-agenda-list          [_g_] helm-git-grep
  [_b_] ←   → [_f_]   [_<up>_]    v-shrink  [_2_] split-window-below     [_C-k_] elscreen-kill        [_r_] revert-buffer            [_d_] docker
        ^^↓^^         [_<down>_]  v-enlarge [_3_] split-window-right     [_C-b_] elscreen-find-and-go [_s_] eshell                   [_m_] magit-status
-      ^[_n_]^        [_<left>_]  h-shrink  [_4_] kill-buffer-and-window [_C-s_] elscreen-split       [_L_] lsp-treemacs-errors-list
+      ^[_n_]^        [_<left>_]  h-shrink  [_4_] kill-buffer-and-window [_C-s_] elscreen-split       [_L_] lsp-treemacs-errors-list [_G_] git-link
                  ^^^^[_<right>_] h-enlarge [_5_] make-frame-command                                  [_j_] open-junk-file
 ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
 "
@@ -2041,6 +2050,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         ("g"       helm-git-grep :color blue)
         ("m"       magit-status  :color blue)
         ("d"       docker        :color blue)
+        ("G"       git-link      :color blue)
         ("q"       nil "quit"    :color blue)
         ("C-q"     nil "quit"    :color blue))))
 
