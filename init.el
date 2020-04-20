@@ -1458,6 +1458,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :emacs>= 24.3
     :ensure t)
 
+  (leaf smeargle
+    :doc "Highlighting region by last updated time"
+    :req "emacs-24.3"
+    :tag "emacs>=24.3"
+    :added "2020-04-21"
+    :url "https://github.com/emacsorphanage/smeargle"
+    :emacs>= 24.3
+    :ensure t)
+
   (leaf gitignore-mode
     :doc "Major mode for editing .gitignore files"
     :tag "git" "vc" "convenience"
