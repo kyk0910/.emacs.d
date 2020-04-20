@@ -890,7 +890,7 @@
   :added "2020-04-18"
   :emacs>= 24.1
   :ensure t
-  :mode ("\\CMakeLists.txt\\'"))
+  :mode ("/CMakeLists.txt/"))
 
 (leaf which-key
   :doc "Display available keybindings in popup"
@@ -1373,34 +1373,66 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (leaf git
   :config
   (leaf git-gutter
+    :doc "Port of Sublime Text plugin GitGutter"
+    :req "emacs-24.3"
+    :tag "emacs>=24.3"
+    :added "2020-04-21"
+    :url "https://github.com/emacsorphanage/git-gutter"
+    :emacs>= 24.3
+    :ensure t
+    :bind (("M-n" . git-gutter:next-hunk)
+           ("M-p" . git-gutter:previous-hunk))
     :config
-    (leaf git-gutter+
-      :doc "Manage Git hunks straight from the buffer"
-      :req "git-commit-0" "dash-0"
-      :tag "vc" "git"
-      :added "2020-04-18"
-      :url "https://github.com/nonsequitur/git-gutter-plus"
-      :ensure t
-      :require t
-      :unless window-system
-      :bind (("C-M-n" . git-gutter+-next-hunk)
-             ("C-M-p" . git-gutter+-previous-hunk))
-      :config
-      (global-git-gutter+-mode t))
+    (global-git-gutter-mode t))
 
-    (leaf git-gutter-fringe+
-      :doc "Fringe version of git-gutter+.el"
-      :req "git-gutter+-0.1" "fringe-helper-1.0.1"
-      :added "2020-04-18"
-      :url "https://github.com/nonsequitur/git-gutter-fringe-plus"
-      :ensure t
-      :require t
-      :when window-system
-      :bind (("C-M-n" . git-gutter+-next-hunk)
-             ("C-M-p" . git-gutter+-previous-hunk))
-      :custom ((git-gutter-fr+-side quote left-fringe))
-      :config
-      (global-git-gutter+-mode t)))
+  (leaf fringe-helper
+    :doc "helper functions for fringe bitmaps"
+    :tag "lisp"
+    :added "2020-04-21"
+    :url "http://nschum.de/src/emacs/fringe-helper/"
+    :ensure t)
+
+  (leaf git-gutter-fringe
+    :doc "Fringe version of git-gutter.el"
+    :req "git-gutter-0.88" "fringe-helper-0.1.1" "cl-lib-0.5" "emacs-24"
+    :tag "emacs>=24"
+    :added "2020-04-21"
+    :url "https://github.com/emacsorphanage/git-gutter-fringe"
+    :emacs>= 24
+    :ensure t
+    :after git-gutter fringe-helper)
+
+  ;; NOTE: git-gutter+, git-gutter-fringe+
+  ;; tramp時にbufferが開かないバグがあるためdisabled
+  (leaf git-gutter+
+    :doc "Manage Git hunks straight from the buffer"
+    :req "git-commit-0" "dash-0"
+    :tag "vc" "git"
+    :added "2020-04-18"
+    :url "https://github.com/nonsequitur/git-gutter-plus"
+    :ensure t
+    :require t
+    :disabled t
+    :unless window-system
+    :bind (("M-n" . git-gutter+-next-hunk)
+           ("M-p" . git-gutter+-previous-hunk))
+    :config
+    (global-git-gutter+-mode t))
+
+  (leaf git-gutter-fringe+
+    :doc "Fringe version of git-gutter+.el"
+    :req "git-gutter+-0.1" "fringe-helper-1.0.1"
+    :added "2020-04-18"
+    :url "https://github.com/nonsequitur/git-gutter-fringe-plus"
+    :ensure t
+    :require t
+    :disabled t
+    :when window-system
+    :bind (("M-n" . git-gutter+-next-hunk)
+           ("M-p" . git-gutter+-previous-hunk))
+    :custom ((git-gutter-fr+-side quote left-fringe))
+    :config
+    (global-git-gutter+-mode t))
 
   (leaf magit
     :doc "A Git porcelain inside Emacs."
@@ -1577,14 +1609,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :url "http://web-mode.org"
     :emacs>= 23.1
     :ensure t
-    :custom ((web-mode-engines-alist '(("php" . "\\.phtml\\'")
-                                       ("blade" . "\\.blade\\."))))
-    :mode ("\\.[gj]sp\\'"
-           "\\.as[cp]x\\'"
-           "\\.erb\\'"
-           "\\.mustache\\'"
-           "\\.djhtml\\'"
-           "\\.html?\\'"))
+    :custom ((web-mode-engines-alist '(("php" . "/.phtml$/")
+                                       ("blade" . "/.blade$/"))))
+    :mode ("/.[gj]sp$/'"
+           "/.as[cp]x$/'"
+           "/.erb$/'"
+           "/.mustache$/'"
+           "/.djhtml$/'"
+           "/.html$/'"))
 
   (leaf emmet-mode
     :doc "Unofficial Emmet's support for emacs"
@@ -1592,9 +1624,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :url "https://github.com/smihica/emmet-mode"
     :ensure t
-    :bind (("C-M-u" . emmet-expand-line))
+    :bind (("M-1" . emmet-expand-line))
     :custom ((emmet-move-cursor-between-quotes . t))
-    :mode ("\\.html?\\'" "\\.xml?\\'" "\\.launch?\\'")
+    :mode ("/.html$/" "/.xml$/" "/.launch$/")
     :config
     (with-eval-after-load 'emmet-mode
       (add-hook 'sgml-mode-hook 'emmet-mode)
@@ -1613,7 +1645,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :bind ((php-mode-map
             ("C-i" . indent-region)
             ("C-." . other-window)))
-    :mode ("\\.php?\\'"))
+    :mode ("\\.php$/"))
 
   (leaf js2-mode
     :doc "Improved JavaScript editing mode"
@@ -1623,8 +1655,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :url "https://github.com/mooz/js2-mode/"
     :emacs>= 24.1
     :ensure t
-    :mode (("\\.js$"    . js2-mode)
-           ("\\.jsx\\'" . js2-jsx-mode)))
+    :mode (("/.js$/"    . js2-mode)
+           ("/.jsx$/" . js2-jsx-mode)))
 
   (leaf htmlize
     :doc "Convert buffer text and decorations to HTML."
@@ -1639,7 +1671,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :url "https://github.com/joshwnj/json-mode"
     :ensure t
-    :mode ("\\.json$"))
+    :mode ("/.json$/"))
 
   (leaf markdown-mode
     :doc "Major mode for Markdown-formatted text"
@@ -1652,7 +1684,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :bind ((markdown-mode-map
             ("<tab>" . markdown-demote)
             ("C-<tab>" . markdown-promote)))
-    :mode (("\\.md\\'" . gfm-mode))
+    :mode (("/.md$/" . gfm-mode))
     :custom ((markdown-command . '"jq --slurp --raw-input '{\"text\": \"\\(.)\", \"mode\": \"gfm\"}' | curl -sS --data @- https://api.github.com/markdown")))
 
   (leaf yaml-mode
@@ -1662,7 +1694,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :emacs>= 24.1
     :ensure t
-    :mode ("\\.yml$" "\\.yaml$"))
+    :mode ("/.yml$/" "/.yaml$/"))
 
   (leaf verilog-mode
     :doc "major mode for editing verilog source in Emacs"
@@ -1681,7 +1713,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :url "https://github.com/spotify/dockerfile-mode"
     :emacs>= 24
     :ensure t
-    :mode ("\\Dockerfile\\'"))
+    :mode ("/Dockerfile/"))
 
   (leaf plantuml-mode
     :doc "Major mode for PlantUML"
@@ -1690,7 +1722,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :emacs>= 25.0
     :ensure t
-    :mode ("\\.pu$" "\\.plantuml$'")
+    :mode ("/.pu$/" "/.plantuml$/")
     :custom ((plantuml-jar-path . "/opt/plantuml/plantuml.jar")
              (plantuml-default-exec-mode quote jar)
              (plantuml-executable-path . "/usr/local/bin/plantuml")
@@ -1705,7 +1737,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
              (indent-tabs-mode . nil)
              (nxml-slash-auto-complete-flag . t)
              (tab-width . 2))
-    :mode (".xml$" ".xsl$" ".xhtml$" ".page$" ".launch$")
+    :mode ("/.xml$/" "/.xsl$/" "/.xhtml$/" "/.page$/" "/.launch$/")
     :config
     (custom-set-faces
      '(nxml-comment-content-face ((t (:foreground "yellow4"))))
@@ -1758,7 +1790,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :url "https://github.com/dryman/toml-mode.el"
       :emacs>= 24
       :ensure t
-      :mode ("\\.toml$"))
+      :mode ("/.toml$/"))
 
     (leaf racer
       :doc "code completion, goto-definition and docs browsing for Rust via racer"
@@ -1800,7 +1832,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :bind (("C-c a" . org-agenda)
              ("C-c l" . org-agenda-list)
              ("C-c c" . org-capture))
-      :mode ("\\.org\\'")
+      :mode ("/.org$/")
       :custom ((org-image-actual-width)
                (org-directory quote "~/Dropbox/org")
                (org-default-notes-file quote "notes.org")
