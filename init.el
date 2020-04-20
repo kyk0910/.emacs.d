@@ -1467,6 +1467,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :emacs>= 24.3
     :ensure t)
 
+  (leaf git-timemachine
+    :doc "Walk through git revisions of a file"
+    :req "emacs-24.3" "transient-0.1.0"
+    :tag "vc" "emacs>=24.3"
+    :added "2020-04-21"
+    :url "https://gitlab.com/pidu/git-timemachine"
+    :emacs>= 24.3
+    :ensure t)
+
   (leaf gitignore-mode
     :doc "Major mode for editing .gitignore files"
     :tag "git" "vc" "convenience"
@@ -2016,16 +2025,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (defhydra hydra-window-ctrl (:color amaranth :hint nil)
 
         "
-                                                                                                                                               ┳━━━━━━━━┳
-       Move          Action                                                                                                                    ┃ Window ┃
-┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┻
+                                                                                                                                                  ┳━━━━━━━━┳
+       Move          Action                                                                                                                       ┃ Window ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┻
       ^[_p_]^        [_I_]       zoom-in   [_0_] delete-window          [_C-c_] elscreen-create      [_c_] cfw:open-org-calendar    [_o_] helm-occur
        ^^↑^^         [_O_]       zoom-out  [_1_] delete-other-windows   [_C-p_] elscreen-previous    [_l_] org-agenda-list          [_g_] helm-git-grep
  [_b_] ←   → [_f_]   [_<up>_]    v-shrink  [_2_] split-window-below     [_C-k_] elscreen-kill        [_r_] revert-buffer            [_d_] docker
        ^^↓^^         [_<down>_]  v-enlarge [_3_] split-window-right     [_C-b_] elscreen-find-and-go [_s_] eshell                   [_m_] magit-status
       ^[_n_]^        [_<left>_]  h-shrink  [_4_] kill-buffer-and-window [_C-s_] elscreen-split       [_L_] lsp-treemacs-errors-list [_G_] git-link
-                 ^^^^[_<right>_] h-enlarge [_5_] make-frame-command                                  [_j_] open-junk-file
-┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                 ^^^^[_<right>_] h-enlarge [_5_] make-frame-command                                  [_j_] open-junk-file           [_t_] git-timemachine
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
 "
 
         ("f"       windmove-right "right" :color red)
@@ -2060,6 +2069,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         ("m"       magit-status  :color blue)
         ("d"       docker        :color blue)
         ("G"       git-link      :color blue)
+        ("t"       git-timemachine :color blue)
         ("q"       nil "quit"    :color blue)
         ("C-q"     nil "quit"    :color blue))))
 
