@@ -61,6 +61,15 @@
   :ensure t
   :bind (("C-c e" . macrostep-expand)))
 
+(leaf use-package
+  :doc "A configuration macro for simplifying your .emacs"
+  :req "emacs-24.3" "bind-key-2.4"
+  :tag "package" "config" "speed" "startup" "dotemacs" "emacs>=24.3"
+  :added "2020-04-20"
+  :url "https://github.com/jwiegley/use-package"
+  :emacs>= 24.3
+  :ensure t)
+
 (leaf cus-edit
   :doc "tools for customizing Emacs and Lisp packages"
   :tag "builtin" "faces" "help"
@@ -1561,277 +1570,297 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (leaf languages
   :config
   (leaf web-mode
-  :doc "major mode for editing web templates"
-  :req "emacs-23.1"
-  :tag "languages" "emacs>=23.1"
-  :added "2020-04-18"
-  :url "http://web-mode.org"
-  :emacs>= 23.1
-  :ensure t
-  :custom ((web-mode-engines-alist '(("php" . "\\.phtml\\'")
-                                     ("blade" . "\\.blade\\."))))
-  :mode ("\\.[gj]sp\\'"
-         "\\.as[cp]x\\'"
-         "\\.erb\\'"
-         "\\.mustache\\'"
-         "\\.djhtml\\'"
-         "\\.html?\\'"))
-
-(leaf emmet-mode
-  :doc "Unofficial Emmet's support for emacs"
-  :tag "convenience"
-  :added "2020-04-18"
-  :url "https://github.com/smihica/emmet-mode"
-  :ensure t
-  :bind (("C-M-u" . emmet-expand-line))
-  :custom ((emmet-move-cursor-between-quotes . t))
-  :mode ("\\.html?\\'" "\\.xml?\\'" "\\.launch?\\'")
-  :config
-  (with-eval-after-load 'emmet-mode
-    (add-hook 'sgml-mode-hook 'emmet-mode)
-    (add-hook 'emmet-mode-hook
-              (lambda nil
-                (setq emmet-indentation 4)))))
-
-(leaf php-mode
-  :doc "Major mode for editing PHP code"
-  :req "emacs-24.3"
-  :tag "php" "languages" "emacs>=24.3"
-  :added "2020-04-18"
-  :url "https://github.com/emacs-php/php-mode"
-  :emacs>= 24.3
-  :ensure t
-  :bind ((php-mode-map
-          ("C-i" . indent-region)
-          ("C-." . other-window)))
-  :mode ("\\.php?\\'"))
-
-(leaf js2-mode
-  :doc "Improved JavaScript editing mode"
-  :req "emacs-24.1" "cl-lib-0.5"
-  :tag "javascript" "languages" "emacs>=24.1"
-  :added "2020-04-18"
-  :url "https://github.com/mooz/js2-mode/"
-  :emacs>= 24.1
-  :ensure t
-  :mode (("\\.js$"    . js2-mode)
-         ("\\.jsx\\'" . js2-jsx-mode)))
-
-(leaf htmlize
-  :doc "Convert buffer text and decorations to HTML."
-  :tag "extensions" "hypermedia"
-  :added "2020-04-18"
-  :url "https://github.com/hniksic/emacs-htmlize"
-  :ensure t)
-
-(leaf json-mode
-  :doc "Major mode for editing JSON files."
-  :req "json-reformat-0.0.5" "json-snatcher-1.0.0"
-  :added "2020-04-18"
-  :url "https://github.com/joshwnj/json-mode"
-  :ensure t
-  :mode ("\\.json$"))
-
-(leaf markdown-mode
-  :doc "Major mode for Markdown-formatted text"
-  :req "emacs-24.4"
-  :tag "itex" "github flavored markdown" "markdown" "emacs>=24.4"
-  :added "2020-04-18"
-  :url "https://jblevins.org/projects/markdown-mode/"
-  :emacs>= 24.4
-  :ensure t
-  :bind ((markdown-mode-map
-          ("<tab>" . markdown-demote)
-          ("C-<tab>" . markdown-promote)))
-  :mode (("\\.md\\'" . gfm-mode))
-  :custom ((markdown-command . '"jq --slurp --raw-input '{\"text\": \"\\(.)\", \"mode\": \"gfm\"}' | curl -sS --data @- https://api.github.com/markdown")))
-
-(leaf yaml-mode
-  :doc "Major mode for editing YAML files"
-  :req "emacs-24.1"
-  :tag "yaml" "data" "emacs>=24.1"
-  :added "2020-04-18"
-  :emacs>= 24.1
-  :ensure t
-  :mode ("\\.yml$" "\\.yaml$"))
-
-(leaf verilog-mode
-  :doc "major mode for editing verilog source in Emacs"
-  :tag "builtin"
-  :added "2020-04-18"
-  :ensure t
-  :require t
-  :bind ((verilog-mode-map
-          ("C-;"))))
-
-(leaf dockerfile-mode
-  :doc "Major mode for editing Docker's Dockerfiles"
-  :req "emacs-24" "s-1.12"
-  :tag "emacs>=24"
-  :added "2020-04-18"
-  :url "https://github.com/spotify/dockerfile-mode"
-  :emacs>= 24
-  :ensure t
-  :mode ("\\Dockerfile\\'"))
-
-(leaf plantuml-mode
-  :doc "Major mode for PlantUML"
-  :req "dash-2.0.0" "emacs-25.0"
-  :tag "ascii" "plantuml" "uml" "emacs>=25.0"
-  :added "2020-04-18"
-  :emacs>= 25.0
-  :ensure t
-  :mode ("\\.pu$" "\\.plantuml$'")
-  :custom ((plantuml-jar-path . "/opt/plantuml/plantuml.jar")
-           (plantuml-default-exec-mode quote jar)
-           (plantuml-executable-path . "/usr/local/bin/plantuml")
-           (plantuml-default-exec-mode quote executable)))
-
-(leaf ccls
-  :doc "ccls client for lsp-mode"
-  :req "emacs-25.1" "lsp-mode-4.2" "dash-0.14" "projectile-1.0.0"
-  :tag "c++" "lsp" "languages" "emacs>=25.1"
-  :added "2020-04-18"
-  :url "https://github.com/MaskRay/emacs-ccls"
-  :emacs>= 25.1
-  :ensure t
-  :require t
-  :after lsp-mode projectile
-  :custom ((ccls-executable . "/usr/local/bin/ccls")
-           (ccls-sem-highlight-method quote font-lock))
-  :config
-  (add-hook 'c-mode-hook #'(lambda nil (require 'ccls) (lsp)))
-  (add-hook 'c++-mode-hook #'(lambda nil (require 'ccls) (lsp)))
-  (add-hook 'objc-mode-hook #'(lambda nil (require 'ccls) (lsp))))
-
-(leaf rust
-  :config
-  (leaf rustic
-    :doc "Rust development environment"
-    :req "emacs-26.1" "xterm-color-1.6" "dash-2.13.0" "s-1.10.0" "f-0.18.2" "projectile-0.14.0" "markdown-mode-2.3" "spinner-1.7.3" "let-alist-1.0.4" "seq-2.3" "ht-2.0"
-    :tag "languages" "emacs>=26.1"
+    :doc "major mode for editing web templates"
+    :req "emacs-23.1"
+    :tag "languages" "emacs>=23.1"
     :added "2020-04-18"
-    :emacs>= 26.1
+    :url "http://web-mode.org"
+    :emacs>= 23.1
     :ensure t
-    :commands rustic-mode
-    :custom ((rustic-lsp-server . 'rls)
-             (rustic-rls-pkg . 'lsp-mode))
+    :custom ((web-mode-engines-alist '(("php" . "\\.phtml\\'")
+                                       ("blade" . "\\.blade\\."))))
+    :mode ("\\.[gj]sp\\'"
+           "\\.as[cp]x\\'"
+           "\\.erb\\'"
+           "\\.mustache\\'"
+           "\\.djhtml\\'"
+           "\\.html?\\'"))
+
+  (leaf emmet-mode
+    :doc "Unofficial Emmet's support for emacs"
+    :tag "convenience"
+    :added "2020-04-18"
+    :url "https://github.com/smihica/emmet-mode"
+    :ensure t
+    :bind (("C-M-u" . emmet-expand-line))
+    :custom ((emmet-move-cursor-between-quotes . t))
+    :mode ("\\.html?\\'" "\\.xml?\\'" "\\.launch?\\'")
     :config
-    (cl-delete-if (lambda (element) (equal (cdr element) 'rust-mode)) auto-mode-alist)
-    (cl-delete-if (lambda (element) (equal (cdr element) 'rustic-mode)) auto-mode-alist)
-    (add-to-list 'auto-mode-alist '("\\.rs$" . rustic-mode)))
+    (with-eval-after-load 'emmet-mode
+      (add-hook 'sgml-mode-hook 'emmet-mode)
+      (add-hook 'emmet-mode-hook
+                (lambda nil
+                  (setq emmet-indentation 4)))))
 
-  (leaf toml-mode
-    :doc "Major mode for editing TOML files"
-    :req "emacs-24" "cl-lib-0.5"
-    :tag "toml" "data" "emacs>=24"
+  (leaf php-mode
+    :doc "Major mode for editing PHP code"
+    :req "emacs-24.3"
+    :tag "php" "languages" "emacs>=24.3"
     :added "2020-04-18"
-    :url "https://github.com/dryman/toml-mode.el"
-    :emacs>= 24
-    :ensure t
-    :mode ("\\.toml$"))
-
-  (leaf racer
-    :doc "code completion, goto-definition and docs browsing for Rust via racer"
-    :req "emacs-25.1" "rust-mode-0.2.0" "dash-2.13.0" "s-1.10.0" "f-0.18.2" "pos-tip-0.4.6"
-    :tag "tools" "rust" "matching" "convenience" "abbrev" "emacs>=25.1"
-    :added "2020-04-18"
-    :url "https://github.com/racer-rust/emacs-racer"
-    :emacs>= 25.1
-    :ensure t)
-
-  (leaf cargo
-    :doc "Emacs Minor Mode for Cargo, Rust's Package Manager."
-    :req "emacs-24.3" "rust-mode-0.2.0" "markdown-mode-2.4"
-    :tag "tools" "emacs>=24.3"
-    :added "2020-04-18"
+    :url "https://github.com/emacs-php/php-mode"
     :emacs>= 24.3
     :ensure t
-    :after rust-mode markdown-mode
-    :commands cargo-minor-mode
-    :hook ((rust-mode-hook . cargo-minor-mode)))
+    :bind ((php-mode-map
+            ("C-i" . indent-region)
+            ("C-." . other-window)))
+    :mode ("\\.php?\\'"))
 
-  (leaf flycheck-rust
-    :doc "Flycheck: Rust additions and Cargo support"
-    :req "emacs-24.1" "flycheck-28" "dash-2.13.0" "seq-2.3" "let-alist-1.0.4"
-    :tag "convenience" "tools" "emacs>=24.1"
+  (leaf js2-mode
+    :doc "Improved JavaScript editing mode"
+    :req "emacs-24.1" "cl-lib-0.5"
+    :tag "javascript" "languages" "emacs>=24.1"
     :added "2020-04-18"
-    :url "https://github.com/flycheck/flycheck-rust"
+    :url "https://github.com/mooz/js2-mode/"
     :emacs>= 24.1
     :ensure t
-    :after flycheck rustic-mode
-    :hook ((quote-hook . flycheck-rust-setup)
-           (flycheck-mode-hook-hook . flycheck-rust-setup))))
-(leaf org
-  :config
-  (leaf org
-    :doc "Outline-based notes management and organizer"
+    :mode (("\\.js$"    . js2-mode)
+           ("\\.jsx\\'" . js2-jsx-mode)))
+
+  (leaf htmlize
+    :doc "Convert buffer text and decorations to HTML."
+    :tag "extensions" "hypermedia"
+    :added "2020-04-18"
+    :url "https://github.com/hniksic/emacs-htmlize"
+    :ensure t)
+
+  (leaf json-mode
+    :doc "Major mode for editing JSON files."
+    :req "json-reformat-0.0.5" "json-snatcher-1.0.0"
+    :added "2020-04-18"
+    :url "https://github.com/joshwnj/json-mode"
+    :ensure t
+    :mode ("\\.json$"))
+
+  (leaf markdown-mode
+    :doc "Major mode for Markdown-formatted text"
+    :req "emacs-24.4"
+    :tag "itex" "github flavored markdown" "markdown" "emacs>=24.4"
+    :added "2020-04-18"
+    :url "https://jblevins.org/projects/markdown-mode/"
+    :emacs>= 24.4
+    :ensure t
+    :bind ((markdown-mode-map
+            ("<tab>" . markdown-demote)
+            ("C-<tab>" . markdown-promote)))
+    :mode (("\\.md\\'" . gfm-mode))
+    :custom ((markdown-command . '"jq --slurp --raw-input '{\"text\": \"\\(.)\", \"mode\": \"gfm\"}' | curl -sS --data @- https://api.github.com/markdown")))
+
+  (leaf yaml-mode
+    :doc "Major mode for editing YAML files"
+    :req "emacs-24.1"
+    :tag "yaml" "data" "emacs>=24.1"
+    :added "2020-04-18"
+    :emacs>= 24.1
+    :ensure t
+    :mode ("\\.yml$" "\\.yaml$"))
+
+  (leaf verilog-mode
+    :doc "major mode for editing verilog source in Emacs"
     :tag "builtin"
     :added "2020-04-18"
-    :bind (("C-c a" . org-agenda)
-           ("C-c l" . org-agenda-list)
-           ("C-c c" . org-capture))
-    :mode ("\\.org\\'")
-    :custom ((org-image-actual-width)
-             (org-directory quote "~/Dropbox/org")
-             (org-default-notes-file quote "notes.org")
-             (org-agenda-files quote
-                               ("~/Dropbox/org" "~/Dropbox/org/diary"))
-             (org-todo-keywords quote
-                                ((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
-             (org-log-done quote time)
-             (org-startup-truncated)
-             (org-use-speed-commands . t)
-             (org-enforce-todo-dependencies . t)
-             (org-capture-templates quote
-                                    (("t" "Todo" entry
-                                      (file+headline "~/Dropbox/org/gtd.org" "INBOX")
-                                      "* TODO %?\n %i\n %a")
-                                     ("s" "Schedule" entry
-                                      (file "~/Dropbox/org/schedule.org")
-                                      "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                     ("n" "Note" entry
-                                      (file+headline "~/Dropbox/org/notes.org" "Notes")
-                                      "* %?\nEntered on %U\n %i\n %a")))
-             (org-latex-pdf-process quote
-                                    ("platex -shell-escape %f" "platex -shell-escape %f" "dvipdfmx %b.dvi"))))
-
-  (leaf org-bullets
-    :doc "Show bullets in org-mode as UTF-8 characters"
-    :added "2020-04-18"
-    :url "https://github.com/integral-dw/org-bullets"
     :ensure t
-    :hook (org-mode-hook))
+    :require t
+    :bind ((verilog-mode-map
+            ("C-;"))))
 
-  (leaf org-pomodoro
-    :doc "Pomodoro implementation for org-mode."
-    :req "alert-0.5.10" "cl-lib-0.5"
+  (leaf dockerfile-mode
+    :doc "Major mode for editing Docker's Dockerfiles"
+    :req "emacs-24" "s-1.12"
+    :tag "emacs>=24"
     :added "2020-04-18"
-    :url "https://github.com/lolownia/org-pomodoro"
+    :url "https://github.com/spotify/dockerfile-mode"
+    :emacs>= 24
     :ensure t
-    :after org-agenda
-    :bind (("C-c p" . org-pomodoro))
-    :custom ((org-pomodoro-ask-upon-killing . t)
-             (org-pomodoro-format . "⏳%s")
-             (org-pomodoro-short-break-format . "%s")
-             (org-pomodoro-long-break-format . "⏳%s")
-             (org-pomodoro-start-sound-p . t)
-             (org-pomodoro-start-sound . "~/.emacs.d/sound/strange_bell.wav")
-             (org-pomodoro-finished-sound . "~/.emacs.d/sound/poka.wav")
-             (org-pomodoro-short-break-sound . "~/.emacs.d/sound/guitar7.wav"))
-    :custom-face ((org-pomodoro-mode-line quote
-                                          ((t
-                                            (:foreground "#ff5555"))))
-                  (org-pomodoro-mode-line-break quote
-                                                ((t
-                                                  (:foreground "#50fa7b")))))
+    :mode ("\\Dockerfile\\'"))
+
+  (leaf plantuml-mode
+    :doc "Major mode for PlantUML"
+    :req "dash-2.0.0" "emacs-25.0"
+    :tag "ascii" "plantuml" "uml" "emacs>=25.0"
+    :added "2020-04-18"
+    :emacs>= 25.0
+    :ensure t
+    :mode ("\\.pu$" "\\.plantuml$'")
+    :custom ((plantuml-jar-path . "/opt/plantuml/plantuml.jar")
+             (plantuml-default-exec-mode quote jar)
+             (plantuml-executable-path . "/usr/local/bin/plantuml")
+             (plantuml-default-exec-mode quote executable)))
+
+  (leaf nxml-mode
+    :doc "a new XML mode"
+    :tag "builtin" "xml" "languages" "hypermedia" "wp"
+    :added "2020-04-20"
+    :custom ((nxml-child-indent . 2)
+             (nxml-attribute-indent . 2)
+             (indent-tabs-mode . nil)
+             (nxml-slash-auto-complete-flag . t)
+             (tab-width . 2))
+    :mode (".xml$" ".xsl$" ".xhtml$" ".page$" ".launch$")
     :config
-    (add-hook 'org-pomodoro-started-hook
-              #'(lambda nil
-                  (notifications-notify :title "org-pomodoro" :body "Let's focus for 25 minutes!" :app-icon "~/.emacs.d/img/PC.png")))
-    (add-hook 'org-pomodoro-finished-hook
-              #'(lambda nil
-                  (notifications-notify :title "org-pomodoro" :body "Well done! Take a break." :app-icon "~/.emacs.d/img/coffee.gif"))))))
+    (custom-set-faces
+     '(nxml-comment-content-face ((t (:foreground "yellow4"))))
+     '(nxml-comment-delimiter-face ((t (:foreground "yellow4"))))
+     '(nxml-delimited-data-face ((t (:foreground "lime green"))))
+     '(nxml-delimiter-face ((t (:foreground "grey"))))
+     '(nxml-element-local-name-face ((t (:inherit nxml-name-face :foreground "medium turquoise"))))
+     '(nxml-name-face ((t (:foreground "rosy brown"))))
+     '(nxml-tag-slash-face ((t (:inherit nxml-name-face :foreground "grey"))))))
+
+  (leaf ccls
+    :doc "ccls client for lsp-mode"
+    :req "emacs-25.1" "lsp-mode-4.2" "dash-0.14" "projectile-1.0.0"
+    :tag "c++" "lsp" "languages" "emacs>=25.1"
+    :added "2020-04-18"
+    :url "https://github.com/MaskRay/emacs-ccls"
+    :emacs>= 25.1
+    :ensure t
+    :require t
+    :after lsp-mode projectile
+    :custom ((ccls-executable . "/usr/local/bin/ccls")
+             (ccls-sem-highlight-method quote font-lock))
+    :config
+    (add-hook 'c-mode-hook #'(lambda nil (require 'ccls) (lsp)))
+    (add-hook 'c++-mode-hook #'(lambda nil (require 'ccls) (lsp)))
+    (add-hook 'objc-mode-hook #'(lambda nil (require 'ccls) (lsp))))
+
+  (leaf rust
+    :config
+    (leaf rustic
+      :doc "Rust development environment"
+      :req "emacs-26.1" "xterm-color-1.6" "dash-2.13.0" "s-1.10.0" "f-0.18.2" "projectile-0.14.0" "markdown-mode-2.3" "spinner-1.7.3" "let-alist-1.0.4" "seq-2.3" "ht-2.0"
+      :tag "languages" "emacs>=26.1"
+      :added "2020-04-18"
+      :emacs>= 26.1
+      :ensure t
+      :commands rustic-mode
+      :custom ((rustic-lsp-server . 'rls)
+               (rustic-rls-pkg . 'lsp-mode))
+      :config
+      (cl-delete-if (lambda (element) (equal (cdr element) 'rust-mode)) auto-mode-alist)
+      (cl-delete-if (lambda (element) (equal (cdr element) 'rustic-mode)) auto-mode-alist)
+      (add-to-list 'auto-mode-alist '("\\.rs$" . rustic-mode)))
+
+    (leaf toml-mode
+      :doc "Major mode for editing TOML files"
+      :req "emacs-24" "cl-lib-0.5"
+      :tag "toml" "data" "emacs>=24"
+      :added "2020-04-18"
+      :url "https://github.com/dryman/toml-mode.el"
+      :emacs>= 24
+      :ensure t
+      :mode ("\\.toml$"))
+
+    (leaf racer
+      :doc "code completion, goto-definition and docs browsing for Rust via racer"
+      :req "emacs-25.1" "rust-mode-0.2.0" "dash-2.13.0" "s-1.10.0" "f-0.18.2" "pos-tip-0.4.6"
+      :tag "tools" "rust" "matching" "convenience" "abbrev" "emacs>=25.1"
+      :added "2020-04-18"
+      :url "https://github.com/racer-rust/emacs-racer"
+      :emacs>= 25.1
+      :ensure t)
+
+    (leaf cargo
+      :doc "Emacs Minor Mode for Cargo, Rust's Package Manager."
+      :req "emacs-24.3" "rust-mode-0.2.0" "markdown-mode-2.4"
+      :tag "tools" "emacs>=24.3"
+      :added "2020-04-18"
+      :emacs>= 24.3
+      :ensure t
+      :after rust-mode markdown-mode
+      :commands cargo-minor-mode
+      :hook ((rust-mode-hook . cargo-minor-mode)))
+
+    (leaf flycheck-rust
+      :doc "Flycheck: Rust additions and Cargo support"
+      :req "emacs-24.1" "flycheck-28" "dash-2.13.0" "seq-2.3" "let-alist-1.0.4"
+      :tag "convenience" "tools" "emacs>=24.1"
+      :added "2020-04-18"
+      :url "https://github.com/flycheck/flycheck-rust"
+      :emacs>= 24.1
+      :ensure t
+      :after flycheck rustic-mode
+      :hook ((quote-hook . flycheck-rust-setup)
+             (flycheck-mode-hook-hook . flycheck-rust-setup))))
+  (leaf org
+    :config
+    (leaf org
+      :doc "Outline-based notes management and organizer"
+      :tag "builtin"
+      :added "2020-04-18"
+      :bind (("C-c a" . org-agenda)
+             ("C-c l" . org-agenda-list)
+             ("C-c c" . org-capture))
+      :mode ("\\.org\\'")
+      :custom ((org-image-actual-width)
+               (org-directory quote "~/Dropbox/org")
+               (org-default-notes-file quote "notes.org")
+               (org-agenda-files quote
+                                 ("~/Dropbox/org" "~/Dropbox/org/diary"))
+               (org-todo-keywords quote
+                                  ((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
+               (org-log-done quote time)
+               (org-startup-truncated)
+               (org-use-speed-commands . t)
+               (org-enforce-todo-dependencies . t)
+               (org-capture-templates quote
+                                      (("t" "Todo" entry
+                                        (file+headline "~/Dropbox/org/gtd.org" "INBOX")
+                                        "* TODO %?\n %i\n %a")
+                                       ("s" "Schedule" entry
+                                        (file "~/Dropbox/org/schedule.org")
+                                        "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                       ("n" "Note" entry
+                                        (file+headline "~/Dropbox/org/notes.org" "Notes")
+                                        "* %?\nEntered on %U\n %i\n %a")))
+               (org-latex-pdf-process quote
+                                      ("platex -shell-escape %f" "platex -shell-escape %f" "dvipdfmx %b.dvi"))))
+
+    (leaf org-bullets
+      :doc "Show bullets in org-mode as UTF-8 characters"
+      :added "2020-04-18"
+      :url "https://github.com/integral-dw/org-bullets"
+      :ensure t
+      :hook (org-mode-hook))
+
+    (leaf org-pomodoro
+      :doc "Pomodoro implementation for org-mode."
+      :req "alert-0.5.10" "cl-lib-0.5"
+      :added "2020-04-18"
+      :url "https://github.com/lolownia/org-pomodoro"
+      :ensure t
+      :after org-agenda
+      :bind (("C-c p" . org-pomodoro))
+      :custom ((org-pomodoro-ask-upon-killing . t)
+               (org-pomodoro-format . "⏳%s")
+               (org-pomodoro-short-break-format . "%s")
+               (org-pomodoro-long-break-format . "⏳%s")
+               (org-pomodoro-start-sound-p . t)
+               (org-pomodoro-start-sound . "~/.emacs.d/sound/strange_bell.wav")
+               (org-pomodoro-finished-sound . "~/.emacs.d/sound/poka.wav")
+               (org-pomodoro-short-break-sound . "~/.emacs.d/sound/guitar7.wav"))
+      :custom-face ((org-pomodoro-mode-line quote
+                                            ((t
+                                              (:foreground "#ff5555"))))
+                    (org-pomodoro-mode-line-break quote
+                                                  ((t
+                                                    (:foreground "#50fa7b")))))
+      :config
+      (add-hook 'org-pomodoro-started-hook
+                #'(lambda nil
+                    (notifications-notify :title "org-pomodoro" :body "Let's focus for 25 minutes!" :app-icon "~/.emacs.d/img/PC.png")))
+      (add-hook 'org-pomodoro-finished-hook
+                #'(lambda nil
+                    (notifications-notify :title "org-pomodoro" :body "Well done! Take a break." :app-icon "~/.emacs.d/img/coffee.gif"))))))
 
 (leaf global-settings
   :config
@@ -1974,4 +2003,3 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; End:
 
 ;;; init.el ends here
-
