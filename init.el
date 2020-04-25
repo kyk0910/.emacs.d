@@ -201,20 +201,11 @@
   :tag "builtin"
   :added "2020-04-18"
   :ensure t
-  :custom ((whitespace-style quote
-                             (face trailing tabs spaces space-mark tab-mark))
-           (whitespace-display-mappings quote
-                                        ((space-mark 12288
-                                                     [9633])
-                                         (tab-mark 9
-                                                   [187 9]
-                                                   [92 9])))
+  :custom ((whitespace-style . '(face trailing tabs spaces space-mark tab-mark))
+           (whitespace-display-mappings . '((space-mark 12288 [9633]) (tab-mark 9 [187 9] [92 9])))
            (whitespace-space-regexp . "\\(　+\\)")
-           (whitespace-action quote
-                              (auto-cleanup))
-           (whitespace-global-modes quote
-                                    (not dired-mode
-                                         tar-mode)))
+           (whitespace-action . '(auto-cleanup))
+           (whitespace-global-modes . '(not dired-mode tar-mode)))
   :require t
   :setq ((my/bg-color . "#050510"))
   :config
@@ -265,7 +256,7 @@
   :hook (after-init-hook)
   :custom ((doom-modeline-height . 25)
            (doom-modeline-bar-width . 3)
-           (doom-modeline-buffer-file-name-style quote truncate-upto-project)
+           (doom-modeline-buffer-file-name-style . 'truncate-upto-project)
            (doom-modeline-major-mode-icon . t)
            (doom-modeline-major-mode-color-icon . t)
            (doom-modeline-buffer-state-icon . t)
@@ -281,7 +272,7 @@
            (doom-modeline-github . t)
            (doom-modeline-mu4e . t)
            (doom-modeline-irc . t)
-           (doom-modeline-irc-stylize quote identity)
+           (doom-modeline-irc-stylize . 'identity)
            (doom-modeline-env-version . t)
            (doom-modeline-env-enable-python . t)
            (doom-modeline-env-enable-ruby . t)
@@ -488,10 +479,10 @@
   :emacs>= 24
   :ensure t
   :hook (yaml-mode-hook)
-  :custom ((highlight-indent-guides-auto-enabled quote t)
-           (highlight-indent-guides-responsive quote t)
-           (highlight-indent-guides-delay quote 0.5)
-           (highlight-indent-guides-method quote character)))
+  :custom ((highlight-indent-guides-auto-enabled . t)
+           (highlight-indent-guides-responsive . t)
+           (highlight-indent-guides-delay . '0.5)
+           (highlight-indent-guides-method . 'character)))
 
 (leaf display-line-numbers
   :doc "interface for display-line-numbers"
@@ -517,7 +508,7 @@
   :custom ((neo-autorefresh)
            (neo-show-hidden-files . t)
            (neo-create-file-auto-open)
-           (neo-keymap-style quote concise)
+           (neo-keymap-style . 'concise)
            (neo-smart-open . t)
            (neo-window-width . 50))
   :config
@@ -785,7 +776,7 @@
   :bind (("M-g M-p" . flycheck-previous-error)
          ("M-g M-n" . flycheck-next-error))
   :hook ((after-init-hook . global-flycheck-mode))
-  :custom ((flycheck-find-checker-executable quote verilog-verilator))
+  :custom ((flycheck-find-checker-executable . 'verilog-verilator))
   :config
   (add-to-list 'display-buffer-alist
                `(,(rx bos "*Flycheck errors*" eos)
@@ -857,11 +848,10 @@
   :url "https://github.com/emacs-dashboard/emacs-dashboard"
   :emacs>= 25.3
   :ensure t
-  :custom ((dashboard-page-separator quote "\n\f\f\n")
-           (dashboard-items quote
-                            ((recents . 20)
-                             (agenda . 10)
-                             (bookmarks . 10))))
+  :custom ((dashboard-page-separator . '"\n\f\f\n")
+           (dashboard-items . '((recents   . 20)
+                                (agenda    . 10)
+                                (bookmarks . 10))))
   :config
   (when (eq system-type 'gnu/linux)
     (setq dashboard-banner-logo-title (concat "GNU Emacs " emacs-version " kernel "
@@ -879,8 +869,8 @@
   :added "2020-04-18"
   :url "http://www.emacswiki.org/cgi-bin/wiki/download/open-junk-file.el"
   :ensure t
-  :custom ((open-junk-file-format quote "~/Dropbox/org/diary/%Y/%m/%Y-%m-%d.org")
-           (open-junk-file-find-file-function quote find-file)))
+  :custom ((open-junk-file-format . '"~/Dropbox/org/diary/%Y/%m/%Y-%m-%d.org")
+           (open-junk-file-find-file-function . 'find-file)))
 
 (leaf cmake-mode
   :doc "major-mode for editing CMake sources"
@@ -1283,7 +1273,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :custom ((company-box-backends-colors)
              (company-box-show-single-candidate . t)
              (company-box-max-candidates . 50)
-             (company-box-icons-alist quote company-box-icons-all-the-icons))
+             (company-box-icons-alist . 'company-box-icons-all-the-icons))
     :config
     (with-eval-after-load 'company-box
       (declare-function all-the-icons-faicon 'all-the-icons)
@@ -1358,7 +1348,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :tag "builtin"
       :added "2020-04-18"
       :after helm-xref
-      :custom ((xref-show-xrefs-function quote helm-xref-show-xrefs))
+      :custom ((xref-show-xrefs-function . 'helm-xref-show-xrefs))
       :require t))
 
   (leaf helm-git-grep
@@ -1428,7 +1418,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :when window-system
     :bind (("M-n" . git-gutter+-next-hunk)
            ("M-p" . git-gutter+-previous-hunk))
-    :custom ((git-gutter-fr+-side quote left-fringe))
+    :custom ((git-gutter-fr+-side . 'left-fringe))
     :config
     (global-git-gutter+-mode t))
 
@@ -1441,7 +1431,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :bind (("C-x m" . magit-status))
     :custom ((magit-auto-revert-mode)
-             (vc-handled-backends quote nil))
+             (vc-handled-backends . nil))
     :config
     (with-eval-after-load 'magit
       (eval-after-load "vc"
@@ -1562,7 +1552,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :custom ((lsp-enable-snippet . t)
                (lsp-enable-indentation)
                (lsp-prefer-flymake)
-               (lsp-document-sync-method quote incremental)
+               (lsp-document-sync-method . 'incremental)
                (lsp-inhibit-message . t)
                (lsp-message-project-root-warning . t)
                (create-lockfiles)
@@ -1582,7 +1572,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :custom ((lsp-ui-doc-enable . t)
                (lsp-ui-doc-header . t)
                (lsp-ui-doc-include-signature . t)
-               (lsp-ui-doc-position quote top)
+               (lsp-ui-doc-position . 'top)
                (lsp-ui-doc-max-width . 60)
                (lsp-ui-doc-max-height . 20)
                (lsp-ui-doc-use-childframe . t)
@@ -1595,12 +1585,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                (lsp-ui-sideline-show-diagnostics . t)
                (lsp-ui-sideline-show-code-actions . t)
                (lsp-ui-imenu-enable)
-               (lsp-ui-imenu-kind-position quote top)
+               (lsp-ui-imenu-kind-position . 'top)
                (lsp-ui-peek-enable . t)
                (lsp-ui-peek-always-show . t)
                (lsp-ui-peek-peek-height . 30)
                (lsp-ui-peek-list-width . 30)
-               (lsp-ui-peek-fontify quote always)))
+               (lsp-ui-peek-fontify . 'always)))
 
     (leaf company-lsp
       :doc "Company completion backend for lsp-mode."
@@ -1774,9 +1764,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :mode ("/.pu$/" "/.plantuml$/")
     :custom ((plantuml-jar-path . "/opt/plantuml/plantuml.jar")
-             (plantuml-default-exec-mode quote jar)
+             (plantuml-default-exec-mode . 'jar)
              (plantuml-executable-path . "/usr/local/bin/plantuml")
-             (plantuml-default-exec-mode quote executable)))
+             (plantuml-default-exec-mode . 'executable)))
 
   (leaf nxml-mode
     :doc "a new XML mode"
@@ -1809,7 +1799,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :require t
     :after lsp-mode projectile
     :custom ((ccls-executable . "/usr/local/bin/ccls")
-             (ccls-sem-highlight-method quote font-lock))
+             (ccls-sem-highlight-method . 'font-lock))
     :config
     (add-hook 'c-mode-hook #'(lambda nil (require 'ccls) (lsp)))
     (add-hook 'c++-mode-hook #'(lambda nil (require 'ccls) (lsp)))
@@ -1881,28 +1871,24 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :added "2020-04-18"
       :mode ("/.org$/")
       :custom ((org-image-actual-width)
-               (org-directory quote "~/Dropbox/org")
-               (org-default-notes-file quote "notes.org")
-               (org-agenda-files quote
-                                 ("~/Dropbox/org" "~/Dropbox/org/diary"))
-               (org-todo-keywords quote
-                                  ((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
-               (org-log-done quote time)
                (org-startup-truncated)
-               (org-use-speed-commands . t)
+               (org-use-speed-commands        . t)
                (org-enforce-todo-dependencies . t)
-               (org-capture-templates quote
-                                      (("t" "Todo" entry
-                                        (file+headline "~/Dropbox/org/gtd.org" "INBOX")
-                                        "* TODO %?\n %i\n %a")
-                                       ("s" "Schedule" entry
-                                        (file "~/Dropbox/org/schedule.org")
-                                        "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                       ("n" "Note" entry
-                                        (file+headline "~/Dropbox/org/notes.org" "Notes")
-                                        "* %?\nEntered on %U\n %i\n %a")))
-               (org-latex-pdf-process quote
-                                      ("platex -shell-escape %f" "platex -shell-escape %f" "dvipdfmx %b.dvi"))))
+               (org-directory                 . '"~/Dropbox/org")
+               (org-default-notes-file        . '"notes.org")
+               (org-agenda-files              . '("~/Dropbox/org" "~/Dropbox/org/diary"))
+               (org-todo-keywords             . '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
+               (org-log-done                  . 'time)
+               (org-latex-pdf-process         . '("platex -shell-escape %f" "platex -shell-escape %f" "dvipdfmx %b.dvi"))
+               (org-capture-templates         . '(("t" "Todo" entry
+                                                   (file+headline "~/Dropbox/org/gtd.org" "INBOX")
+                                                   "* TODO %?\n %i\n %a")
+                                                  ("s" "Schedule" entry
+                                                   (file "~/Dropbox/org/schedule.org")
+                                                   "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                                  ("n" "Note" entry
+                                                   (file+headline "~/Dropbox/org/notes.org" "Notes")
+                                                   "* %?\nEntered on %U\n %i\n %a")))))
 
     (leaf org-bullets
       :doc "Show bullets in org-mode as UTF-8 characters"
@@ -1926,12 +1912,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                (org-pomodoro-start-sound . "~/.emacs.d/sound/strange_bell.wav")
                (org-pomodoro-finished-sound . "~/.emacs.d/sound/poka.wav")
                (org-pomodoro-short-break-sound . "~/.emacs.d/sound/guitar7.wav"))
-      :custom-face ((org-pomodoro-mode-line quote
-                                            ((t
-                                              (:foreground "#ff5555"))))
-                    (org-pomodoro-mode-line-break quote
-                                                  ((t
-                                                    (:foreground "#50fa7b")))))
+      :custom-face ((org-pomodoro-mode-line . '((t (:foreground "#ff5555"))))
+                    (org-pomodoro-mode-line-break . '((t (:foreground "#50fa7b")))))
       :config
       (add-hook 'org-pomodoro-started-hook
                 #'(lambda nil
