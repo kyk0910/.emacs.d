@@ -2071,40 +2071,41 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-my-main-menu
       (:color amaranth :hint nil)
       "
-                                                                                                                                    ┳━━━━━━┳
-                                                                                                                                    ┃ Main ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
-              ^[_p_]^       |  [_0_] delete-window           [_C-c_] elscreen-create       [_I_] zoom-in        [_<up>_]    v-shrink   |  [_o_] Org
-               ^^↑^^        |  [_1_] delete-other-windows    [_C-p_] elscreen-previous     [_O_] zoom-out       [_<down>_]  v-enlarge  |  [_g_] Git
-         [_b_] ←   → [_f_]  |  [_2_] split-window-below      [_C-k_] elscreen-kill         [_r_] revert-buffer  [_<left>_]  h-shrink   |  [_l_] LSP
-               ^^↓^^        |  [_3_] split-window-right      [_C-b_] elscreen-find-and-go  [_s_] eshell         [_<right>_] h-enlarge  |
-              ^[_n_]^       |  [_4_] kill-buffer-and-window  [_C-s_] elscreen-split        [_b_] helm-mini                           ^^|
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                                                                                            ┳━━━━━━┳
+                                                                                                                                                            ┃ Main ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
+                 ^[_M-p_]^        |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_] Org
+                   ^^↑^^          |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_] Git
+           [_M-b_] ←   → [_M-f_]  |  [_C-k_]     elscreen-kill           ^^[_r_]   revert-buffer           ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_] LSP
+                   ^^↓^^          |  [_C-b_]     elscreen-find-and-go    ^^[_s_]   eshell                  ^^[_3_] split-window-right    [_<right>_] h-enlarge  |
+                 ^[_M-n_]^        |  [_C-s_]     elscreen-split          ^^[_b_]   helm-mini                                                              ^^^^^^|
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
-      ("f"       windmove-right                   :color red)
-      ("b"       windmove-left                    :color red)
-      ("n"       windmove-down                    :color red)
-      ("p"       windmove-up                      :color red)
-      ("<up>"    my/shrink-window-vertically      :color red)
-      ("<down>"  my/enlarge-window-vertically     :color red)
-      ("<left>"  shrink-window-horizontally       :color red)
-      ("<right>" enlarge-window-horizontally      :color red)
+      ("M-f"     windmove-right                   :color red)
+      ("M-b"     windmove-left                    :color red)
+      ("M-n"     windmove-down                    :color red)
+      ("M-p"     windmove-up                      :color red)
+      ("C-c"     elscreen-create                  :color red)
+      ("C-n"     elscreen-next                    :color red)
+      ("C-p"     elscreen-previous                :color red)
+      ("C-k"     elscreen-kill                    :color red)
+      ("C-b"     elscreen-find-and-goto-by-buffer :color red)
+      ("C-s"     elscreen-split                   :color red)
       ("0"       delete-window                    :color red)
       ("1"       delete-other-windows             :color red)
       ("2"       split-window-below               :color red)
       ("3"       split-window-right               :color red)
       ("4"       kill-buffer-and-window           :color red)
-      ("5"       make-frame-command               :color red)
-      ("C-c"     elscreen-create                  :color red)
-      ("C-p"     elscreen-previous                :color red)
-      ("C-k"     elscreen-kill                    :color red)
-      ("C-b"     elscreen-find-and-goto-by-buffer :color red)
-      ("C-s"     elscreen-split                   :color red)
       ("I"       text-scale-increase              :color red)
       ("O"       text-scale-decrease              :color red)
+      ("k"       kill-buffer-and-window           :color red)
       ("r"       revert-buffer                    :color red)
       ("s"       eshell                           :color red)
       ("b"       helm-mini                        :color red)
+      ("<up>"    my/shrink-window-vertically      :color red)
+      ("<down>"  my/enlarge-window-vertically     :color red)
+      ("<left>"  shrink-window-horizontally       :color red)
+      ("<right>" enlarge-window-horizontally      :color red)
       ("o"       hydra-org-menu/body              :color blue)
       ("g"       hydra-git-menu/body              :color blue)
       ("l"       hydra-lsp-menu/body              :color blue)
