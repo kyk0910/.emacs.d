@@ -879,7 +879,6 @@
   :added "2020-04-18"
   :url "http://www.emacswiki.org/cgi-bin/wiki/download/open-junk-file.el"
   :ensure t
-  :bind (("C-x j" . open-junk-file))
   :custom ((open-junk-file-format quote "~/Dropbox/org/diary/%Y/%m/%Y-%m-%d.org")
            (open-junk-file-find-file-function quote find-file)))
 
@@ -1382,8 +1381,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :bind (("M-n" . git-gutter:next-hunk)
            ("M-p" . git-gutter:previous-hunk))
-    :config
-    (global-git-gutter-mode t))
+    :hook (after-init-hook . global-git-gutter-mode))
 
   (leaf fringe-helper
     :doc "helper functions for fringe bitmaps"
@@ -1550,133 +1548,118 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (leaf langage-settings
   :config
   (leaf lsp
-  :config
-  (leaf lsp-mode
-    :doc "LSP mode"
-    :req "emacs-25.1" "dash-2.14.1" "dash-functional-2.14.1" "f-0.20.0" "ht-2.0" "spinner-1.7.3" "markdown-mode-2.3" "lv-0"
-    :tag "languages" "emacs>=25.1"
-    :added "2020-04-19"
-    :url "https://github.com/emacs-lsp/lsp-mode"
-    :emacs>= 25.1
-    :ensure t
-    :require t
-    :bind (("C-]" . nil)
-           ("C-] C-]" . lsp)
-           ("C-] h" . lsp-describe-session)
-           ("C-] <f6>" . lsp-format-buffer)
-           ("C-] t" . lsp-goto-type-definition)
-           ("C-] r" . lsp-rename)
-           ("C-] <f5>" . lsp-restart-workspace)
-           ("C-] l" . lsp-lens-mode))
-    :hook (prog-major-mode-hook function-hook lsp-prog-major-mode-enable-hook)
-    :custom ((lsp-enable-snippet . t)
-             (lsp-enable-indentation)
-             (lsp-prefer-flymake)
-             (lsp-document-sync-method quote incremental)
-             (lsp-inhibit-message . t)
-             (lsp-message-project-root-warning . t)
-             (create-lockfiles)
-             (lsp-rust-rls-command . '("rustup" "run" "nightly" "rls"))))
-
-  (leaf lsp-ui
-    :doc "UI modules for lsp-mode"
-    :req "emacs-25.1" "dash-2.14" "dash-functional-1.2.0" "lsp-mode-6.0" "markdown-mode-2.3"
-    :tag "lsp" "emacs>=25.1"
-    :added "2020-04-19"
-    :url "https://github.com/emacs-lsp/lsp-ui"
-    :emacs>= 25.1
-    :ensure t
-    :require t
-    :after lsp-mode
-    :bind (("C-] s" . lsp-ui-sideline-mode)
-           ("C-] C-d" . lsp-ui-peek-find-definitions)
-           ("C-] C-r" . lsp-ui-peek-find-references)
-           ("C-] C-f" . lsp-ui-peek-find-implementation))
-    :hook (lsp-mode-hook)
-    :custom ((lsp-ui-doc-enable . t)
-             (lsp-ui-doc-header . t)
-             (lsp-ui-doc-include-signature . t)
-             (lsp-ui-doc-position quote top)
-             (lsp-ui-doc-max-width . 60)
-             (lsp-ui-doc-max-height . 20)
-             (lsp-ui-doc-use-childframe . t)
-             (lsp-ui-doc-use-webkit)
-             (lsp-ui-flycheck-enable . t)
-             (lsp-ui-sideline-enable)
-             (lsp-ui-sideline-ignore-duplicate . t)
-             (lsp-ui-sideline-show-symbol . t)
-             (lsp-ui-sideline-show-hover . t)
-             (lsp-ui-sideline-show-diagnostics . t)
-             (lsp-ui-sideline-show-code-actions . t)
-             (lsp-ui-imenu-enable)
-             (lsp-ui-imenu-kind-position quote top)
-             (lsp-ui-peek-enable . t)
-             (lsp-ui-peek-always-show . t)
-             (lsp-ui-peek-peek-height . 30)
-             (lsp-ui-peek-list-width . 30)
-             (lsp-ui-peek-fontify quote always)))
-
-  (leaf company-lsp
-    :doc "Company completion backend for lsp-mode."
-    :req "emacs-25.1" "lsp-mode-6.0" "company-0.9.0" "s-1.2.0" "dash-2.11.0"
-    :tag "emacs>=25.1"
-    :added "2020-04-19"
-    :url "https://github.com/tigersoldier/company-lsp"
-    :emacs>= 25.1
-    :ensure t
-    :require t
-    :after lsp-mode company
-    :commands company-lsp
-    :custom ((company-lsp-cache-candidates)
-             (company-lsp-async . t)
-             (company-lsp-enable-recompletion . t)
-             (company-lsp-enable-snippet . t))
     :config
-    (push 'company-lsp company-backends))
+    (leaf lsp-mode
+      :doc "LSP mode"
+      :req "emacs-25.1" "dash-2.14.1" "dash-functional-2.14.1" "f-0.20.0" "ht-2.0" "spinner-1.7.3" "markdown-mode-2.3" "lv-0"
+      :tag "languages" "emacs>=25.1"
+      :added "2020-04-19"
+      :url "https://github.com/emacs-lsp/lsp-mode"
+      :emacs>= 25.1
+      :ensure t
+      :require t
+      :hook (prog-major-mode-hook function-hook lsp-prog-major-mode-enable-hook)
+      :custom ((lsp-enable-snippet . t)
+               (lsp-enable-indentation)
+               (lsp-prefer-flymake)
+               (lsp-document-sync-method quote incremental)
+               (lsp-inhibit-message . t)
+               (lsp-message-project-root-warning . t)
+               (create-lockfiles)
+               (lsp-rust-rls-command . '("rustup" "run" "nightly" "rls"))))
 
-  (leaf lsp-treemacs
-    :doc "LSP treemacs"
-    :req "emacs-25.1" "dash-2.14.1" "dash-functional-2.14.1" "f-0.20.0" "ht-2.0" "treemacs-2.5" "lsp-mode-6.0"
-    :tag "languages" "emacs>=25.1"
-    :added "2020-04-19"
-    :url "https://github.com/emacs-lsp/lsp-treemacs"
-    :emacs>= 25.1
-    :ensure t
-    :require t
-    :after treemacs lsp-mode
-    :setq ((lsp-treemacs-theme . "centaur-colors"))
-    :config
-    (with-eval-after-load 'ace-window
-      (when (boundp 'aw-ignored-buffers)
-        (push 'lsp-treemacs-symbols-mode aw-ignored-buffers)
-        (push 'lsp-treemacs-java-deps-mode aw-ignored-buffers))))
+    (leaf lsp-ui
+      :doc "UI modules for lsp-mode"
+      :req "emacs-25.1" "dash-2.14" "dash-functional-1.2.0" "lsp-mode-6.0" "markdown-mode-2.3"
+      :tag "lsp" "emacs>=25.1"
+      :added "2020-04-19"
+      :url "https://github.com/emacs-lsp/lsp-ui"
+      :emacs>= 25.1
+      :ensure t
+      :require t
+      :after lsp-mode
+      :hook (lsp-mode-hook)
+      :custom ((lsp-ui-doc-enable . t)
+               (lsp-ui-doc-header . t)
+               (lsp-ui-doc-include-signature . t)
+               (lsp-ui-doc-position quote top)
+               (lsp-ui-doc-max-width . 60)
+               (lsp-ui-doc-max-height . 20)
+               (lsp-ui-doc-use-childframe . t)
+               (lsp-ui-doc-use-webkit)
+               (lsp-ui-flycheck-enable . t)
+               (lsp-ui-sideline-enable)
+               (lsp-ui-sideline-ignore-duplicate . t)
+               (lsp-ui-sideline-show-symbol . t)
+               (lsp-ui-sideline-show-hover . t)
+               (lsp-ui-sideline-show-diagnostics . t)
+               (lsp-ui-sideline-show-code-actions . t)
+               (lsp-ui-imenu-enable)
+               (lsp-ui-imenu-kind-position quote top)
+               (lsp-ui-peek-enable . t)
+               (lsp-ui-peek-always-show . t)
+               (lsp-ui-peek-peek-height . 30)
+               (lsp-ui-peek-list-width . 30)
+               (lsp-ui-peek-fontify quote always)))
 
-  (leaf dap-mode
-    :doc "Debug Adapter Protocol mode"
-    :req "emacs-25.1" "dash-2.14.1" "lsp-mode-6.0" "dash-functional-1.2.0" "bui-1.1.0" "f-0.20.0" "s-1.12.0" "lsp-treemacs-0.1"
-    :tag "debug" "languages" "emacs>=25.1"
-    :added "2020-04-19"
-    :url "https://github.com/yyoncho/dap-mode"
-    :emacs>= 25.1
-    :ensure t
-    :after lsp-mode bui lsp-treemacs
-    :commands dap-ui-mode
-    :bind ((lsp-mode-map
-            ("<f5>" . dap-debug)
-            ("M-<f5>" . dap-hydra)))
-    :hook ((after-init . dap-mode)
-           (dap-mode . dap-ui-mode)
-           (dap-session-created . (lambda (&_rest) (dap-hydra)))
-           (dap-terminated . (lambda (&_rest) (dap-hydra/nil)))
-           (dap-stopped-hook . (lambda (arg) (call-interactively #'dap-hydra)))
-           (python-mode . (lambda () (require 'dap-python)))
-           (ruby-mode . (lambda () (require 'dap-ruby)))
-           (go-mode . (lambda () (require 'dap-go)))
-           (java-mode . (lambda () (require 'dap-java)))
-           (php-mode . (lambda () (require 'dap-php)))
-           (elixir-mode . (lambda () (require 'dap-elixir)))
-           ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
-           ((c-mode c++-mode objc-mode swift) . (lambda () (require 'dap-gdb-lldb))))))
+    (leaf company-lsp
+      :doc "Company completion backend for lsp-mode."
+      :req "emacs-25.1" "lsp-mode-6.0" "company-0.9.0" "s-1.2.0" "dash-2.11.0"
+      :tag "emacs>=25.1"
+      :added "2020-04-19"
+      :url "https://github.com/tigersoldier/company-lsp"
+      :emacs>= 25.1
+      :ensure t
+      :require t
+      :after lsp-mode company
+      :commands company-lsp
+      :custom ((company-lsp-cache-candidates)
+               (company-lsp-async . t)
+               (company-lsp-enable-recompletion . t)
+               (company-lsp-enable-snippet . t))
+      :config
+      (push 'company-lsp company-backends))
+
+    (leaf lsp-treemacs
+      :doc "LSP treemacs"
+      :req "emacs-25.1" "dash-2.14.1" "dash-functional-2.14.1" "f-0.20.0" "ht-2.0" "treemacs-2.5" "lsp-mode-6.0"
+      :tag "languages" "emacs>=25.1"
+      :added "2020-04-19"
+      :url "https://github.com/emacs-lsp/lsp-treemacs"
+      :emacs>= 25.1
+      :ensure t
+      :require t
+      :after treemacs lsp-mode
+      :setq ((lsp-treemacs-theme . "centaur-colors"))
+      :config
+      (with-eval-after-load 'ace-window
+        (when (boundp 'aw-ignored-buffers)
+          (push 'lsp-treemacs-symbols-mode aw-ignored-buffers)
+          (push 'lsp-treemacs-java-deps-mode aw-ignored-buffers))))
+
+    (leaf dap-mode
+      :doc "Debug Adapter Protocol mode"
+      :req "emacs-25.1" "dash-2.14.1" "lsp-mode-6.0" "dash-functional-1.2.0" "bui-1.1.0" "f-0.20.0" "s-1.12.0" "lsp-treemacs-0.1"
+      :tag "debug" "languages" "emacs>=25.1"
+      :added "2020-04-19"
+      :url "https://github.com/yyoncho/dap-mode"
+      :emacs>= 25.1
+      :ensure t
+      :after lsp-mode bui lsp-treemacs
+      :commands dap-ui-mode
+      :hook ((after-init . dap-mode)
+             (dap-mode . dap-ui-mode)
+             (dap-session-created . (lambda (&_rest) (dap-hydra)))
+             (dap-terminated . (lambda (&_rest) (dap-hydra/nil)))
+             (dap-stopped-hook . (lambda (arg) (call-interactively #'dap-hydra)))
+             (python-mode . (lambda () (require 'dap-python)))
+             (ruby-mode . (lambda () (require 'dap-ruby)))
+             (go-mode . (lambda () (require 'dap-go)))
+             (java-mode . (lambda () (require 'dap-java)))
+             (php-mode . (lambda () (require 'dap-php)))
+             (elixir-mode . (lambda () (require 'dap-elixir)))
+             ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
+             ((c-mode c++-mode objc-mode swift) . (lambda () (require 'dap-gdb-lldb))))))
 
   (leaf web-mode
     :doc "major mode for editing web templates"
@@ -1896,9 +1879,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :doc "Outline-based notes management and organizer"
       :tag "builtin"
       :added "2020-04-18"
-      :bind (("C-c a" . org-agenda)
-             ("C-c l" . org-agenda-list)
-             ("C-c c" . org-capture))
       :mode ("/.org$/")
       :custom ((org-image-actual-width)
                (org-directory quote "~/Dropbox/org")
@@ -1938,7 +1918,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :url "https://github.com/lolownia/org-pomodoro"
       :ensure t
       :after org-agenda
-      :bind (("C-c p" . org-pomodoro))
       :custom ((org-pomodoro-ask-upon-killing . t)
                (org-pomodoro-format . "⏳%s")
                (org-pomodoro-short-break-format . "%s")
@@ -2007,6 +1986,126 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (interactive)
       (other-window -1))
 
+    (defun my/shrink-window-vertically (arg)
+      (interactive)
+      (shrink-window arg))
+
+    (defun my/enlarge-window-vertically (arg)
+      (interactive)
+      (shrink-window -arg))
+
+    (defun my/open-org-diary ()
+      (interactive)
+      (elscreen-create)
+      (open-junk-file))
+
+    (defhydra hydra-org-menu
+      (:color amaranth :hint nil)
+      "
+                                                          ┳━━━━━┳
+                                                          ┃ Org ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+        [_d_] my/open-org-diary
+        [_a_] org-agenda
+        [_c_] org-capture
+        [_p_] org-pomodoro
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+      "
+      ("d"   my/open-org-diary :color blue)
+      ("a"   org-agenda        :color blue)
+      ("c"   org-capture       :color blue)
+      ("p"   org-pomodoro      :color blue)
+      ("q"   nil "quit"        :color blue)
+      ("C-q" nil "quit"        :color blue))
+
+    (defhydra hydra-git-menu
+      (:color amaranth :hint nil)
+      "
+                                                          ┳━━━━━┳
+                                                          ┃ Git ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+        [_m_] magit-status     [_t_] git-timemachine
+        [_b_] magit-blame      [_d_] git-gutter:popup-hunk
+        [_g_] helm-git-grep    [_r_] git-gutter:revert-hunk
+        [_l_] git-link
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+      "
+      ("m"       magit-status             :color blue)
+      ("b"       magit-blame              :color blue)
+      ("g"       helm-git-grep            :color blue)
+      ("l"       git-link                 :color blue)
+      ("t"       git-timemachine          :color blue)
+      ("d"       git-gutter:popup-hunk    :color blue)
+      ("r"       git-gutter:revert-hunk   :color blue)
+      ("q"       nil "quit"               :color blue)
+      ("C-q"     nil "quit"               :color blue))
+
+    (defhydra hydra-lsp-menu
+      (:color amaranth :hint nil)
+      "
+                                                                                                                           ┳━━━━━┳
+                                                                                                                           ┃ LSP ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+        [_l_] lsp                              [_c_] lsp-rename                [_R_] lsp-workspace-folders-remove  [_<f5>_] dap-debug
+        [_d_] lsp-ui-peek-find-definitions     [_e_] lsp-treemacs-errors-list  [_L_] lsp-lens-mode                 [_H_]    dap-hydra
+        [_r_] lsp-ui-peek-find-references      [_f_] lsp-format-buffer         [_S_] lsp-ui-sideline-mode
+        [_i_] lsp-ui-peek-find-implementation  [_s_] lsp-describe-session
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+      "
+      ("l"    lsp                             :color blue)
+      ("d"    lsp-ui-peek-find-definitions    :color blue)
+      ("r"    lsp-ui-peek-find-references     :color blue)
+      ("i"    lsp-ui-peek-find-implementation :color blue)
+      ("c"    lsp-rename                      :color blue)
+      ("e"    lsp-treemacs-errors-list        :color blue)
+      ("s"    lsp-describe-session            :color blue)
+      ("f"    lsp-format-buffer               :color blue)
+      ("R"    lsp-workspace-folders-remove    :color blue)
+      ("L"    lsp-lens-mode                   :color blue)
+      ("S"    lsp-ui-sideline-mode            :color blue)
+      ("<f5>" dap-debug                       :color blue)
+      ("H"    dap-hydra                       :color blue)
+      ("q"    nil "quit"                      :color blue)
+      ("C-q"  nil "quit"                      :color blue))
+
+    (defhydra hydra-my-main-menu
+      (:color amaranth :hint nil)
+      "
+                                                                                                           ┳━━━━━━┳
+                                                                                                           ┃ Main ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
+              ^[_p_]^       |  [_0_] delete-window           [_I_] zoom-in        [_<up>_]    v-shrink   |  [_o_] Org
+               ^^↑^^        |  [_1_] delete-other-windows    [_O_] zoom-out       [_<down>_]  v-enlarge  |  [_g_] Git
+         [_b_] ←   → [_f_]  |  [_2_] split-window-below      [_r_] revert-buffer  [_<left>_]  h-shrink   |  [_l_] LSP
+               ^^↓^^        |  [_3_] split-window-right      [_s_] eshell         [_<right>_] h-enlarge  |
+              ^[_n_]^       |  [_4_] kill-buffer-and-window^^                                          ^^|
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+      "
+      ("f"       windmove-right               :color red)
+      ("b"       windmove-left                :color red)
+      ("n"       windmove-down                :color red)
+      ("p"       windmove-up                  :color red)
+      ("I"       text-scale-increase          :color red)
+      ("O"       text-scale-decrease          :color red)
+      ("<up>"    my/shrink-window-vertically  :color red)
+      ("<down>"  my/enlarge-window-vertically :color red)
+      ("<left>"  shrink-window-horizontally   :color red)
+      ("<right>" enlarge-window-horizontally  :color red)
+      ("0"       delete-window                :color red)
+      ("1"       delete-other-windows         :color red)
+      ("2"       split-window-below           :color red)
+      ("3"       split-window-right           :color red)
+      ("4"       kill-buffer-and-window       :color red)
+      ("5"       make-frame-command           :color red)
+      ("r"       revert-buffer                :color red)
+      ("s"       eshell                       :color red)
+      ("o"       hydra-org-menu/body          :color blue)
+      ("g"       hydra-git-menu/body          :color blue)
+      ("l"       hydra-lsp-menu/body          :color blue)
+      ("d"       hydra-docker-menu/body       :color blue)
+      ("q"       nil "quit"                   :color blue)
+      ("C-q"     nil "quit"                   :color blue))
+
     (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
     (define-key region-bindings-mode-map (kbd "c") 'kill-ring-save)
     (define-key region-bindings-mode-map (kbd "x") 'kill-region)
@@ -2021,57 +2120,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (define-key global-map (kbd "C-t")     'my/insert-tab)
     (define-key global-map (kbd "<f6>")    'my/untabify)
     (define-key global-map (kbd "<f7>")    'my/tabify)
-    (define-key global-map (kbd "C-o")
-      (defhydra hydra-window-ctrl (:color amaranth :hint nil)
-
-        "
-                                                                                                                                                  ┳━━━━━━━━┳
-       Move          Action                                                                                                                       ┃ Window ┃
-┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━┻
-      ^[_p_]^        [_I_]       zoom-in   [_0_] delete-window          [_C-c_] elscreen-create      [_c_] cfw:open-org-calendar    [_o_] helm-occur
-       ^^↑^^         [_O_]       zoom-out  [_1_] delete-other-windows   [_C-p_] elscreen-previous    [_l_] org-agenda-list          [_g_] helm-git-grep
- [_b_] ←   → [_f_]   [_<up>_]    v-shrink  [_2_] split-window-below     [_C-k_] elscreen-kill        [_r_] revert-buffer            [_d_] docker
-       ^^↓^^         [_<down>_]  v-enlarge [_3_] split-window-right     [_C-b_] elscreen-find-and-go [_s_] eshell                   [_m_] magit-status
-      ^[_n_]^        [_<left>_]  h-shrink  [_4_] kill-buffer-and-window [_C-s_] elscreen-split       [_L_] lsp-treemacs-errors-list [_G_] git-link
-                 ^^^^[_<right>_] h-enlarge [_5_] make-frame-command                                  [_j_] open-junk-file           [_t_] git-timemachine
-┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
-"
-
-        ("f"       windmove-right "right" :color red)
-        ("b"       windmove-left  "left"  :color red)
-        ("n"       windmove-down  "down"  :color red)
-        ("p"       windmove-up    "up"    :color red)
-        ("I"       text-scale-increase)
-        ("O"       text-scale-decrease)
-        ("<up>"    (lambda (arg) (interactive "p") (shrink-window arg)))
-        ("<down>"  (lambda (arg) (interactive "p") (shrink-window (- arg))))
-        ("<left>"  shrink-window-horizontally)
-        ("<right>" enlarge-window-horizontally)
-        ("0"       delete-window)
-        ("1"       delete-other-windows)
-        ("2"       split-window-below)
-        ("3"       split-window-right)
-        ("4"       kill-buffer-and-window)
-        ("5"       make-frame-command)
-        ("C-c"     elscreen-create)
-        ("C-p"     elscreen-previous)
-        ("C-k"     elscreen-kill)
-        ("C-b"     elscreen-find-and-goto-by-buffer)
-        ("C-s"     elscreen-split)
-        ("c"       cfw:open-org-calendar)
-        ("l"       org-agenda-list)
-        ("r"       revert-buffer :color blue)
-        ("s"       eshell)
-        ("L"       lsp-treemacs-errors-list)
-        ("j"       open-junk-file)
-        ("o"       helm-occur    :color blue)
-        ("g"       helm-git-grep :color blue)
-        ("m"       magit-status  :color blue)
-        ("d"       docker        :color blue)
-        ("G"       git-link      :color blue)
-        ("t"       git-timemachine :color blue)
-        ("q"       nil "quit"    :color blue)
-        ("C-q"     nil "quit"    :color blue))))
+    (define-key global-map (kbd "C-o")     'hydra-my-main-menu/body))
 
   (leaf others
     :custom ((c-default-style         . '((c++-mode . "stroustrup")))
