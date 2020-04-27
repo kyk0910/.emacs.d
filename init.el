@@ -1668,8 +1668,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :url "http://web-mode.org"
     :emacs>= 23.1
     :ensure t
-    :custom ((web-mode-engines-alist '(("php" . "/.phtml$/")
-                                       ("blade" . "/.blade$/"))))
+    :custom ((web-mode-engines-alist '(("php" . ".*\\.phtml\\'")
+                                       ("blade" . ".*\\.blade\\'"))))
     :mode ("/.[gj]sp$/'"
            "/.as[cp]x$/'"
            "/.erb$/'"
@@ -1685,7 +1685,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :bind (("M-1" . emmet-expand-line))
     :custom ((emmet-move-cursor-between-quotes . t))
-    :mode ("/.html$/" "/.xml$/" "/.launch$/")
+    :mode (".*\\.html\\'" ".*\\.xml\\'" ".*\\.launch\\'")
     :config
     (with-eval-after-load 'emmet-mode
       (add-hook 'sgml-mode-hook 'emmet-mode)
@@ -1704,7 +1704,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :bind ((php-mode-map
             ("C-i" . indent-region)
             ("C-." . other-window)))
-    :mode ("\\.php$/"))
+    :mode (".*\\.php\\'"))
 
   (leaf js2-mode
     :doc "Improved JavaScript editing mode"
@@ -1713,9 +1713,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :url "https://github.com/mooz/js2-mode/"
     :emacs>= 24.1
+    :ensure t)
+
+  (leaf rjsx-mode
+    :doc "Real support for JSX"
+    :req "emacs-24.4" "js2-mode-20170504"
+    :tag "languages" "emacs>=24.4"
+    :added "2020-04-28"
+    :url "https://github.com/felipeochoa/rjsx-mode/"
+    :emacs>= 24.4
     :ensure t
-    :mode (("/.js$/"  . js2-mode)
-           ("/.jsx$/" . js2-jsx-mode)))
+    :mode ((".*\\.js\\'"  . rjsx-mode)
+           (".*\\.jsx\\'" . rjsx-mode)))
 
   (leaf htmlize
     :doc "Convert buffer text and decorations to HTML."
@@ -1730,7 +1739,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :url "https://github.com/joshwnj/json-mode"
     :ensure t
-    :mode ("/.json$/"))
+    :mode (".*\\.json\\'"))
 
   (leaf markdown-mode
     :doc "Major mode for Markdown-formatted text"
@@ -1743,7 +1752,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :bind ((markdown-mode-map
             ("<tab>" . markdown-demote)
             ("C-<tab>" . markdown-promote)))
-    :mode (("/.md$/" . gfm-mode))
+    :mode ((".*\\.md\\'" . gfm-mode))
     :custom ((markdown-command . '"jq --slurp --raw-input '{\"text\": \"\\(.)\", \"mode\": \"gfm\"}' | curl -sS --data @- https://api.github.com/markdown")))
 
   (leaf yaml-mode
@@ -1753,7 +1762,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :emacs>= 24.1
     :ensure t
-    :mode ("/.yml$/" "/.yaml$/"))
+    :mode (".*\\.yml\\'" ".*\\.yaml\\'"))
 
   (leaf verilog-mode
     :doc "major mode for editing verilog source in Emacs"
@@ -1771,7 +1780,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :emacs>= 25.0
     :ensure t
-    :mode ("/.pu$/" "/.plantuml$/")
+    :mode (".*\\.pu\\'" ".*\\.plantuml\\'")
     :custom ((plantuml-jar-path . "/opt/plantuml/plantuml.jar")
              (plantuml-default-exec-mode . 'jar)
              (plantuml-executable-path . "/usr/local/bin/plantuml")
@@ -1786,7 +1795,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
              (indent-tabs-mode . nil)
              (nxml-slash-auto-complete-flag . t)
              (tab-width . 2))
-    :mode ("/.xml$/" "/.xsl$/" "/.xhtml$/" "/.page$/" "/.launch$/")
+    :mode (".*\\.xml\\'" ".*\\.xsl\\'" ".*\\.xhtml\\'" ".*\\.page\\'" ".*\\.launch\\'")
     :config
     (custom-set-faces
      '(nxml-comment-content-face ((t (:foreground "yellow4"))))
@@ -1839,7 +1848,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :url "https://github.com/dryman/toml-mode.el"
       :emacs>= 24
       :ensure t
-      :mode ("/.toml$/"))
+      :mode (".*\\.toml\\'"))
 
     (leaf racer
       :doc "code completion, goto-definition and docs browsing for Rust via racer"
@@ -1878,7 +1887,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :doc "Outline-based notes management and organizer"
       :tag "builtin"
       :added "2020-04-18"
-      :mode ("/.org$/")
+      :mode (".*\\.org\\'")
       :custom ((org-image-actual-width)
                (org-startup-truncated)
                (org-use-speed-commands        . t)
