@@ -392,6 +392,15 @@
   :config
   (volatile-highlights-mode t))
 
+(leaf buffer-expose
+  :doc "Visual buffer switching using a window grid"
+  :req "emacs-25" "cl-lib-0.5"
+  :tag "convenience" "emacs>=25"
+  :added "2020-04-28"
+  :url "https://github.com/clemera/buffer-expose"
+  :emacs>= 25
+  :ensure t)
+
 (leaf anzu
   :doc "Show number of matches in mode-line while searching"
   :req "emacs-24.3"
@@ -1705,7 +1714,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :url "https://github.com/mooz/js2-mode/"
     :emacs>= 24.1
     :ensure t
-    :mode (("/.js$/"    . js2-mode)
+    :mode (("/.js$/"  . js2-mode)
            ("/.jsx$/" . js2-jsx-mode)))
 
   (leaf htmlize
@@ -2053,15 +2062,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-my-main-menu
       (:color amaranth :hint nil)
       "
-                                                                                                                                                            ┳━━━━━━┳
-                                                                                                                                                            ┃ Main ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
-                 ^[_M-p_]^        |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_] Org
-                   ^^↑^^          |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_] Git
-           [_M-b_] ←   → [_M-f_]  |  [_C-k_]     elscreen-kill           ^^[_r_]   revert-buffer           ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_] LSP
-                   ^^↓^^          |  [_C-b_]     elscreen-find-and-go    ^^[_s_]   eshell                  ^^[_3_] split-window-right    [_<right>_] h-enlarge  |
-                 ^[_M-n_]^        |  [_C-s_]     elscreen-split          ^^[_b_]   helm-mini                                                              ^^^^^^|
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                                                                                                ┳━━━━━━┳
+                                                                                                                                                                ┃ Main ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
+                ^[_M-p_]^        |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
+                  ^^↑^^          |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
+          [_M-b_] ←   → [_M-f_]  |  [_C-k_]     elscreen-kill           ^^[_s_]   eshell                  ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
+                  ^^↓^^          |  [_C-b_]     elscreen-find-and-go    ^^[_b_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_r_]   revert-buffer
+                ^[_M-n_]^        |  [_C-s_]     elscreen-split                                                                                       ^^^^^^^^^^|  [_C-o_] buffer-expose
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("M-f"     windmove-right                   :color red)
       ("M-b"     windmove-left                    :color red)
@@ -2081,7 +2090,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("I"       text-scale-increase              :color red)
       ("O"       text-scale-decrease              :color red)
       ("k"       kill-buffer-and-window           :color red)
-      ("r"       revert-buffer                    :color red)
+      ("r"       revert-buffer                    :color blue)
+      ("C-o"     buffer-expose                    :color blue)
       ("s"       eshell                           :color red)
       ("b"       helm-mini                        :color red)
       ("<up>"    my/shrink-window-vertically      :color red)
@@ -2103,7 +2113,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (define-key global-map (kbd "C-x C-z") nil)
     (define-key global-map (kbd "<tab>")   nil)
     (define-key global-map (kbd "<tab>")   'indent-according-to-mode)
-    (define-key global-map (kbd "M-.")     'other-window)
     (define-key global-map (kbd "C-i")     'indent-region)
     (define-key global-map (kbd "C-j")     'newline-and-indent)
     (define-key global-map (kbd "C-t")     'my/insert-tab)
