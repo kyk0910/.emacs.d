@@ -552,10 +552,13 @@
   (leaf treemacs
     :ensure t
     :require t
-    :bind (("M-0" . treemacs-select-window)
-           ("C-x t B" . treemacs-bookmark)
-           ("C-x t C-t" . treemacs-find-file)
-           ("C-x t M-t" . treemacs-find-tag))
+    :bind ((:global-map
+            ("M-0"       . treemacs-select-window)
+            ("C-x t B"   . treemacs-bookmark)
+            ("C-x t C-t" . treemacs-find-file)
+            ("C-x t M-t" . treemacs-find-tag))
+           (:treemacs-mode-map
+            ("C-j" . nil)))
     :config
     (with-eval-after-load 'treemacs
       (progn
@@ -1366,7 +1369,23 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :url "https://github.com/yasuyk/helm-git-grep"
     :ensure t
-    :require t))
+    :require t)
+
+  (leaf helm-ls-git
+    :doc "list git files."
+    :req "helm-1.7.8"
+    :added "2020-05-01"
+    :ensure t
+    :after helm)
+
+  (leaf helm-gitignore
+    :doc "Generate .gitignore files with gitignore.io."
+    :req "gitignore-mode-1.1.0" "helm-1.7.0" "request-0.1.0" "cl-lib-0.5"
+    :tag "gitignore.io" "gitignore" "helm"
+    :added "2020-05-01"
+    :url "https://github.com/jupl/helm-gitignore"
+    :ensure t
+    :after gitignore-mode helm))
 
 (leaf git
   :config
@@ -1470,6 +1489,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :tag "vc" "emacs>=24.3"
     :added "2020-04-21"
     :url "https://gitlab.com/pidu/git-timemachine"
+    :emacs>= 24.3
+    :ensure t)
+
+  (leaf git-messenger
+    :doc "Popup last commit of current line"
+    :req "emacs-24.3" "popup-0.5.3"
+    :tag "emacs>=24.3"
+    :added "2020-05-01"
+    :url "https://github.com/emacsorphanage/git-messenger"
     :emacs>= 24.3
     :ensure t)
 
@@ -1970,6 +1998,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
   (leaf key-bindings
     :config
+    (defun my/backward-other-window ()
+      (interactive)
+      (other-window -1))
+
     (defun my/insert-tab ()
       (interactive)
       (insert "\t"))
@@ -2021,24 +2053,28 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-git-menu
       (:color amaranth :hint nil)
       "
-                                                          ┳━━━━━┳
-                                                          ┃ Git ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
-        [_m_] magit-status     [_t_] git-timemachine
-        [_b_] magit-blame      [_d_] git-gutter:popup-hunk
-        [_g_] helm-git-grep    [_r_] git-gutter:revert-hunk
-        [_l_] git-link
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                      ┳━━━━━┳
+                                                                                      ┃ Git ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+        [_m_] magit-status     [_s_] git-gutter:stage-hunk    [_M_] git-messenger:popup-message
+        [_b_] magit-blame      [_d_] git-gutter:popup-hunk    [_L_] git-link
+        [_g_] helm-git-grep    [_r_] git-gutter:revert-hunk   [_I_] helm-gitignore
+        [_l_] helm-ls-git      [_t_] git-timemachine
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
-      ("m"       magit-status             :color blue)
-      ("b"       magit-blame              :color blue)
-      ("g"       helm-git-grep            :color blue)
-      ("l"       git-link                 :color blue)
-      ("t"       git-timemachine          :color blue)
-      ("d"       git-gutter:popup-hunk    :color blue)
-      ("r"       git-gutter:revert-hunk   :color blue)
-      ("q"       nil "quit"               :color blue)
-      ("C-q"     nil "quit"               :color blue))
+      ("m"       magit-status                :color blue)
+      ("b"       magit-blame                 :color blue)
+      ("g"       helm-git-grep               :color blue)
+      ("l"       helm-ls-git                 :color blue)
+      ("d"       git-gutter:popup-hunk       :color blue)
+      ("r"       git-gutter:revert-hunk      :color blue)
+      ("s"       git-gutter:stage-hunk       :color blue)
+      ("M"       git-messenger:popup-message :color blue)
+      ("L"       git-link                    :color blue)
+      ("I"       helm-git-ignore             :color blue)
+      ("t"       git-timemachine             :color blue)
+      ("q"       nil "quit"                  :color blue)
+      ("C-q"     nil "quit"                  :color blue))
 
     (defhydra hydra-lsp-menu
       (:color amaranth :hint nil)
@@ -2074,17 +2110,17 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                                                                                                                                                 ┳━━━━━━┳
                                                                                                                                                                 ┃ Main ┃
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
-                ^[_M-p_]^        |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
-                  ^^↑^^          |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
-          [_M-b_] ←   → [_M-f_]  |  [_C-k_]     elscreen-kill           ^^[_s_]   eshell                  ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
-                  ^^↓^^          |  [_C-b_]     elscreen-find-and-go    ^^[_b_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_r_]   revert-buffer
-                ^[_M-n_]^        |  [_C-s_]     elscreen-split                                                                                       ^^^^^^^^^^|  [_C-o_] buffer-expose
+               ^[_p_]^       |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
+                ^^↑^^        |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
+          [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_s_]   eshell                  ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
+                ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_r_]   revert-buffer
+               ^[_n_]^       |  [_C-s_]     elscreen-split                                                                                       ^^^^^^^^^^|  [_C-o_] buffer-expose
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
-      ("M-f"     windmove-right                   :color red)
-      ("M-b"     windmove-left                    :color red)
-      ("M-n"     windmove-down                    :color red)
-      ("M-p"     windmove-up                      :color red)
+      ("f"       windmove-right                   :color red)
+      ("b"       windmove-left                    :color red)
+      ("n"       windmove-down                    :color red)
+      ("p"       windmove-up                      :color red)
       ("C-c"     elscreen-create                  :color red)
       ("C-n"     elscreen-next                    :color red)
       ("C-p"     elscreen-previous                :color red)
@@ -2102,7 +2138,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("r"       revert-buffer                    :color blue)
       ("C-o"     buffer-expose                    :color blue)
       ("s"       eshell                           :color red)
-      ("b"       helm-mini                        :color red)
+      ("m"       helm-mini                        :color red)
       ("<up>"    my/shrink-window-vertically      :color red)
       ("<down>"  my/enlarge-window-vertically     :color red)
       ("<left>"  shrink-window-horizontally       :color red)
@@ -2123,7 +2159,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (define-key global-map (kbd "<tab>")   nil)
     (define-key global-map (kbd "<tab>")   'indent-according-to-mode)
     (define-key global-map (kbd "C-i")     'indent-region)
-    (define-key global-map (kbd "C-j")     'newline-and-indent)
+    (define-key global-map (kbd "C-j")     'other-window)
+    (define-key global-map (kbd "M-j")     'my/backward-other-window)
     (define-key global-map (kbd "C-t")     'my/insert-tab)
     (define-key global-map (kbd "<f6>")    'my/untabify)
     (define-key global-map (kbd "<f7>")    'my/tabify)
