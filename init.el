@@ -1916,6 +1916,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :tag "builtin"
       :added "2020-04-18"
       :mode (".*\\.org\\'")
+      :bind ((:org-mode-map
+              ("C-j" . nil)))
       :custom ((org-image-actual-width)
                (org-startup-truncated)
                (org-use-speed-commands        . t)
