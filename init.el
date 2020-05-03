@@ -2019,12 +2019,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (other-window -1))
 
     (defun my/shrink-window-vertically (arg)
-      (interactive)
+      (interactive "p")
       (shrink-window arg))
 
     (defun my/enlarge-window-vertically (arg)
-      (interactive)
-      (shrink-window -arg))
+      (interactive "p")
+      (shrink-window (* arg -1)))
 
     (defun my/open-org-diary ()
       (interactive)
