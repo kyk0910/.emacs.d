@@ -1208,6 +1208,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
              (completion-ignore-case . t)
              (company-auto-expand . t))
     :config
+    (add-to-list 'company-backends 'company-org-block)
     (global-company-mode t)
     (with-eval-after-load 'company
       (defun my-sort-uppercase (candidates)
@@ -1920,23 +1921,30 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
               ("C-j" . nil)))
       :custom ((org-image-actual-width)
                (org-startup-truncated)
-               (org-use-speed-commands        . t)
-               (org-enforce-todo-dependencies . t)
-               (org-directory                 . '"~/Dropbox/org")
-               (org-default-notes-file        . '"notes.org")
-               (org-agenda-files              . '("~/Dropbox/org" "~/Dropbox/org/diary"))
-               (org-todo-keywords             . '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
-               (org-log-done                  . 'time)
-               (org-latex-pdf-process         . '("platex -shell-escape %f" "platex -shell-escape %f" "dvipdfmx %b.dvi"))
-               (org-capture-templates         . '(("t" "Todo" entry
-                                                   (file+headline "~/Dropbox/org/gtd.org" "INBOX")
-                                                   "* TODO %?\n %i\n %a")
-                                                  ("s" "Schedule" entry
-                                                   (file "~/Dropbox/org/schedule.org")
-                                                   "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                                  ("n" "Note" entry
-                                                   (file+headline "~/Dropbox/org/notes.org" "Notes")
-                                                   "* %?\nEntered on %U\n %i\n %a")))))
+               (org-use-speed-commands          . t)
+               (org-enforce-todo-dependencies   . t)
+               (org-directory                   . '"~/Dropbox/org")
+               (org-default-notes-file          . '"notes.org")
+               (org-agenda-files                . '("~/Dropbox/org" "~/Dropbox/org/diary"))
+               (org-todo-keywords               . '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
+               (org-log-done                    . 'time)
+               (org-highlight-latex-and-related . '(latex script entities))
+               (org-latex-pdf-process           . '("platex -shell-escape %f" "platex -shell-escape %f" "dvipdfmx %b.dvi"))
+               (org-capture-templates           . '(("t" "Todo" entry
+                                                     (file+headline "~/Dropbox/org/gtd.org" "INBOX")
+                                                     "* TODO %?\n %i\n %a")
+                                                    ("s" "Schedule" entry
+                                                     (file "~/Dropbox/org/schedule.org")
+                                                     "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                                    ("n" "Note" entry
+                                                     (file+headline "~/Dropbox/org/notes.org" "Notes")
+                                                     "* %?\nEntered on %U\n %i\n %a"))))
+      :init (org-babel-do-load-languages
+             'org-babel-load-languages
+             '((shell      . t)
+               (python     . t)
+               (emacs-lisp . t))))
+
 
     (leaf org-bullets
       :doc "Show bullets in org-mode as UTF-8 characters"
@@ -2033,24 +2041,35 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (elscreen-create)
       (open-junk-file))
 
+    (defun my/org-babel-eval-and-show-img ()
+      (interactive)
+      (org-babel-execute-src-block)
+      (org-redisplay-inline-images))
+
+    (defun my/open-main-menu ()
+      (interactive)
+      (company-abort)
+      (hydra-my-main-menu/body))
+
     (defhydra hydra-org-menu
       (:color amaranth :hint nil)
       "
                                                           ┳━━━━━┳
                                                           ┃ Org ┃
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
-        [_d_] my/open-org-diary
+        [_d_] my/open-org-diary   [_e_] my/org-babel-eval-and-show-img
         [_a_] org-agenda
         [_c_] org-capture
         [_p_] org-pomodoro
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
-      ("d"   my/open-org-diary :color blue)
-      ("a"   org-agenda        :color blue)
-      ("c"   org-capture       :color blue)
-      ("p"   org-pomodoro      :color blue)
-      ("q"   nil "quit"        :color blue)
-      ("C-q" nil "quit"        :color blue))
+      ("d"   my/open-org-diary              :color blue)
+      ("a"   org-agenda                     :color blue)
+      ("c"   org-capture                    :color blue)
+      ("p"   org-pomodoro                   :color blue)
+      ("e"   my/org-babel-eval-and-show-img :color blue)
+      ("q"   nil "quit" :color blue)
+      ("C-q" nil "quit" :color blue))
 
     (defhydra hydra-git-menu
       (:color amaranth :hint nil)
@@ -2166,7 +2185,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (define-key global-map (kbd "C-t")     'my/insert-tab)
     (define-key global-map (kbd "<f6>")    'my/untabify)
     (define-key global-map (kbd "<f7>")    'my/tabify)
-    (define-key global-map (kbd "C-o")     'hydra-my-main-menu/body))
+    (define-key global-map (kbd "C-o")     'my/open-main-menu))
 
   (leaf others
     :custom ((c-default-style         . '((c++-mode . "stroustrup")))
