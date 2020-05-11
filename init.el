@@ -2052,6 +2052,24 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (company-abort)
       (hydra-my-main-menu/body))
 
+    (defun my/region-replace (str newstr begin end)
+      "指定範囲内で置換を行う"
+      (goto-char begin)
+      (while (search-forward str end t)
+        (replace-match newstr)))
+
+    (defun my/replace-with-comma-and-period ()
+      "選択範囲内の句読点をコンマとピリオドに置き換える"
+      (interactive)
+      (let ((curpos (point))
+            (begin (if (region-active-p)
+                       (region-beginning) (point-min)))
+            (end (if (region-active-p)
+                     (region-end) nil)))
+        (my/region-replace "。" "．" begin end)
+        (my/region-replace "、" "，" begin end)
+        (goto-char curpos)))
+
     (defhydra hydra-org-menu
       (:color amaranth :hint nil)
       "
