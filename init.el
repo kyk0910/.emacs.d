@@ -1921,6 +1921,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
               ("C-j" . nil)))
       :custom ((org-image-actual-width)
                (org-startup-truncated)
+               (org-babel-python-command        . '"python3")
                (org-use-speed-commands          . t)
                (org-enforce-todo-dependencies   . t)
                (org-directory                   . '"~/Dropbox/org")
