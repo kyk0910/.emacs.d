@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: log
+# key: log
+# --
+* `(format-time-string "%T" (current-time))` ${2:name} : ${3:remark}
+$0
