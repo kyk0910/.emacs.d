@@ -1146,6 +1146,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :bind (([remap kill-ring-save]. easy-kill)
          ([remap mark-sexp] . easy-mark)))
 
+(leaf auto-rename-tag
+  :doc "Automatically rename paired HTML/XML tag."
+  :req "emacs-24.4"
+  :tag "emacs>=24.4"
+  :added "2020-05-21"
+  :url "https://github.com/jcs090218/auto-rename-tag"
+  :emacs>= 24.4
+  :ensure t
+  :hook (web-mode-hook rjsx-mode-hook nxml-mode-hook))
+
 (leaf mozc
   :config
   (defun mozc-mark-escape nil
