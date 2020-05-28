@@ -828,7 +828,7 @@
   :req "cl-lib-0.5"
   :added "2020-04-18"
   :ensure t
-  :after region-bindings-mode
+  :after region-bindings-mode helm
   ;; 何故か動作しない(bindの評価タイミングの問題？)
   ;; :bind ((region-bindings-mode-map
   ;;         ("e" . mc/edit-lines)
@@ -841,7 +841,21 @@
   (define-key region-bindings-mode-map "n" 'mc/mark-next-like-this)
   (define-key region-bindings-mode-map "p" 'mc/mark-previous-like-this)
   (define-key region-bindings-mode-map "a" 'mc/mark-all-like-this)
-  (define-key region-bindings-mode-map "m" 'mc/mark-more-like-this-extended))
+  (define-key region-bindings-mode-map "m" 'mc/mark-more-like-this-extended)
+  (defun mc/helm-M-x ()
+    "helm-M-xを一度だけ呼び出してすべてのカーソルに適用する"
+    (interactive)
+    (if (call-interactively 'helm-M-x)
+        (let ((cmd (intern (car extended-command-history))))
+          (if multiple-cursors-mode
+              (if (and cmd
+                       (not (memq cmd mc--default-cmds-to-run-once))
+                       (not (memq cmd mc/cmds-to-run-once))
+                       (or mc/always-run-for-all
+                           (memq cmd mc--default-cmds-to-run-for-all)
+                           (memq cmd mc/cmds-to-run-for-all)
+                           (mc/prompt-for-inclusion-in-whitelist cmd)))
+                  (mc/execute-command-for-all-fake-cursors cmd)))))))
 
 (leaf move-text
   :doc "Move current line or region with M-up or M-down."
@@ -2229,7 +2243,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :config
     (blink-cursor-mode 0) ;; カーソルの点滅を無効化
     (transient-mark-mode t) ;; 選択範囲を強調する
-    (set-face-background 'region "#808040")
+    (set-face-background 'region "#404060")
     (global-hl-line-mode t) ;; カーソル行を強調する
     (show-paren-mode 1) ;; 対応する括弧を強調する
     (set-default 'truncate-lines t) ;; 文字を折り返さない
