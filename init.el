@@ -1055,8 +1055,7 @@
   (eval-and-compile
     (with-eval-after-load 'hydra
       (defhydra smerge-hydra
-        (:color pink :hint nil :post
-                (smerge-auto-leave))
+        (:color pink :hint nil :pre (my/pre-hydra) :post (smerge-auto-leave))
         "
 ^Move^       ^Keep^               ^Diff^                 ^Other^
 ^^-----------^^-------------------^^---------------------^^-------
@@ -2094,8 +2093,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         (my/region-replace "、" "，" begin end)
         (goto-char curpos)))
 
+    (defun my/pre-hydra ()
+      "hydra起動時に実行する処理"
+      (deactivate-input-method))
+
     (defhydra hydra-org-menu
-      (:color amaranth :hint nil)
+      (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
                                                           ┳━━━━━┳
                                                           ┃ Org ┃
@@ -2115,7 +2118,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("C-q" nil "quit" :color blue))
 
     (defhydra hydra-git-menu
-      (:color amaranth :hint nil)
+      (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
                                                                                       ┳━━━━━┳
                                                                                       ┃ Git ┃
@@ -2141,7 +2144,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("C-q"     nil "quit"                  :color blue))
 
     (defhydra hydra-lsp-menu
-      (:color amaranth :hint nil)
+      (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
                                                                                                                            ┳━━━━━┳
                                                                                                                            ┃ LSP ┃
@@ -2169,7 +2172,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("C-q"  nil "quit"                      :color blue))
 
     (defhydra hydra-my-main-menu
-      (:color amaranth :hint nil)
+      (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
                                                                                                                                                                 ┳━━━━━━┳
                                                                                                                                                                 ┃ Main ┃
