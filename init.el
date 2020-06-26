@@ -2126,13 +2126,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         [_m_] magit-status     [_s_] git-gutter:stage-hunk    [_M_] git-messenger:popup-message
         [_b_] magit-blame      [_d_] git-gutter:popup-hunk    [_L_] git-link
         [_g_] helm-git-grep    [_r_] git-gutter:revert-hunk   [_I_] helm-gitignore
-        [_l_] helm-ls-git      [_t_] git-timemachine
+        [_l_] helm-ls-git-ls   [_t_] git-timemachine
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("m"       magit-status                :color blue)
       ("b"       magit-blame                 :color blue)
       ("g"       helm-git-grep               :color blue)
-      ("l"       helm-ls-git                 :color blue)
+      ("l"       helm-ls-git-ls              :color blue)
       ("d"       git-gutter:popup-hunk       :color blue)
       ("r"       git-gutter:revert-hunk      :color blue)
       ("s"       git-gutter:stage-hunk       :color blue)
