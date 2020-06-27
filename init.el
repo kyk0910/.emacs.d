@@ -1244,31 +1244,43 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
              (company-auto-expand . t))
     :config
     (global-company-mode t)
-    (with-eval-after-load 'company
-      (defun my-sort-uppercase (candidates)
-        (let (case-fold-search
-              (re "\\`[[:upper:]]*\\'"))
-          (sort candidates
-                (lambda (s1 s2)
-                  (and
-                   (string-match-p re s2)
-                   (not (string-match-p re s1)))))))
 
-      (push 'my-sort-uppercase company-transformers)
-      (defvar company-mode/enable-yas t)
-      (defun company-mode/backend-with-yas (backend)
-        (if (or
-             (not company-mode/enable-yas)
-             (and
-              (listp backend)
-              (member 'company-yasnippet backend)))
-            backend
-          (append
-           (if (consp backend)
-               backend
-             (list backend))
-           '(:with company-yasnippet))))
-      (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))))
+    (leaf company-tabnine
+      :doc "A company-mode backend for TabNine"
+      :req "emacs-25" "company-0.9.3" "cl-lib-0.5" "dash-2.16.0" "s-1.12.0" "unicode-escape-1.1"
+      :tag "convenience" "emacs>=25"
+      :added "2020-04-18"
+      :url "https://github.com/TommyX12/company-tabnine/"
+      :emacs>= 25
+      :ensure t
+      :after company
+      :config
+      (add-to-list 'company-backends #'company-tabnine))
+
+    (defun my-sort-uppercase (candidates)
+      (let (case-fold-search
+            (re "\\`[[:upper:]]*\\'"))
+        (sort candidates
+              (lambda (s1 s2)
+                (and
+                 (string-match-p re s2)
+                 (not (string-match-p re s1)))))))
+    (push 'my-sort-uppercase company-transformers)
+
+    (defvar company-mode/enable-yas t)
+    (defun company-mode/backend-with-yas (backend)
+      (if (or
+           (not company-mode/enable-yas)
+           (and
+            (listp backend)
+            (member 'company-yasnippet backend)))
+          backend
+        (append
+         (if (consp backend)
+             backend
+           (list backend))
+         '(:with company-yasnippet))))
+    (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
 
   (leaf company-quickhelp
     :doc "Popup documentation for completion candidates"
@@ -1281,18 +1293,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :after company
     :config
     (company-quickhelp-mode 1))
-
-  (leaf company-tabnine
-    :doc "A company-mode backend for TabNine"
-    :req "emacs-25" "company-0.9.3" "cl-lib-0.5" "dash-2.16.0" "s-1.12.0" "unicode-escape-1.1"
-    :tag "convenience" "emacs>=25"
-    :added "2020-04-18"
-    :url "https://github.com/TommyX12/company-tabnine/"
-    :emacs>= 25
-    :ensure t
-    :after company
-    :config
-    (add-to-list 'company-backends #'company-tabnine))
 
   (leaf company-posframe
     :doc "Use a posframe as company candidate menu"
@@ -1620,10 +1620,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :emacs>= 25.1
       :ensure t
       :require t
+      :after company
       :hook (prog-major-mode-hook function-hook lsp-prog-major-mode-enable-hook)
       :custom ((lsp-enable-snippet . t)
                (lsp-enable-indentation)
-               (lsp-prefer-capf    . t)
                (lsp-prefer-flymake)
                (lsp-document-sync-method . 'incremental)
                (lsp-inhibit-message . t)
@@ -1675,7 +1675,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :disabled t ;; no longer supported
       :ensure t
       :require t
-      :after lsp-mode company
+      :after lsp-mode
       :commands company-lsp
       :custom ((company-lsp-cache-candidates)
                (company-lsp-async . t)
