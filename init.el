@@ -1621,13 +1621,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :ensure t
       :require t
       :after company
-      :hook (prog-major-mode-hook function-hook lsp-prog-major-mode-enable-hook)
+      :hook ((prog-major-mode . lsp-mode)
+             (lsp-prog-major-mode-enable . lsp-mode))
       :custom ((lsp-enable-snippet . t)
                (lsp-enable-indentation)
                (lsp-document-sync-method . 2)
                (lsp-inhibit-message . t)
                (lsp-message-project-root-warning . t)
-               (create-lockfiles)
+               (create-lockfiles . nil)
                (lsp-rust-rls-command . '("rustup" "run" "nightly" "rls"))))
 
     (leaf lsp-ui
