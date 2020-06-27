@@ -1243,7 +1243,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
              (completion-ignore-case . t)
              (company-auto-expand . t))
     :config
-    (add-to-list 'company-backends 'company-org-block)
     (global-company-mode t)
     (with-eval-after-load 'company
       (defun my-sort-uppercase (candidates)
