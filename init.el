@@ -1223,8 +1223,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
             ("C-n" . company-select-next)
             ("C-p" . company-select-previous)))
     :custom ((company-transformers . '(company-sort-by-backend-importance))
-             (company-backends     . '((company-capf company-dabbrev)
-                                       ;;company-bbdb
+             (company-backends     . '(;;company-bbdb
                                        ;;company-eclim
                                        company-semantic
                                        ;;company-clang
@@ -1256,6 +1255,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :after company
       :config
       (add-to-list 'company-backends #'company-tabnine))
+    (add-to-list 'company-backends #'(company-capf company-dabbrev))
 
     (defun my-sort-uppercase (candidates)
       (let (case-fold-search
