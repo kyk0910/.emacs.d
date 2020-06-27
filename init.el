@@ -1223,6 +1223,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
             ("C-n" . company-select-next)
             ("C-p" . company-select-previous)))
     :custom ((company-transformers . '(company-sort-by-backend-importance))
+             (company-backends     . '((company-capf company-dabbrev)
+                                       ;;company-bbdb
+                                       ;;company-eclim
+                                       company-semantic
+                                       ;;company-clang
+                                       ;;company-xcode
+                                       company-cmake
+                                       ;;company-files
+                                       company-org-block
+                                       (company-dabbrev-code company-gtags company-etags company-keywords)
+                                       ;;company-oddmuse
+                                       ))
              (company-global-modes . '(not eshell-mode))
              (company-idle-delay . 0)
              (company-echo-delay . 0)
@@ -1612,6 +1624,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :hook (prog-major-mode-hook function-hook lsp-prog-major-mode-enable-hook)
       :custom ((lsp-enable-snippet . t)
                (lsp-enable-indentation)
+               (lsp-prefer-capf    . t)
                (lsp-prefer-flymake)
                (lsp-document-sync-method . 'incremental)
                (lsp-inhibit-message . t)
@@ -1660,6 +1673,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :added "2020-04-19"
       :url "https://github.com/tigersoldier/company-lsp"
       :emacs>= 25.1
+      :disabled t ;; no longer supported
       :ensure t
       :require t
       :after lsp-mode company
