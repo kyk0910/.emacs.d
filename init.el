@@ -1420,7 +1420,19 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-05-01"
     :url "https://github.com/jupl/helm-gitignore"
     :ensure t
-    :after gitignore-mode helm))
+    :after gitignore-mode helm)
+
+  (leaf helm-lsp
+    :doc "LSP helm integration"
+    :req "emacs-25.1" "dash-2.14.1" "lsp-mode-5.0" "helm-2.0"
+    :tag "debug" "languages" "emacs>=25.1"
+    :added "2020-07-16"
+    :url "https://github.com/yyoncho/helm-lsp"
+    :emacs>= 25.1
+    :ensure t
+    :after lsp-mode helm
+    :config
+    (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)))
 
 (leaf git
   :config
