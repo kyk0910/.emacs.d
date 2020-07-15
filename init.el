@@ -309,6 +309,22 @@
   :config
   (xclip-mode t))
 
+(leaf vterm
+  :doc "Fully-featured terminal emulator"
+  :req "emacs-25.1"
+  :tag "terminals" "emacs>=25.1"
+  :added "2020-07-16"
+  :url "https://github.com/akermu/emacs-libvterm"
+  :emacs>= 25.1
+  :ensure t)
+
+(leaf ripgrep
+  :doc "Front-end for ripgrep, a command line search tool"
+  :tag "search" "grep" "sift" "ag" "pt" "ack" "ripgrep"
+  :added "2020-07-16"
+  :url "https://github.com/nlamirault/ripgrep.el"
+  :ensure t)
+
 (leaf disable-mouse
   :doc "Disable mouse commands globally"
   :req "emacs-24.1"
