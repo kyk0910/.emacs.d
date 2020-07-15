@@ -1694,12 +1694,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :ensure t
       :require t
       :after treemacs lsp-mode
-      :setq ((lsp-treemacs-theme . "centaur-colors"))
+      :setq ((lsp-treemacs-theme . "Default"))
       :config
-      (with-eval-after-load 'ace-window
-        (when (boundp 'aw-ignored-buffers)
-          (push 'lsp-treemacs-symbols-mode aw-ignored-buffers)
-          (push 'lsp-treemacs-java-deps-mode aw-ignored-buffers))))
+      (lsp-treemacs-sync-mode 1))
 
     (leaf dap-mode
       :doc "Debug Adapter Protocol mode"
