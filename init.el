@@ -2131,6 +2131,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         (my/region-replace "、" "，" begin end)
         (goto-char curpos)))
 
+    (defun my/projectile-replace-regexp ()
+      "saveも行う"
+      (interactive)
+      (projectile-replace-regexp)
+      (projectile-save-project-buffers))
+
     (defun my/pre-hydra ()
       "hydra起動時に実行する処理"
       (deactivate-input-method))
@@ -2209,6 +2215,34 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("q"    nil "quit"                      :color blue)
       ("C-q"  nil "quit"                      :color blue))
 
+    (defhydra hydra-projectile-menu
+      (:color amaranth :pre (my/pre-hydra) :hint nil)
+      "
+                                                                                                                           ┳━━━━━━━━━━━━┳
+                                                                                                                           ┃ Projectile ┃
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━┻
+        [_d_] projectile-dired-other-window  [_e_] projectile-edit-dir-locals            [_C_] projectile-compile-project
+        [_f_] projectile-find                [_s_] projectile-run-vterm                  [_T_] projectile-test-project
+        [_k_] projectile-kill-buffers        [_S_] projectile-run-shell-command-in-root  [_R_] projectile-run-project
+        [_g_] projectile-ripgrep             [_G_] projectile-run-gdb
+        [_%_] my/projectile-replace-regexp
+      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+      "
+      ("d"    projectile-dired-other-window        :color blue)
+      ("f"    projectile-find-file-dwim            :color blue)
+      ("k"    projectile-kill-buffers              :color blue)
+      ("g"    projectile-ripgrep                   :color blue)
+      ("%"    my/projectile-replace-regexp         :color blue)
+      ("e"    projectile-edit-dir-locals           :color blue)
+      ("s"    projectile-run-vterm                 :color blue)
+      ("S"    projectile-run-shell-command-in-root :color blue)
+      ("G"    projectile-run-gdb                   :color blue)
+      ("C"    projectile-compile-project           :color blue)
+      ("T"    projectile-test-project              :color blue)
+      ("R"    projectile-run-project               :color blue)
+      ("q"    nil "quit"                           :color blue)
+      ("C-q"  nil "quit"                           :color blue))
+
     (defhydra hydra-my-main-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
@@ -2218,8 +2252,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                ^[_p_]^       |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
                 ^^↑^^        |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
           [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_s_]   eshell                  ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
-                ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_r_]   revert-buffer
-               ^[_n_]^       |  [_C-s_]     elscreen-split                                                                                       ^^^^^^^^^^|  [_C-o_] buffer-expose
+                ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_P_]   Projectile
+               ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                      ^^^^^^^^^^|  [_C-o_] buffer-expose
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("f"       windmove-right                   :color red)
@@ -2251,7 +2285,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("o"       hydra-org-menu/body              :color blue)
       ("g"       hydra-git-menu/body              :color blue)
       ("l"       hydra-lsp-menu/body              :color blue)
-      ("d"       hydra-docker-menu/body           :color blue)
+      ("P"       hydra-projectile-menu/body       :color blue)
       ("q"       nil "quit"                       :color blue)
       ("C-q"     nil "quit"                       :color blue))
 
