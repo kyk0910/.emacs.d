@@ -205,7 +205,7 @@
            (whitespace-display-mappings . '((space-mark 12288 [9633]) (tab-mark 9 [187 9] [92 9])))
            (whitespace-space-regexp . "\\(　+\\)")
            (whitespace-action . '(auto-cleanup))
-           (whitespace-global-modes . '(not dired-mode tar-mode)))
+           (whitespace-global-modes . '(not dired-mode tar-mode vterm-mode)))
   :require t
   :setq ((my/bg-color . "#050510"))
   :config
@@ -2222,8 +2222,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                                                                                                            ┃ Projectile ┃
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━┻
         [_d_] projectile-dired-other-window  [_e_] projectile-edit-dir-locals            [_C_] projectile-compile-project
-        [_f_] projectile-find                [_s_] projectile-run-vterm                  [_T_] projectile-test-project
-        [_k_] projectile-kill-buffers        [_S_] projectile-run-shell-command-in-root  [_R_] projectile-run-project
+        [_f_] projectile-find                [_t_] projectile-run-vterm                  [_T_] projectile-test-project
+        [_k_] projectile-kill-buffers        [_s_] projectile-run-shell-command-in-root  [_R_] projectile-run-project
         [_g_] projectile-ripgrep             [_G_] projectile-run-gdb
         [_%_] my/projectile-replace-regexp
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
@@ -2251,9 +2251,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
                ^[_p_]^       |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
                 ^^↑^^        |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
-          [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_s_]   eshell                  ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
+          [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_t_]   vterm                   ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
                 ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_P_]   Projectile
-               ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                      ^^^^^^^^^^|  [_C-o_] buffer-expose
+               ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                          ^^^^^^|
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("f"       windmove-right                   :color red)
@@ -2276,7 +2276,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       ("k"       kill-buffer-and-window           :color red)
       ("r"       revert-buffer                    :color blue)
       ("C-o"     buffer-expose                    :color blue)
-      ("s"       eshell                           :color red)
+      ("t"       vterm                            :color red)
       ("m"       helm-mini                        :color red)
       ("<up>"    my/shrink-window-vertically      :color red)
       ("<down>"  my/enlarge-window-vertically     :color red)
