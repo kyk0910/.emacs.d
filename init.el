@@ -2139,12 +2139,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         (my/region-replace "、" "，" begin end)
         (goto-char curpos)))
 
-    (defun my/projectile-replace-regexp ()
-      "saveも行う"
-      (interactive)
-      (projectile-replace-regexp)
-      (projectile-save-project-buffers))
-
     (defun my/pre-hydra ()
       "hydra起動時に実行する処理"
       (deactivate-input-method))
@@ -2229,21 +2223,22 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                                                                                                            ┳━━━━━━━━━━━━┳
                                                                                                                            ┃ Projectile ┃
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━┻
-        [_d_] projectile-dired-other-window  [_e_] projectile-edit-dir-locals            [_C_] projectile-compile-project
-        [_f_] projectile-find                [_t_] projectile-run-vterm                  [_T_] projectile-test-project
-        [_k_] projectile-kill-buffers        [_s_] projectile-run-shell-command-in-root  [_R_] projectile-run-project
-        [_g_] projectile-ripgrep             [_G_] projectile-run-gdb
-        [_%_] my/projectile-replace-regexp
+        [_d_]  projectile-dired-other-window  [_e_]  projectile-edit-dir-locals            [_C_]  projectile-compile-project
+        [_f_]  projectile-find                [_t_]  projectile-run-vterm                  [_T_]  projectile-test-project
+        [_k_]  projectile-kill-buffers        [_s_]  projectile-save-project-buffers       [_R_]  projectile-run-project
+        [_g_]  projectile-ripgrep             [_S_]  projectile-run-shell-command-in-root
+        [_%_]  projectile-replace             [_G_]  projectile-run-gdb
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("d"    projectile-dired-other-window        :color blue)
       ("f"    projectile-find-file-dwim            :color blue)
       ("k"    projectile-kill-buffers              :color blue)
       ("g"    projectile-ripgrep                   :color blue)
-      ("%"    my/projectile-replace-regexp         :color blue)
+      ("%"    projectile-replace                   :color blue)
       ("e"    projectile-edit-dir-locals           :color blue)
       ("t"    projectile-run-vterm                 :color blue)
-      ("s"    projectile-run-shell-command-in-root :color blue)
+      ("s"    projectile-save-project-buffers      :color blue)
+      ("S"    projectile-run-shell-command-in-root :color blue)
       ("G"    projectile-run-gdb                   :color blue)
       ("C"    projectile-compile-project           :color blue)
       ("T"    projectile-test-project              :color blue)
