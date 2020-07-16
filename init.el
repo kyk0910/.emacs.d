@@ -882,6 +882,14 @@
   :bind (("M-<up>"   . move-text-up)
          ("M-<down>" . move-text-down)))
 
+(leaf twittering-mode
+  :doc "Major mode for Twitter"
+  :tag "web" "twitter"
+  :added "2020-07-16"
+  :url "http://twmode.sf.net/"
+  :ensure t
+  :custom (twittering-use-master-password . t))
+
 (leaf dashboard
   :doc "A startup screen extracted from Spacemacs"
   :req "emacs-25.3" "page-break-lines-0.11"
@@ -2253,41 +2261,42 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                 ^^↑^^        |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
           [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_t_]   vterm                   ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
                 ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_P_]   Projectile
-               ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                          ^^^^^^|
+               ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                          ^^^^^^|  [_u_]   tweet
       ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
-      ("f"       windmove-right                   :color red)
-      ("b"       windmove-left                    :color red)
-      ("n"       windmove-down                    :color red)
-      ("p"       windmove-up                      :color red)
-      ("C-c"     elscreen-create                  :color red)
-      ("C-n"     elscreen-next                    :color red)
-      ("C-p"     elscreen-previous                :color red)
-      ("C-k"     elscreen-kill                    :color red)
-      ("C-b"     elscreen-find-and-goto-by-buffer :color red)
-      ("C-s"     elscreen-split                   :color red)
-      ("0"       delete-window                    :color red)
-      ("1"       delete-other-windows             :color red)
-      ("2"       split-window-below               :color red)
-      ("3"       split-window-right               :color red)
-      ("4"       kill-buffer-and-window           :color red)
-      ("I"       text-scale-increase              :color red)
-      ("O"       text-scale-decrease              :color red)
-      ("k"       kill-buffer-and-window           :color red)
-      ("r"       revert-buffer                    :color blue)
-      ("C-o"     buffer-expose                    :color blue)
-      ("t"       vterm                            :color red)
-      ("m"       helm-mini                        :color red)
-      ("<up>"    my/shrink-window-vertically      :color red)
-      ("<down>"  my/enlarge-window-vertically     :color red)
-      ("<left>"  shrink-window-horizontally       :color red)
-      ("<right>" enlarge-window-horizontally      :color red)
-      ("o"       hydra-org-menu/body              :color blue)
-      ("g"       hydra-git-menu/body              :color blue)
-      ("l"       hydra-lsp-menu/body              :color blue)
-      ("P"       hydra-projectile-menu/body       :color blue)
-      ("q"       nil "quit"                       :color blue)
-      ("C-q"     nil "quit"                       :color blue))
+      ("f"       windmove-right                       :color red)
+      ("b"       windmove-left                        :color red)
+      ("n"       windmove-down                        :color red)
+      ("p"       windmove-up                          :color red)
+      ("C-c"     elscreen-create                      :color red)
+      ("C-n"     elscreen-next                        :color red)
+      ("C-p"     elscreen-previous                    :color red)
+      ("C-k"     elscreen-kill                        :color red)
+      ("C-b"     elscreen-find-and-goto-by-buffer     :color red)
+      ("C-s"     elscreen-split                       :color red)
+      ("0"       delete-window                        :color red)
+      ("1"       delete-other-windows                 :color red)
+      ("2"       split-window-below                   :color red)
+      ("3"       split-window-right                   :color red)
+      ("4"       kill-buffer-and-window               :color red)
+      ("I"       text-scale-increase                  :color red)
+      ("O"       text-scale-decrease                  :color red)
+      ("k"       kill-buffer-and-window               :color red)
+      ("r"       revert-buffer                        :color blue)
+      ("C-o"     buffer-expose                        :color blue)
+      ("t"       vterm                                :color red)
+      ("m"       helm-mini                            :color red)
+      ("<up>"    my/shrink-window-vertically          :color red)
+      ("<down>"  my/enlarge-window-vertically         :color red)
+      ("<left>"  shrink-window-horizontally           :color red)
+      ("<right>" enlarge-window-horizontally          :color red)
+      ("o"       hydra-org-menu/body                  :color blue)
+      ("g"       hydra-git-menu/body                  :color blue)
+      ("l"       hydra-lsp-menu/body                  :color blue)
+      ("P"       hydra-projectile-menu/body           :color blue)
+      ("u"       twittering-update-status-interactive :color blue)
+      ("q"       nil "quit"                           :color blue)
+      ("C-q"     nil "quit"                           :color blue))
 
     (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
     (define-key region-bindings-mode-map (kbd "c") 'kill-ring-save)
