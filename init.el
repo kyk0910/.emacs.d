@@ -316,7 +316,11 @@
   :added "2020-07-16"
   :url "https://github.com/akermu/emacs-libvterm"
   :emacs>= 25.1
-  :ensure t)
+  :ensure t
+  :bind (vterm-mode-map
+         ("C-j" . nil)
+         ("M-j" . nil)
+         ("C-o" . nil)))
 
 (leaf ripgrep
   :doc "Front-end for ripgrep, a command line search tool"
