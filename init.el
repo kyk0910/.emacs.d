@@ -1853,8 +1853,34 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :bind ((markdown-mode-map
             ("<tab>" . markdown-demote)
             ("C-<tab>" . markdown-promote)))
-    :mode ((".*\\.md\\'" . gfm-mode))
-    :custom ((markdown-command . '"jq --slurp --raw-input '{\"text\": \"\\(.)\", \"mode\": \"gfm\"}' | curl -sS --data @- https://api.github.com/markdown")))
+    :mode ((".*\\.md\\'" . gfm-mode)))
+
+  (leaf markdown-toc
+    :doc "A simple TOC generator for markdown file"
+    :req "s-1.9.0" "dash-2.11.0" "markdown-mode-2.1"
+    :added "2020-07-18"
+    :ensure t
+    :after markdown-mode)
+
+  (leaf vmd-mode
+    :doc "Fast Github-flavored Markdown preview using a vmd subprocess."
+    :req "emacs-24.3"
+    :tag "vmd" "live" "preview" "markdown" "emacs>=24.3"
+    :added "2020-07-18"
+    :url "https://github.com/blak3mill3r/vmd-mode"
+    :emacs>= 24.3
+    :ensure t
+    :config
+    (defun vmd-company-backend (command &optional arg &rest ignored)
+      (interactive (list 'interactive))
+      (cl-case command
+        (interactive (company-begin-backend 'company-sample-backend))
+        (prefix (and (eq major-mode 'fundamental-mode)
+                     (company-grab-symbol)))
+        (candidates
+         (cl-remove-if-not
+          (lambda (c) (string-prefix-p arg c))
+          vmd-mode/github-emojis-list)))))
 
   (leaf yaml-mode
     :doc "Major mode for editing YAML files"
