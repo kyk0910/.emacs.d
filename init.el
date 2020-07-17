@@ -434,8 +434,7 @@
   :custom ((anzu-deactivate-region . t)
            (anzu-search-threshold . 100))
   :config
-  (with-eval-after-load 'anzu
-    (global-anzu-mode 1)))
+  (global-anzu-mode 1))
 
 (leaf smooth-scroll
   :doc "Minor mode for smooth scrolling and in-place scrolling."
