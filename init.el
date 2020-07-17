@@ -1734,7 +1734,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :ensure t
       :require t
       :after treemacs lsp-mode
-      :setq ((lsp-treemacs-theme . "Default"))
       :config
       (lsp-treemacs-sync-mode 1))
 
