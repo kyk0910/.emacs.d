@@ -126,13 +126,6 @@
   :config
   (auto-save-buffers-enhanced t))
 
-(leaf bind-key
-  :doc "A simple way to manage personal keybindings"
-  :tag "dotemacs" "config" "keybinding" "keys"
-  :added "2020-04-19"
-  :url "https://github.com/jwiegley/use-package"
-  :ensure t)
-
 (leaf exec-path-from-shell
   :doc "Get environment variables such as $PATH from the shell"
   :tag "environment" "unix"
@@ -195,6 +188,20 @@
   :config
   (region-bindings-mode t)
   (region-bindings-mode-enable))
+
+(leaf hl-line
+  :doc "highlight the current line"
+  :tag "builtin"
+  :added "2020-07-19"
+  :config
+  (defvar global-hl-line-timer-exclude-modes '(todotxt-mode))
+  (defun global-hl-line-timer-function ()
+    (unless (memq major-mode global-hl-line-timer-exclude-modes)
+      (global-hl-line-unhighlight-all)
+      (let ((global-hl-line-mode t))
+        (global-hl-line-highlight))))
+  (setq global-hl-line-timer
+        (run-with-idle-timer 0.03 t 'global-hl-line-timer-function)))
 
 (leaf whitespace
   :doc "minor mode to visualize TAB, (HARD) SPACE, NEWLINE"
@@ -1256,7 +1263,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                        ;;company-clang
                                        ;;company-xcode
                                        company-cmake
-                                       ;;company-files
+                                       company-files
                                        company-org-block
                                        (company-dabbrev-code company-gtags company-etags company-keywords)
                                        ;;company-oddmuse
@@ -1282,6 +1289,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :after company
       :config
       (add-to-list 'company-backends #'company-tabnine))
+    (add-to-list 'company-backends 'vmd-company-backend)
     (add-to-list 'company-backends #'(company-capf company-dabbrev))
 
     (defun my-sort-uppercase (candidates)
@@ -1316,6 +1324,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :added "2020-04-18"
     :url "https://www.github.com/expez/company-quickhelp"
     :emacs>= 24.3
+    :disabled
     :ensure t
     :after company
     :config
@@ -2171,6 +2180,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       "hydra起動時に実行する処理"
       (deactivate-input-method))
 
+    (defun my/vmd-mode ()
+      "debug-on-errorを切る"
+      (interactive)
+      (vmd-mode)
+      (debug-on-error nil))
+
     (defhydra hydra-org-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
@@ -2351,7 +2366,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (blink-cursor-mode 0) ;; カーソルの点滅を無効化
     (transient-mark-mode t) ;; 選択範囲を強調する
     (set-face-background 'region "#404060")
-    (global-hl-line-mode t) ;; カーソル行を強調する
     (show-paren-mode 1) ;; 対応する括弧を強調する
     (set-default 'truncate-lines t) ;; 文字を折り返さない
     (column-number-mode  t) ;; 行番号，列番号，関数名をモードラインに表示する
