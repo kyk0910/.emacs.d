@@ -179,6 +179,26 @@
   :emacs>= 26
   :ensure t)
 
+(leaf helm-posframe
+  :doc "Using posframe to show helm window"
+  :req "emacs-26.0" "posframe-0.1.0" "helm-0.1"
+  :tag "helm" "matching" "convenience" "abbrev" "emacs>=26.0"
+  :added "2020-07-19"
+  :url "https://github.com/tumashu/helm-posframe"
+  :emacs>= 26.0
+  :ensure t
+  :when window-system
+  :after posframe helm
+  :custom ((helm-posframe-poshandler . #'posframe-poshandler-frame-center)
+           (helm-posframe-parameters . '((internal-border-width . 20)
+                                         (background-color . nil)
+                                         (left-fringe . 10)
+                                         (right-fringe . 10))))
+  :config
+  (setq helm-posframe-min-height (round (* (frame-height) 0.49)))
+  (setq helm-posframe-width  (round (* (frame-width)  0.49)))
+  (helm-posframe-enable))
+
 (leaf region-bindings-mode
   :doc "Enable custom bindings when mark is active."
   :tag "convenience"
@@ -2107,11 +2127,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (menu-bar-mode -1)
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
-    (set-frame-parameter nil 'fullscreen 'maximized)
-    (when window-system
-      (progn
-        (set-face-background 'default "#252530")
-        (set-face-background 'fringe "#252530"))))
+    (set-face-background 'default "#252530")
+    (set-face-background 'fringe "#252530"))
 
   (leaf key-bindings
     :config
