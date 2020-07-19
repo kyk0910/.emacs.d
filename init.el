@@ -1489,7 +1489,37 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :after lsp-mode helm
     :config
-    (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)))
+    (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
+
+  (leaf helm-posframe
+    :doc "Using posframe to show helm window"
+    :req "emacs-26.0" "posframe-0.1.0" "helm-0.1"
+    :tag "helm" "matching" "convenience" "abbrev" "emacs>=26.0"
+    :added "2020-07-19"
+    :url "https://github.com/tumashu/helm-posframe"
+    :emacs>= 26.0
+    :ensure t
+    :when window-system
+    :after posframe helm
+    :custom ((helm-posframe-poshandler . #'posframe-poshandler-frame-center)
+             (helm-posframe-parameters . '((internal-border-width . 20)
+                                           (background-color . "#202025")
+                                           (left-fringe . 5)
+                                           (right-fringe . 5))))
+    :config
+    (helm-posframe-enable))
+
+  (leaf helm-icons
+    :doc "Helm icons"
+    :req "emacs-25.1" "dash-2.14.1" "f-0.20.0" "treemacs-2.7"
+    :tag "convenience" "emacs>=25.1"
+    :added "2020-07-20"
+    :url "https://github.com/yyoncho/helm-icons"
+    :emacs>= 25.1
+    :ensure t
+    :after treemacs
+    :config
+    (helm-icons-enable)))
 
 (leaf git
   :config
