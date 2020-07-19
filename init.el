@@ -180,25 +180,17 @@
   :ensure t
   :custom (posframe-mouse-banish . nil))
 
-(leaf helm-posframe
-  :doc "Using posframe to show helm window"
-  :req "emacs-26.0" "posframe-0.1.0" "helm-0.1"
-  :tag "helm" "matching" "convenience" "abbrev" "emacs>=26.0"
-  :added "2020-07-19"
-  :url "https://github.com/tumashu/helm-posframe"
-  :emacs>= 26.0
-  :ensure t
+(leaf hydra-posframe
+  :el-get (hydra-posframe :type github :pkgname "Ladicle/hydra-posframe")
+  :url "https://github.com/Ladicle/hydra-posframe"
   :when window-system
-  :after posframe helm
-  :custom ((helm-posframe-poshandler . #'posframe-poshandler-frame-center)
-           (helm-posframe-parameters . '((internal-border-width . 20)
-                                         (background-color . nil)
-                                         (left-fringe . 10)
-                                         (right-fringe . 10))))
-  :config
-  (setq helm-posframe-min-height (round (* (frame-height) 0.49)))
-  (setq helm-posframe-width  (round (* (frame-width)  0.49)))
-  (helm-posframe-enable))
+  :after hydra posframe
+  :custom (hydra-posframe-parameters . '((internal-border-width . 20)
+                                         (background-color . "#202025")
+                                         (left-fringe . 0)
+                                         (right-fringe . 0)))
+  :custom-face (hydra-posframe-border-face .  '((t (:background "#202025"))))
+  :hook (after-init . hydra-posframe-enable))
 
 (leaf region-bindings-mode
   :doc "Enable custom bindings when mark is active."
