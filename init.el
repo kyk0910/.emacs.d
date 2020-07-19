@@ -1496,8 +1496,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :custom ((helm-posframe-poshandler . #'posframe-poshandler-frame-center)
              (helm-posframe-parameters . '((internal-border-width . 20)
                                            (background-color . "#202025")
-                                           (left-fringe . 5)
-                                           (right-fringe . 5))))
+                                           (left-fringe . 0)
+                                           (right-fringe . 0))))
     :config
     (helm-posframe-enable))
 
@@ -2229,14 +2229,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-org-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
-                                                          ┳━━━━━┳
-                                                          ┃ Org ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
-        [_d_] my/open-org-diary   [_e_] my/org-babel-eval-and-show-img
-        [_a_] org-agenda
-        [_c_] org-capture
-        [_p_] org-pomodoro
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                    ┳━━━━━┳
+                                                    ┃ Org ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+  [_d_] my/open-org-diary   [_e_] my/org-babel-eval-and-show-img
+  [_a_] org-agenda
+  [_c_] org-capture
+  [_p_] org-pomodoro
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("d"   my/open-org-diary              :color blue)
       ("a"   org-agenda                     :color blue)
@@ -2249,14 +2249,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-git-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
-                                                                                      ┳━━━━━┳
-                                                                                      ┃ Git ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
-        [_m_] magit-status     [_s_] git-gutter:stage-hunk    [_M_] git-messenger:popup-message
-        [_b_] magit-blame      [_d_] git-gutter:popup-hunk    [_L_] git-link
-        [_g_] helm-git-grep    [_r_] git-gutter:revert-hunk   [_I_] helm-gitignore
-        [_l_] helm-ls-git-ls   [_t_] git-timemachine
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                ┳━━━━━┳
+                                                                                ┃ Git ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+  [_m_] magit-status     [_s_] git-gutter:stage-hunk    [_M_] git-messenger:popup-message
+  [_b_] magit-blame      [_d_] git-gutter:popup-hunk    [_L_] git-link
+  [_g_] helm-git-grep    [_r_] git-gutter:revert-hunk   [_I_] helm-gitignore
+  [_l_] helm-ls-git-ls   [_t_] git-timemachine
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("m"       magit-status                :color blue)
       ("b"       magit-blame                 :color blue)
@@ -2275,14 +2275,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-lsp-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
-                                                                                                                           ┳━━━━━┳
-                                                                                                                           ┃ LSP ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
-        [_l_] lsp                              [_c_] lsp-rename                [_R_] lsp-workspace-folders-remove  [_<f5>_] dap-debug
-        [_d_] lsp-ui-peek-find-definitions     [_e_] lsp-treemacs-errors-list  [_L_] lsp-lens-mode                 [_H_]    dap-hydra
-        [_r_] lsp-ui-peek-find-references      [_f_] lsp-format-buffer         [_S_] lsp-ui-sideline-mode
-        [_i_] lsp-ui-peek-find-implementation  [_s_] lsp-describe-session
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                                                     ┳━━━━━┳
+                                                                                                                     ┃ LSP ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━┻
+  [_l_] lsp                              [_c_] lsp-rename                [_R_] lsp-workspace-folders-remove  [_<f5>_] dap-debug
+  [_d_] lsp-ui-peek-find-definitions     [_e_] lsp-treemacs-errors-list  [_L_] lsp-lens-mode                 [_H_]    dap-hydra
+  [_r_] lsp-ui-peek-find-references      [_f_] lsp-format-buffer         [_S_] lsp-ui-sideline-mode
+  [_i_] lsp-ui-peek-find-implementation  [_s_] lsp-describe-session
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("l"    lsp                             :color blue)
       ("d"    lsp-ui-peek-find-definitions    :color blue)
@@ -2303,15 +2303,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-projectile-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
-                                                                                                                           ┳━━━━━━━━━━━━┳
-                                                                                                                           ┃ Projectile ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━┻
-        [_d_]  projectile-dired-other-window  [_e_]  projectile-edit-dir-locals            [_C_]  projectile-compile-project
-        [_f_]  projectile-find                [_t_]  projectile-run-vterm                  [_T_]  projectile-test-project
-        [_k_]  projectile-kill-buffers        [_s_]  projectile-save-project-buffers       [_R_]  projectile-run-project
-        [_g_]  projectile-ripgrep             [_S_]  projectile-run-shell-command-in-root
-        [_%_]  projectile-replace             [_G_]  projectile-run-gdb
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                                                     ┳━━━━━━━━━━━━┳
+                                                                                                                     ┃ Projectile ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━┻
+  [_d_]  projectile-dired-other-window  [_e_]  projectile-edit-dir-locals            [_C_]  projectile-compile-project
+  [_f_]  projectile-find                [_t_]  projectile-run-vterm                  [_T_]  projectile-test-project
+  [_k_]  projectile-kill-buffers        [_s_]  projectile-save-project-buffers       [_R_]  projectile-run-project
+  [_g_]  projectile-ripgrep             [_S_]  projectile-run-shell-command-in-root
+  [_%_]  projectile-replace             [_G_]  projectile-run-gdb
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("d"    projectile-dired-other-window        :color blue)
       ("f"    projectile-find-file-dwim            :color blue)
@@ -2332,15 +2332,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (defhydra hydra-my-main-menu
       (:color amaranth :pre (my/pre-hydra) :hint nil)
       "
-                                                                                                                                                                ┳━━━━━━┳
-                                                                                                                                                                ┃ Main ┃
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
-               ^[_p_]^       |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
-                ^^↑^^        |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
-          [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_t_]   vterm                   ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
-                ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_P_]   Projectile
-               ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                          ^^^^^^|  [_u_]   tweet
-      ┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
+                                                                                                                                                          ┳━━━━━━┳
+                                                                                                                                                          ┃ Main ┃
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻
+         ^[_p_]^       |  [_C-c_]     elscreen-create         ^^[_I_/_O_] zoom-in/out             [_0_] delete-window         [_<up>_]    v-shrink   |  [_o_]   Org
+          ^^↑^^        |  [_C-n_/_C-p_] elscreen-next/previous  [_k_]   kill-buffer-and-window  ^^[_1_] delete-other-windows  [_<down>_]  v-enlarge  |  [_g_]   Git
+    [_b_] ←   → [_f_]  |  [_C-k_]     elscreen-kill           ^^[_t_]   vterm                   ^^[_2_] split-window-below    [_<left>_]  h-shrink   |  [_l_]   LSP
+          ^^↓^^        |  [_C-b_]     elscreen-find-and-go    ^^[_m_]   helm-mini               ^^[_3_] split-window-right    [_<right>_] h-enlarge  |  [_P_]   Projectile
+         ^[_n_]^       |  [_C-s_]     elscreen-split          ^^[_r_]   revert-buffer                                                          ^^^^^^|  [_u_]   tweet
+┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻
       "
       ("f"       windmove-right                       :color red)
       ("b"       windmove-left                        :color red)
