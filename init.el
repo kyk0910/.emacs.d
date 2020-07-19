@@ -177,7 +177,8 @@
   :added "2020-04-18"
   :url "https://github.com/tumashu/posframe"
   :emacs>= 26
-  :ensure t)
+  :ensure t
+  :custom (posframe-mouse-banish . nil))
 
 (leaf helm-posframe
   :doc "Using posframe to show helm window"
