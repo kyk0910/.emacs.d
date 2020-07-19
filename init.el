@@ -190,7 +190,8 @@
                                          (left-fringe . 0)
                                          (right-fringe . 0)))
   :custom-face (hydra-posframe-border-face .  '((t (:background "#202025"))))
-  :hook (after-init . hydra-posframe-enable))
+  :config
+  (hydra-posframe-enable))
 
 (leaf region-bindings-mode
   :doc "Enable custom bindings when mark is active."
