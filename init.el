@@ -360,7 +360,7 @@
   :ensure t
   :when window-system
   :config
-  (global-disable-mouse-mode t))
+  (global-disable-mouse-mode -1))
 
 (leaf minimap
   :doc "Sidebar showing a \"mini-map\" of a buffer"
