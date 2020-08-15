@@ -1787,7 +1787,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :require t
       :after treemacs lsp-mode
       :config
-      (lsp-treemacs-sync-mode 1))
+      (lsp-treemacs-sync-mode 0))
 
     (leaf dap-mode
       :doc "Debug Adapter Protocol mode"
