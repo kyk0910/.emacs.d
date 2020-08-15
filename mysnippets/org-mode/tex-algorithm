@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: tex-algorithm
+# key: tex
+# --
+#+HTML_HEAD: <style type="text/css"> pre.src-latex-as-png{ display:none; } </style>
+#+BEGIN_SRC latex-as-png :results replace :file img/${1:name}
+\usepackage{algpseudocode}
+\algtext*{EndIf}
+\algtext*{EndFor}
+\algtext*{EndWhile}
+\newcommand{\Continue}{\textbf{continue}}
+\newcommand{\Break}{\textbf{break}}
+% in
+\vspace*{1mm}
+\begin{algorithmic}[1]
+  $0
+\end{algorithmic}
+\vspace*{1mm}
+#+END_SRC
+
+#+CAPTION: $1 ([[file:img/$1.pdf][PDF版]])
+#+NAME: fig:$1
+#+ATTR_HTML: :align center :width 75%
+[[file:img/$1.png]]
