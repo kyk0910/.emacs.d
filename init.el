@@ -2094,8 +2094,19 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
              'org-babel-load-languages
              '((shell      . t)
                (python     . t)
+               (latex      . t)
+               (latex-as-png . t)
                (emacs-lisp . t))))
 
+    (leaf ob-latex-as-png
+      :doc "Org-babel functions for latex-as-png evaluation"
+      :req "emacs-26.1" "org-9.1"
+      :tag "convenience" "org" "reproducible research" "literate programming" "emacs>=26.1"
+      :added "2020-08-10"
+      :url "https://github.com/alhassy/ob-latex-as-png"
+      :emacs>= 26.1
+      :ensure t
+      :after org)
 
     (leaf org-bullets
       :doc "Show bullets in org-mode as UTF-8 characters"
