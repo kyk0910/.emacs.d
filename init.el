@@ -178,6 +178,7 @@
   :url "https://github.com/tumashu/posframe"
   :emacs>= 26
   :ensure t
+  :require t
   :custom (posframe-mouse-banish . nil))
 
 (leaf hydra-posframe
@@ -191,7 +192,7 @@
                                          (right-fringe . 0)))
   :custom-face (hydra-posframe-border-face .  '((t (:background "#202025"))))
   :config
-  (hydra-posframe-enable))
+  (hydra-posframe-mode t))
 
 (leaf region-bindings-mode
   :doc "Enable custom bindings when mark is active."
@@ -1354,7 +1355,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :after company posframe
     :when window-system
-    :hook (company-mode-hook))
+    :config
+    (company-posframe-mode t))
 
   (leaf company-box
     :doc "Company front-end with icons"
@@ -1453,8 +1455,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :req "helm-core-2.2.0"
     :added "2020-04-18"
     :url "https://github.com/yasuyk/helm-git-grep"
-    :ensure t
-    :require t)
+    :ensure t)
 
   (leaf helm-ls-git
     :doc "list git files."
@@ -2068,7 +2069,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       :added "2020-04-18"
       :mode (".*\\.org\\'")
       :bind ((:org-mode-map
-              ("C-j" . nil)))
+              ("C-j" . nil)
+              ("C-l" . nil)))
       :custom ((org-image-actual-width)
                (org-startup-truncated)
                (org-babel-python-command        . '"python3")
