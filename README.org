@@ -7,26 +7,15 @@
 * .emacs.d
 My Emacs configuration
 
+** Dependencies
+Please refer to the Dockerfile in the repository below.
+
+- https://github.com/medalotte/docker-emacs
+
 ** Installation
-*This configuration has been confirmed to work only on Ubuntu 18.04 LTS*.
-
-*** 1. Install Emacs 26.03
 #+BEGIN_SRC sh
-$ sudo add-apt-repository ppa:kelleyk/emacs
-$ sudo apt update && sudo apt -y install emacs26
-#+END_SRC
-
-*** 2. Clone this repository, setup configuration, and install dependencies
-#+BEGIN_SRC sh
-$ cd $HONE
-$ git clone https://github.com/kyk0910/.emacs.d.git # or git@github.com:kyk0910/.emacs.d.git
-$ cd .emacs.d
-$ chmod +x scripts/setup.sh
-$ ./scripts/setup.sh
-#+END_SRC
-
-*** 3. Compile init.el and install dependencies in Emacs
-#+BEGIN_SRC sh
+$ cd $HOME
+$ git clone https://github.com/medalotte/.emacs.d && cd .emacs.d
 $ emacs --batch -f batch-byte-compile init.el
 $ emacs
 #+END_SRC
