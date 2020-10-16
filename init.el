@@ -446,6 +446,24 @@
   :config
   (volatile-highlights-mode t))
 
+(leaf emacs-tree-sitter
+  :doc "generate config using leaf-convert from https://ubolonton.github.io/emacs-tree-sitter/installation/#installing-with-straight-dot-el"
+  :url "https://github.com/ubolonton/emacs-tree-sitter"
+  :init
+  (straight-register-package
+   '(tsc :host github :repo "ubolonton/emacs-tree-sitter" :files
+         ("core/*.el")))
+  (straight-use-package
+   '(tree-sitter :host github :repo "ubolonton/emacs-tree-sitter" :files
+                 ("lisp/*.el")))
+  (straight-use-package
+   '(tree-sitter-langs :host github :repo "ubolonton/emacs-tree-sitter" :files
+                       ("langs/*.el" "langs/queries")))
+  :require tree-sitter-langs
+  :config
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
 (leaf buffer-expose
   :doc "Visual buffer switching using a window grid"
   :req "emacs-25" "cl-lib-0.5"
