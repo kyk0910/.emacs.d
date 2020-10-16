@@ -57,6 +57,18 @@
     :custom ((imenu-list-size . 30)
              (imenu-list-position . 'left))))
 
+(leaf straight
+  :doc "installation of straight.el"
+  :defvar bootstrap-version
+  :config
+  (let ((bootstrap-file (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer (url-retrieve-synchronously "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el" 'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage)))
+
 (leaf macrostep
   :ensure t
   :bind (("C-c e" . macrostep-expand)))
@@ -433,6 +445,24 @@
   :ensure t
   :config
   (volatile-highlights-mode t))
+
+(leaf emacs-tree-sitter
+  :doc "generate config using leaf-convert from https://ubolonton.github.io/emacs-tree-sitter/installation/#installing-with-straight-dot-el"
+  :url "https://github.com/ubolonton/emacs-tree-sitter"
+  :init
+  (straight-register-package
+   '(tsc :host github :repo "ubolonton/emacs-tree-sitter" :files
+         ("core/*.el")))
+  (straight-use-package
+   '(tree-sitter :host github :repo "ubolonton/emacs-tree-sitter" :files
+                 ("lisp/*.el")))
+  (straight-use-package
+   '(tree-sitter-langs :host github :repo "ubolonton/emacs-tree-sitter" :files
+                       ("langs/*.el" "langs/queries")))
+  :require tree-sitter-langs
+  :config
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (leaf buffer-expose
   :doc "Visual buffer switching using a window grid"
