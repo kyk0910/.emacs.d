@@ -2033,6 +2033,20 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (add-hook 'c++-mode-hook #'(lambda nil (require 'ccls) (lsp)))
     (add-hook 'objc-mode-hook #'(lambda nil (require 'ccls) (lsp))))
 
+  (leaf lsp-pyright
+    :doc "Python LSP client using Pyright"
+    :req "emacs-26.1" "lsp-mode-7.0" "dash-2.14.1" "ht-2.0"
+    :tag "lsp" "tools" "languages" "emacs>=26.1"
+    :added "2020-12-27"
+    :url "https://github.com/emacs-lsp/lsp-pyright"
+    :emacs>= 26.1
+    :ensure t
+    :require t
+    :after lsp-mode
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (lsp))))
+
   (leaf rust
     :config
     (leaf rustic
