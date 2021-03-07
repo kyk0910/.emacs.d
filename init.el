@@ -1531,19 +1531,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                            (left-fringe . 0)
                                            (right-fringe . 0))))
     :config
-    (helm-posframe-enable))
-
-  (leaf helm-icons
-    :doc "Helm icons"
-    :req "emacs-25.1" "dash-2.14.1" "f-0.20.0" "treemacs-2.7"
-    :tag "convenience" "emacs>=25.1"
-    :added "2020-07-20"
-    :url "https://github.com/yyoncho/helm-icons"
-    :emacs>= 25.1
-    :ensure t
-    :after treemacs
-    :config
-    (helm-icons-enable)))
+    (helm-posframe-enable)))
 
 (leaf git
   :config
