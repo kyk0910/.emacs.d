@@ -1850,6 +1850,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
            "/.djhtml$/'"
            "/.html$/'"))
 
+  (leaf cuda-mode
+    :doc "NVIDIA CUDA Major Mode"
+    :tag "languages" "c"
+    :added "2021-05-12"
+    :ensure t)
+
   (leaf emmet-mode
     :doc "Unofficial Emmet's support for emacs"
     :tag "convenience"
